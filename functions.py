@@ -40,7 +40,7 @@ def search_timeline(client, id_str, place_id, tweet_db):
     for response in tweepy.Paginator(client.get_users_tweets, 
                                      id_str, 
                                      start_time = datetime.datetime(2018, 1, 1, 0, 0, 0).strftime("%Y-%m-%dT%H:%M:%SZ"),
-                                     exclude='retweets',
+                                     exclude=['retweets','replies'],
                                      tweet_fields = ['created_at','geo','lang'],
                                      place_fields = ['geo'],
                                      expansions = 'geo.place_id,author_id',
