@@ -41,7 +41,7 @@ def search_timeline(client, id_str, place_id, tweet_db):
                                      id_str, 
                                      start_time = datetime.datetime(2018, 1, 1, 0, 0, 0).strftime("%Y-%m-%dT%H:%M:%SZ"),
                                      exclude=['retweets','replies'],
-                                     tweet_fields = ['created_at','geo','lang'],
+                                     tweet_fields = ['created_at','entities','geo','lang'],
                                      place_fields = ['geo'],
                                      expansions = 'geo.place_id,author_id',
                                      max_results = 100).flatten():

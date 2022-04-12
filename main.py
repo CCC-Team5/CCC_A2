@@ -17,13 +17,19 @@ class TwitterStreamer(tweepy.Stream):
         
         if (tweet.get('retweeted_status', None) is None) and (tweet_id not in tweet_db):
             save_to_db(tweet_id, 'stream', tweet, tweet_db)
-            print(f'new tweet: {tweet_id}')
+            log = ('\n' + 'new tweet: ' + tweet_id)
+            with open('log.txt', 'a') as f:
+                f.write(log)
+            # print(f'new tweet: {tweet_id}')
             
         user_id = str(tweet['user'].get('id_str'))
         if user_id not in user_db:
             search_timeline(client, user_id, place_id, tweet_db)
             save_to_db(user_id, 'processed', 'yes', user_db) 
-            print(f'user completed: {user_id}')
+            log = ('\n' + 'user completed: ' + user_id)
+            with open('log.txt', 'a') as f:
+                f.write(log)
+            # print(f'user completed: {user_id}')
     
     def on_error(self, status):
         print(f'error: {status}')
