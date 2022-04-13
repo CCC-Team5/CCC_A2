@@ -13,23 +13,21 @@ class TwitterStreamer(tweepy.Stream):
 
     def on_data(self, data):
         tweet = json.loads(data)
-        tweet_id = str(tweet.get('id'))
+        tweet_id = tweet.get('id_str')
         
         if (tweet.get('retweeted_status', None) is None) and (tweet_id not in tweet_db):
             save_to_db(tweet_id, 'stream', tweet, tweet_db)
             log = ('\n' + 'new tweet: ' + tweet_id)
             with open('log.txt', 'a') as f:
                 f.write(log)
-            # print(f'new tweet: {tweet_id}')
             
-        user_id = str(tweet['user'].get('id_str'))
+        user_id = tweet['user'].get('id_str')
         if user_id not in user_db:
             search_timeline(client, user_id, place_id, tweet_db)
             save_to_db(user_id, 'processed', 'yes', user_db) 
             log = ('\n' + 'user completed: ' + user_id)
             with open('log.txt', 'a') as f:
                 f.write(log)
-            # print(f'user completed: {user_id}')
     
     def on_error(self, status):
         print(f'error: {status}')

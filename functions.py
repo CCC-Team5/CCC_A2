@@ -49,5 +49,6 @@ def search_timeline(client, id_str, place_id, tweet_db):
         tweet = response.data
         if tweet.get('geo', None) is not None:
             if tweet['geo'].get('place_id') == place_id:
-                tweet_id = tweet['id']
-                save_to_db(str(tweet_id), 'timeline', tweet, tweet_db)
+                tweet_id = tweet.get('id')
+                if tweet_id not in tweet_db:
+                    save_to_db(tweet_id, 'timeline', tweet, tweet_db)
