@@ -1,0 +1,94 @@
+# Common vars
+availability_zone: melbourne-qh2-uom
+instance_image: 356ff1ed-5960-4ac2-96a1-0c0198e6a999
+instance_key_name: grp5_key
+instance_flavor: uom.mse.2c9g
+
+
+# Volumes
+volumes:
+  - vol_key: vol_server0
+    vol_name: vol-server0-data
+    vol_size: 60
+  - vol_key: vol_server0
+    vol_name: vol-server0-docker
+    vol_size: 10
+
+  - vol_key: vol_server1
+    vol_name: vol-server1-data
+    vol_size: 60
+  - vol_key: vol_server1
+    vol_name: vol-server1-docker
+    vol_size: 10
+
+  - vol_key: vol_server2
+    vol_name: vol-server2-data
+    vol_size: 60
+  - vol_key: vol_server2
+    vol_name: vol-server2-docker
+    vol_size: 10
+
+  - vol_key: vol_server3
+    vol_name: vol-server3-data
+    vol_size: 60
+  - vol_key: vol_server3
+    vol_name: vol-server3-docker
+    vol_size: 10
+
+
+
+# Security group
+security_groups:
+  - name: g5_ssh
+    description: "security group for SSH access"
+  - name: g5_http
+    description: "security group for HTTP"
+  - name: g5-couchdb-group
+    description: "security group for couch db"
+
+# Security group rules
+security_group_rules:
+  - name: g5_ssh
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+  - name: g5_http
+    protocol: tcp
+    port_range_min: 80
+    port_range_max: 80
+    remote_ip_prefix: 0.0.0.0/0
+  - name: g5_http
+    protocol: tcp
+    port_range_min: 1313
+    port_range_max: 1313
+    remote_ip_prefix: 0.0.0.0/0
+  - name: g5-couchdb-group
+    protocol: tcp
+    port_range_min: 5990
+    port_range_max: 5990
+    remote_ip_prefix: 0.0.0.0/0
+  - name: g5-couchdb-group
+    protocol: tcp
+    port_range_min: 4369
+    port_range_max: 4369
+    remote_ip_prefix: 0.0.0.0/0
+  - name: g5-couchdb-group
+    protocol: tcp
+    port_range_min: 9100
+    port_range_max: 9200
+    remote_ip_prefix: 0.0.0.0/0
+
+# Instances
+# Create 4 instances
+instances:
+  - name: server0
+    volumes: ['vol-server0-data', 'vol-server0-docker']
+  - name: server1
+    volumes: ['vol-server1-data', 'vol-server1-docker']
+  - name: server2
+    volumes: ['vol-server2-data', 'vol-server2-docker']
+  - name: server3
+    volumes: ['vol-server3-data', 'vol-server3-docker']
+
+

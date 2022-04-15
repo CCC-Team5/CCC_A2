@@ -1,0 +1,10 @@
+- hosts: Webservers
+  vars_files:
+    - host_vars/depend_vars.yaml
+  gather_facts: true
+
+  roles:
+    - role: depend-common
+    - role: depend-mount-volume
+    - role: depend-install-docker
+    - role: depend-install-couchdb

@@ -1,0 +1,94 @@
+---
+- name: Cleaning previous hosts
+  file:
+    path: "hosts"
+    state: absent
+
+- name: cleaning cluster nodes for couch db
+  file:
+    path: "inventory/g5-couch-dynamic-vars.yaml"
+    state: absent
+
+- name: create dynamic cluster nodes yaml for couch db
+  file:
+    path: "inventory/g5-couch-dynamic-vars.yaml"
+    state: touch
+
+- name: add yaml in cluster nodes
+  lineinfile:
+    path: "inventory/g5-couch-dynamic-vars.yaml"
+    line: "couch_cluster_server:"
+
+- name: Creating hosts
+  file:
+    path: "hosts"
+    state: touch
+
+- name: Adding line
+  lineinfile:
+    path: "hosts"
+    line: "[Webservers]"
+
+# Create an instance on NeCTAR
+- name: Create an instance
+  openstack.cloud.server:
+    name: '{{ item.name }}'
+    image: '{{ instance_image }}'
+    key_name: '{{ instance_key_name }}'
+    flavor: '{{ instance_flavor }}'
+    availability_zone: '{{ availability_zone }}'
+    security_groups: '{{ sg_names }}'
+    volumes: '{{ item.volumes }}'
+    auto_floating_ip: yes # we want to get IP automatically from NeCTAR
+    wait: yes # we want wait utill the instance created
+    timeout: 600 
+    state: present
+  loop: '{{ instances }}' # loop through 'instance' defined in host_vars/base_vars.yaml
+  register: os_instance
+
+
+# Use debug module to print out the the instance name and its IP
+- ansible.builtin.debug:
+    msg: "Instance {{ item.openstack.name }} created. IP address:{{ item.openstack.public_v4 }}"
+  loop: '{{ os_instance.results }}'
+  when: item.openstack is defined
+
+
+- name: check if couchdb host file exists
+  stat:
+    path: 'inventory/hosts_couch'
+  register: stat_result
+
+- name: create couchdb host file to add master node - 1
+  file:
+    path: 'inventory/hosts_couch'
+    state: touch
+  when: stat_result.stat.exists == False
+
+- name: create couchdb host file to add master node - 2
+  lineinfile:
+    path: 'inventory/hosts_couch'
+    line: "[Webserver]"
+  when: stat_result.stat.exists == False
+
+# adding webserver on which g5-couch-nodes-cluster will run
+- name: create couchdb host file to add master node - 3
+  lineinfile:
+    path: 'inventory/hosts_couch'
+    line: "{{ os_instance.results[0].openstack.public_v4 }}"
+  when: stat_result.stat.exists == False
+
+# adding webservers in yaml using which couch membership will be established
+- name: add cluster node for couchdb
+  lineinfile:
+    path: "inventory/g5-couch-dynamic-vars.yaml"
+    line: "  - '{{item.openstack.public_v4 }}'"
+  loop: "{{os_instance.results}}"
+  when: stat_result.stat.exists == True
+
+- name: storing instance IP
+  lineinfile:
+    path: "hosts"
+    line: "{{item.openstack.public_v4}}"
+  loop: "{{ os_instance.results}}"
+  when: item.openstack is defined
