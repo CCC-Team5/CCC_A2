@@ -1,0 +1,31 @@
+######################
+# under construction #
+######################
+---
+# Volume
+volumes:
+  - device: /dev/vdb
+    mountpoint: /data
+  - device: /dev/vdc
+    mountpoint: /var/lib/docker
+
+# proxy environment
+proxy:
+  HTTP_PROXY: http://wwwproxy.unimelb.edu.au:8000/
+  HTTPS_PROXY: http://wwwproxy.unimelb.edu.au:8000/
+  http_proxy: http://wwwproxy.unimelb.edu.au:8000/
+  https_proxy: http://wwwproxy.unimelb.edu.au:8000/
+  no_proxy:
+
+# # CouchDB vars
+# ansible_python_interpreter: /usr/bin/python3
+# ansible_user: ubuntu
+# ansible_ssh_private_key_file: ~/.ssh/steven
+# ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+
+# # CouchDB config
+# couchdb_user: admin
+# couchdb_pass: '123456'
+# couchdb_VERSION:
+# couchdb_cookie:
+# couchdb_uuid:
