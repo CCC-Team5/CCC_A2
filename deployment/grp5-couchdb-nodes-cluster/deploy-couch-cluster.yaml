@@ -1,0 +1,7 @@
+- hosts: Webserver
+  vars_files:
+    - host_vars/g5-couch-dynamic-vars.yaml
+  gather_facts: true
+
+  roles:
+    - role: deploy-couch-cluster
