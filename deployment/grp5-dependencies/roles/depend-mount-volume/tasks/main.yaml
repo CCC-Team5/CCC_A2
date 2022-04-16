@@ -8,6 +8,7 @@
   when: item.device is defined
   with_items:
     - "{{ volumes }}"
+  run_once: true
 
 - name: Checking folders
   tags: 'volumes'
@@ -28,6 +29,7 @@
   when: item.stat.exists == false
   with_items:
     - "{{ directory_stats.results }}"
+  run_once: true
 
 - name: Mount device
   tags: 'volumes'
@@ -40,3 +42,4 @@
   when: item.device is defined
   with_items:
     - "{{ volumes }}"
+  run_once: true

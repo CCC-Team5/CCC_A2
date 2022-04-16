@@ -3,3 +3,8 @@ volumes:
     mountpoint: /data
   - device: /dev/vdc
     mountpoint: /var/lib/docker
+
+user: grp5admin
+pass: password
+cookie: 'grp5mendes'
+uuid: '6ea1e6ed41faafe7a5493ca56b00a055'
