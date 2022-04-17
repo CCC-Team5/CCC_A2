@@ -1,0 +1,81 @@
+
+// 'hashtags/trending'
+function (doc) {
+    if(doc.tweet.entities.hashtags.length > 0 && Date.parse(doc.tweet.created_at) >= new Date().setDate(new Date().getDate() - 14)){
+        for (var i = 0; i < doc.tweet.entities.hashtags.length; i++){
+            emit(doc.tweet.entities.hashtags[i].text, 1);
+        }
+    }
+}
+
+
+// 'lang/lang-count'
+function (doc) {
+    if (doc.tweet.lang && doc.tweet.lang != 'und') {
+      emit(doc.tweet.lang, 1);
+    }
+}
+
+
+// 'geo/coordinates-count'
+function (doc) {
+    if (doc.tweet.geo.coordinates) {
+        emit(doc.tweet.geo.coordinates, 1);
+    }
+}
+
+
+// 'geo/coordinates-tweet'
+function (doc) {
+    if (doc.tweet.geo.coordinates) {
+        emit(doc.tweet.geo.coordinates, doc.tweet.text);
+    }
+}
+
+
+// 'time/before-covid-tweet'
+function (doc) {
+    if(Date.parse(doc.tweet.created_at) <= Date.parse("Apr 01 00:00:00 +0000 2020")){
+        emit(doc._id, doc.tweet.text);
+    }
+}
+
+
+// 'time/before-covid-count'
+function (doc) {
+    if(Date.parse(doc.tweet.created_at) <= Date.parse("Apr 01 00:00:00 +0000 2020")){
+        emit(doc._id, 1);
+    }
+}
+
+
+// 'time/after-covid-tweet'
+function (doc) {
+    if(Date.parse(doc.tweet.created_at) > Date.parse("Apr 01 00:00:00 +0000 2020")){
+        emit(doc._id, doc.tweet.text);
+    }
+}
+
+
+// 'time/after-covid-count'
+function (doc) {
+    if(Date.parse(doc.tweet.created_at) > Date.parse("Apr 01 00:00:00 +0000 2020")){
+        emit(doc._id, 1);
+    }
+}
+
+
+// 'time/by-year-tweet'
+function (doc) {
+    if(doc.tweet.created_at){
+        emit(new Date(doc.tweet.created_at).getFullYear(), doc.tweet.text);
+    }
+}
+
+
+// 'time/by-year-count'
+function (doc) {
+    if(doc.tweet.created_at){
+        emit(new Date(doc.tweet.created_at).getFullYear(), 1);
+    }
+}
