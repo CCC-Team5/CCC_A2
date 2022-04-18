@@ -7,6 +7,17 @@ function (doc) {
         }
     }
 }
+// reduce: _sum
+
+
+// 'hashtags/by-year'
+function (doc) {
+    if(doc.tweet.entities.hashtags.length > 0){
+        for (var i = 0; i < doc.tweet.entities.hashtags.length; i++){
+            emit(new Date(doc.tweet.created_at).getFullYear(), doc.tweet.entities.hashtags[i].text);
+        }
+    }
+}
 
 
 // 'lang/lang-count'
@@ -15,6 +26,7 @@ function (doc) {
       emit(doc.tweet.lang, 1);
     }
 }
+// reduce: _sum
 
 
 // 'geo/coordinates-count-1'
@@ -24,6 +36,7 @@ function (doc) {
         emit(doc.tweet.coordinates.coordinates, 1);    
     }
 }
+// reduce: _sum
 
 
 // 'geo/coordinates-count-2'
@@ -33,6 +46,7 @@ function (doc) {
         emit(doc.tweet.geo.coordinates.coordinates, 1);    
     }
 }
+// reduce: _sum
 
 
 // 'geo/coordinates-tweet-1'
@@ -67,6 +81,7 @@ function (doc) {
         emit(doc._id, 1);
     }
 }
+// reduce: _sum
 
 
 // 'time/after-covid-tweet'
@@ -83,6 +98,7 @@ function (doc) {
         emit(doc._id, 1);
     }
 }
+// reduce: _sum
 
 
 // 'time/by-year-tweet'
@@ -99,6 +115,8 @@ function (doc) {
         emit(new Date(doc.tweet.created_at).getFullYear(), 1);
     }
 }
+// reduce: _sum
+
 
 // 'text/housing'
 function(doc) {
@@ -114,6 +132,7 @@ function(doc) {
       emit(new Date(doc.tweet.created_at).getFullYear(), 1);
     }
   }
+// reduce: _sum
 
 
 // 'text/transportation'
@@ -130,6 +149,7 @@ function(doc) {
       emit(new Date(doc.tweet.created_at).getFullYear(), 1);
     }
   }
+// reduce: _sum
 
 
 // 'text/cost'
@@ -146,3 +166,4 @@ function(doc) {
       emit(new Date(doc.tweet.created_at).getFullYear(), 1);
     }
   }
+// reduce: _sum
