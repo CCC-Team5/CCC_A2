@@ -25,7 +25,7 @@ user_db = db_connect(user)
 
 # read & save historic tweets
 yield_tweets = read_tweets(historic_path)
-migrate_to_db(yield_tweets)
+migrate_historic(yield_tweets, tweet_db)
 
 # read & save EC2 tweets
 yield_tweets = read_tweets(tweets_path)
