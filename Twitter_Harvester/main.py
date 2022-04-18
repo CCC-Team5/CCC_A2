@@ -16,7 +16,7 @@ class TwitterStreamer(tweepy.Stream):
         tweet_id = tweet.get('id_str')
         
         if (tweet.get('retweeted_status', None) is None) and (tweet_id not in tweet_db):
-            save_to_db(tweet_id, 'stream', tweet, tweet_db)
+            save_to_db(tweet_id, 'tweet', tweet, tweet_db)
             log = ('\n' + 'new tweet: ' + tweet_id)
             with open('log.txt', 'a') as f:
                 f.write(log)
