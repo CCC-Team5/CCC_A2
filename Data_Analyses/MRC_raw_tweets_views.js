@@ -17,18 +17,38 @@ function (doc) {
 }
 
 
-// 'geo/coordinates-count'
+// 'geo/coordinates-count-1'
+// stream & historic format
 function (doc) {
-    if (doc.tweet.geo.coordinates) {
-        emit(doc.tweet.geo.coordinates, 1);
+    if (doc.tweet.coordinates.coordinates) {
+        emit(doc.tweet.coordinates.coordinates, 1);    
     }
 }
 
 
-// 'geo/coordinates-tweet'
+// 'geo/coordinates-count-2'
+// timeline format
 function (doc) {
-    if (doc.tweet.geo.coordinates) {
-        emit(doc.tweet.geo.coordinates, doc.tweet.text);
+    if (doc.tweet.geo.coordinates.coordinates) {
+        emit(doc.tweet.geo.coordinates.coordinates, 1);    
+    }
+}
+
+
+// 'geo/coordinates-tweet-1'
+// stream & historic format
+function (doc) {
+    if (doc.tweet.coordinates.coordinates) {
+        emit(doc.tweet.coordinates.coordinates, doc.tweet.text);    
+    }
+}
+
+
+// 'geo/coordinates-tweet-2'
+// timeline format
+function (doc) {
+    if (doc.tweet.geo.coordinates.coordinates) {
+        emit(doc.tweet.geo.coordinates.coordinates, doc.tweet.text);    
     }
 }
 
@@ -79,3 +99,50 @@ function (doc) {
         emit(new Date(doc.tweet.created_at).getFullYear(), 1);
     }
 }
+
+// 'text/housing'
+function(doc) {
+    if (doc.tweet.text.toLowerCase().match(/housing|house price|\brent|property|real estate/)) {
+      emit(new Date(doc.tweet.created_at).getFullYear(), doc.tweet.text);
+    }
+  }
+
+
+// 'text/housing-count'
+function(doc) {
+    if (doc.tweet.text.toLowerCase().match(/housing|house price|\brent|property|real estate/)) {
+      emit(new Date(doc.tweet.created_at).getFullYear(), 1);
+    }
+  }
+
+
+// 'text/transportation'
+function(doc) {
+    if (doc.tweet.text.toLowerCase().match(/transport|traffic|roadwork/)) {
+      emit(new Date(doc.tweet.created_at).getFullYear(), doc.historic.text);
+    }
+  }
+
+
+// 'text/transportation-count'
+function(doc) {
+    if (doc.tweet.text.toLowerCase().match(/transport|traffic|roadwork/)) {
+      emit(new Date(doc.tweet.created_at).getFullYear(), 1);
+    }
+  }
+
+
+// 'text/cost'
+function(doc) {
+    if (doc.tweet.text.toLowerCase().match(/cost of living|petrol price|grocery price|utility bill/)) {
+      emit(new Date(doc.tweet.created_at).getFullYear(), doc.tweet.text);
+    }
+  }
+
+
+// 'text/cost-count'
+function(doc) {
+    if (doc.tweet.text.toLowerCase().match(/cost of living|petrol price|grocery price|utility bill/)) {
+      emit(new Date(doc.tweet.created_at).getFullYear(), 1);
+    }
+  }
