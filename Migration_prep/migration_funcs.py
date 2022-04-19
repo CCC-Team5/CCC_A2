@@ -44,20 +44,8 @@ def migrate_to_db(generator, keyword, db):
                     save_to_db(doc_id, keyword, data['doc']['stream'], db)
                 elif data['doc'].get('processed', None) is not None:
                     save_to_db(doc_id, keyword, data['doc'], db)
-        except Exception as e:
-            print('Error reading line --ignoring')
-            print(line_processed) 
-
-
-def migrate_historic(generator, db):
-    for line in generator:
-        line_processed = proc_line(line)
-        try:
-            data = json.loads(line_processed)
-            if data['doc']['place']['id'] == '01864a8a64df9dc4':
-                tweet_id = data['id']
-                if tweet_id not in db:
-                    save_to_db(tweet_id, 'tweet', data['doc'], db)
+                else:
+                    save_to_db(doc_id, 'tweet', data['doc'], db)
         except Exception as e:
             print('Error reading line --ignoring')
             print(line_processed) 

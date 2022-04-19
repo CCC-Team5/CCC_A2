@@ -33,5 +33,5 @@ migrate_to_db(yield_tweets, 'doc', user_db)
 
 # read & save historic tweets
 yield_tweets = read_tweets(historic_path)
-migrate_historic(yield_tweets, tweet_db)
+migrate_to_db(yield_tweets, 'tweet', tweet_db)
 
