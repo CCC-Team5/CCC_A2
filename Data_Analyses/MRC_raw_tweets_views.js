@@ -3,7 +3,12 @@
 function (doc) {
     if(doc.tweet.entities.hashtags.length > 0 && Date.parse(doc.tweet.created_at) >= new Date().setDate(new Date().getDate() - 14)){
         for (var i = 0; i < doc.tweet.entities.hashtags.length; i++){
-            emit(doc.tweet.entities.hashtags[i].text, 1);
+          if (doc.tweet.entities.hashtags[i].tag){
+            emit(doc.tweet.entities.hashtags[i].tag, 1);
+          }
+          else {
+            emit(doc.tweet.entities.hashtags[i].text, 1)
+          }
         }
     }
 }
@@ -14,7 +19,12 @@ function (doc) {
 function (doc) {
     if(doc.tweet.entities.hashtags.length > 0){
         for (var i = 0; i < doc.tweet.entities.hashtags.length; i++){
-            emit(new Date(doc.tweet.created_at).getFullYear(), doc.tweet.entities.hashtags[i].text);
+          if (doc.tweet.entities.hashtags[i].tag){
+            emit(new Date(doc.tweet.created_at).getFullYear(), doc.tweet.entities.hashtags[i].tag);
+          }
+          else {
+            emit(new Date(doc.tweet.created_at).getFullYear(), doc.tweet.entities.hashtags[i].text)
+          }
         }
     }
 }
@@ -138,7 +148,7 @@ function(doc) {
 // 'text/transportation'
 function(doc) {
     if (doc.tweet.text.toLowerCase().match(/transport|traffic|roadwork/)) {
-      emit(new Date(doc.tweet.created_at).getFullYear(), doc.historic.text);
+      emit(new Date(doc.tweet.created_at).getFullYear(), doc.tweet.text);
     }
   }
 
