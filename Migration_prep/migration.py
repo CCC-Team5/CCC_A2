@@ -1,14 +1,11 @@
 from migration_funcs import *
-from Twitter_Harvester.couchdb_settings import *
-from Twitter_Harvester.functions import db_connect
+from couchdb_settings import *
+from functions import db_connect
 
 
 # link & filename of historic data
 url = 'https://www.dropbox.com/s/y4ss9gmw6ykde51/twitter-melb.json.tar.gz?dl=1'
 filename = 'twitter-melb.tar.gz'
-
-# historic data file path
-historic_path = 'twitter-melb.json'
 
 # EC2 CouchDB file path
 # curl -X GET http://admin:123456@localhost:15984/raw_tweets/_all_docs\?include_docs\=true > /Users/Weimin/Desktop/raw_tweets.json
@@ -19,13 +16,12 @@ user_path = 'users.json'
 # download file from dropbox & unzip
 historic_data(url, filename)
 
+# historic data file path
+historic_path = 'twitter-melb.json'
+
 # connect to MRC CouchDB
 tweet_db = db_connect(tweets)
 user_db = db_connect(user)
-
-# read & save historic tweets
-yield_tweets = read_tweets(historic_path)
-migrate_historic(yield_tweets, tweet_db)
 
 # read & save EC2 tweets
 yield_tweets = read_tweets(tweets_path)
@@ -35,4 +31,7 @@ migrate_to_db(yield_tweets, 'tweet', tweet_db)
 yield_tweets = read_tweets(user_path)
 migrate_to_db(yield_tweets, 'doc', user_db)
 
+# read & save historic tweets
+yield_tweets = read_tweets(historic_path)
+migrate_historic(yield_tweets, tweet_db)
 

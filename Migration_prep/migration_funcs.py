@@ -1,8 +1,8 @@
 import urllib.request
 import tarfile
 import json
-from Twitter_Harvester.couchdb_settings import *
-from Twitter_Harvester.functions import save_to_db
+from couchdb_settings import *
+from functions import save_to_db
 
 def historic_data(url, filename): 
 
@@ -38,7 +38,12 @@ def migrate_to_db(generator, keyword, db):
             data = json.loads(line_processed)
             doc_id = data['id']
             if doc_id not in db:
-                save_to_db(doc_id, keyword, data['doc'], db)
+                if data['doc'].get('timeline', None) is not None:
+                    save_to_db(doc_id, keyword, data['doc']['timeline'], db)
+                elif data['doc'].get('stream', None) is not None:
+                    save_to_db(doc_id, keyword, data['doc']['stream'], db)
+                elif data['doc'].get('processed', None) is not None:
+                    save_to_db(doc_id, keyword, data['doc'], db)
         except Exception as e:
             print('Error reading line --ignoring')
             print(line_processed) 
