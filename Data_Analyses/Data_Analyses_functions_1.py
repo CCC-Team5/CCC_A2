@@ -8,6 +8,10 @@ from couchdb_settings import *
 from collections import defaultdict
 from nltk.corpus import stopwords
 from nltk.tokenize import TweetTokenizer
+from textblob import TextBlob
+# nltk.download('punkt')
+# nltk.download('stopwords')
+
 
 # username = 'admin'
 # password = '123456'
@@ -77,7 +81,7 @@ def top_n_lang_count(db, langCode_path, N):
             number of languages to extract
     return: top N most tweeted languages other than English
     return type: dict - {language code: count}
-    render: 
+    render: Bar chart?
     """
     # 'geo-test/lang-count', db = testdb
     for item in db.view('lang/lang-count', group = True, group_level = 1):
@@ -103,7 +107,7 @@ def top_n_birth_country(file_path, N):
             number of non-English-speaking countries to extract
     return: top N non-English-speaking countries' names, total population count, and percentage population
     return type: numpy arrays
-    render: 
+    render: Pareto chart? Bar chart?
     """
     data = pd.read_csv(file_path)
     
@@ -165,7 +169,7 @@ def top_n_lang_spoken_at_home(file_path, langCode_path, N):
     return: names of top N languages other than English spoken at home, total population count, percentage of population count to total SOL population, 
             percentage of population count to total population, and percentage of SOL population to total population
     return type: numpy arrays
-    render: 
+    render: Pareto chart? Bar chart?
     """
     
     data = pd.read_csv(file_path)
@@ -256,7 +260,7 @@ def topic_switch(topic):
     return count_view, topic_view
 
 
-def trend_per_topic(db, topic):
+def topic_trend(db, topic):
     """
     Extract the number and percentage of tweets on the selected topic made each year
     params: raw_tweets database;
@@ -265,10 +269,9 @@ def trend_per_topic(db, topic):
     return type: dict - {year : number of tweets on the selected topic made in that year}
                  dict - {year : total number of tweets made in that year}
                  dict - {year : percentage of tweets on selected topic over total number of tweets made in that year}
-    render: bar charts/line graphs
+    render: Dual axes, line and column (combine with topic sentiment as the line)
     """
 
-    #db = testdb
     count_view, _ = topic_switch(topic)
     
     year_topic = {}
@@ -278,12 +281,12 @@ def trend_per_topic(db, topic):
     for item in db.view(count_view, group = True, group_level = 1):
         year_topic[item.key] = item.value
 
+     # 'geo-test/by-year-count', db = testdb
     for item in db.view('time/by-year-count', group = True, group_level = 1):
         year_total[item.key] = item.value
 
     for key in year_topic.keys():
-        if key in year_total.keys():
-            percent[key] = year_topic[key]/year_total[key] * 100
+        percent[key] = year_topic[key]/year_total[key] * 100
             
     return year_topic, year_total, percent
 
@@ -295,7 +298,7 @@ def topic_wordcloud(db, topic):
             topic of selection
     return: corpus of combined tweets on the selected topic indexed by year; 
             all words in lowercases
-    return type: dict - {year : corpus}
+    return type: dict - {year : corpus as a list}
     render: wordcloud
     """
 
@@ -322,3 +325,23 @@ def topic_wordcloud(db, topic):
 
 
 
+def topic_sentiment(db, topic):
+    """
+    Extract topic related sentiment
+    params: raw_tweets database;
+            topic of selection
+    return: sentiment towards the selected topic indexed by year
+    return type: dict - {year : sentiment score}
+    render: Dual axes, line and column (combine with topic trend as the columns)
+    """
+
+    yearly_tweets = topic_wordcloud(db, topic)
+    
+    yearly_sentiment = {}
+    for key, value in yearly_tweets.items():
+        blob = TextBlob(value)
+        for sentence in blob.sentences:
+            sentiment = sentence.sentiment.polarity
+            yearly_sentiment[key] = sentiment
+
+    return yearly_sentiment
