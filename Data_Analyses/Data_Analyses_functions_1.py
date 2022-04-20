@@ -145,19 +145,16 @@ def top_n_birth_country(file_path, N):
     birth_country = birth_country.rename({'Srilanka' : 'Sri Lanka'}, axis = 1).T
     birth_country = birth_country.sort_values(by = ['country_total'], ascending = False)[:N]
 
-    # if render with variable radius pie
-    """
-    results = []
+    # if return json
+    # results = {}
+    # for i in range(len(birth_country)):
+    #     results[birth_country.index[i]] = birth_country.country_total.values[i], birth_country.percentage.values[i]
+
+    birth = {}
     for i in range(len(birth_country)):
-        entry = {}
-        e = birth_country.iloc[i]
-        entry['name'] = e.name
-        entry['y'] = e.country_total
-        entry['z'] = e.percentage
-        results.append(entry)
-    """
+        birth[birth_country.index[i]] = birth_country.country_total.values[i], birth_country.percentage.values[i]
     
-    return birth_country.index, birth_country.country_total.values, birth_country.percentage.values
+    return birth
     # return results
 
 
@@ -226,7 +223,12 @@ def top_n_lang_spoken_at_home(file_path, langCode_path, N):
     lang_data.index = idx
     lang_data = lang_data.sort_values(by = ['count'], ascending = False)[:N]
 
-    return lang_data.index, lang_data.count.values, lang_data.percentage_SOL.values, lang_data.percentage_Total.values, SOL_perc
+    spoken = {}
+    for i in range(len(lang_data)):
+        array = np.array([lang_data.number.values[i], lang_data.percentage_SOL.values[i], lang_data.percentage_Total.values[i]])
+        spoken[lang_data.index[i]] = array.tolist()
+
+    return spoken
 
 
 def topic_switch(topic):
