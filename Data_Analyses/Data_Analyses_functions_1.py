@@ -83,7 +83,8 @@ def top_n_lang_count(db, langCode_path, N):
     return type: dict - {language code: count}
     render: Bar chart?
     """
-    # 'geo-test/lang-count', db = testdb
+    languages = {}
+    
     for item in db.view('lang/lang-count', group = True, group_level = 1):
         if item.key != 'en':
             if item.key == 'in':
