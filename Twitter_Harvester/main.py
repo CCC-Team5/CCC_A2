@@ -1,6 +1,7 @@
 import couchdb
 import tweepy
 import json
+import socket
 from functions import *
 from couchdb_settings import *
 from api_credentials import *
@@ -43,14 +44,17 @@ if __name__ == '__main__':
     tweet_db = db_connect(tweets)
     user_db = db_connect(user)
 
-    place_id = '01864a8a64df9dc4'
-
     client = authenticate(BEARER_TOKEN)
 
     stream = TwitterStreamer(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
+    place_id = '01864a8a64df9dc4'
+
+    servers = 4
+    area = search_area(servers)
+    
     while True:
         try:
-            stream.filter(locations = [144.593741856, -38.433859306, 145.512528832, -37.5112737225])
+            stream.filter(locations = area)
         except:
             continue
