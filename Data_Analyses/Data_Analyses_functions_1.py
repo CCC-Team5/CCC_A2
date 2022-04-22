@@ -102,6 +102,7 @@ def read_langCode(langCode_path):
             langCode[key] = val
     return langCode 
 
+langCode_path = 'Data/langCode.json'
 
 def top_n_lang_count(db, langCode_path, N):
     """
