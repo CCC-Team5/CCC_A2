@@ -7,6 +7,9 @@ from api_credentials import *
 
 def db_connect(dbname):
     """
+    connect to CouchDB server to create databases
+    params: name of the database to be created
+    return: created database
     """
 
     couchserver = couchdb.Server('http://' + username + ':' + password + '@' + address)
@@ -20,6 +23,11 @@ def db_connect(dbname):
 
 def save_to_db(item_id, keyword, item, db):
     """
+    save document to database
+    params: the id of the document;
+            the key word as the key to the saved content;
+            the content to be saved in the document;
+            the database to save the document to
     """
 
     db[item_id] = {keyword: item}
@@ -27,6 +35,9 @@ def save_to_db(item_id, keyword, item, db):
 
 def authenticate(BEARER_TOKEN):
     """
+    authenticate Twitter API
+    params: bear token of Twitter developer account
+    return: client to make request to the Twitter API
     """
 
     client = tweepy.Client(bearer_token=BEARER_TOKEN, wait_on_rate_limit=True)
@@ -36,6 +47,11 @@ def authenticate(BEARER_TOKEN):
 
 def search_timeline(client, id_str, place_id, tweet_db):
     """
+    search through a particular user's timeline
+    params: client to make request to the Twitter API;
+            the id of the user to be searched up;
+            the place id of Melbourne;
+            the database to save searched tweets to
     """ 
 
     for response in tweepy.Paginator(client.get_users_tweets, 
@@ -57,6 +73,9 @@ def search_timeline(client, id_str, place_id, tweet_db):
 
 def search_area(servers):
     """
+    find a particular area segment to search tweets in
+    params: the number of servers available
+    return: the bounding box of a particular area (which is a segment of Melbourne) to search tweets in
     """
 
     melbourne = [144.593741856, -38.433859306, 145.512528832, -37.5112737225]
