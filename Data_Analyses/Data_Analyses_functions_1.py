@@ -265,7 +265,7 @@ def topic_switch(topic):
         topic_db_text = db_connect('cost_text')
         # topic_db_sent = db_connect('cost_sent')
 
-    return count_view, topic_view, topic_db_text, topic_db_sent
+    return count_view, topic_view, topic_db_text
 
 
 def topic_trend(db, topic):
@@ -280,7 +280,7 @@ def topic_trend(db, topic):
     render: Dual axes, line and column (combine with topic sentiment as the line)
     """
 
-    count_view, _, _, _ = topic_switch(topic)
+    count_view, _, _ = topic_switch(topic)
     
     year_topic = {}
     year_total = {}
@@ -344,7 +344,7 @@ def topic_sentiment(topic):
     render: Dual axes, line and column (combine with topic trend as the columns)
     """
 
-    _, _, db, _ = topic_switch(topic)
+    _, _, db = topic_switch(topic)
 
     yearly_tweets = {}
     for item in db.view(topic + '/text'):
