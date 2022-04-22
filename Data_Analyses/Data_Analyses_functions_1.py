@@ -64,7 +64,7 @@ def delete_docs(topic, save_db):
     docs = []    
     for row in save_db.view(topic + '/all', include_docs=True):
         doc = row['doc']
-        if int(doc['year'] >=2018):
+        if int(doc['year']) >=2018:
             doc['_deleted']=True
             docs.append(doc)
         save_db.update(docs) 
@@ -326,7 +326,8 @@ def topic_wordcloud(query_db, topic):
 
     yearly_tweets = defaultdict(list)
     for item in query_db.view(topic_view):
-        yearly_tweets[item.key].append(item.value)
+        if int(item.key) >= 2018:
+            yearly_tweets[item.key].append(item.value)
     
     tokenizer = TweetTokenizer()
     
