@@ -9,16 +9,8 @@ from collections import defaultdict
 from nltk.corpus import stopwords
 from nltk.tokenize import TweetTokenizer
 from textblob import TextBlob
-# nltk.download('punkt')
-# nltk.download('stopwords')
-
-
-# username = 'admin'
-# password = '123456'
-# address = 'localhost:15984'
-
-# testdb = couchdb.Database('http://' + address + '/view-test')
-# testdb.resource.credentials = (username, password)
+nltk.download('punkt')
+nltk.download('stopwords')
 
 
 def fetch_DB(username, password, address, dbname):
@@ -33,6 +25,32 @@ def fetch_DB(username, password, address, dbname):
     db.resource.credentials = (username, password)
 
     return db
+
+
+# connect to raw_tweets db
+tweet_db = fetch_DB(username, password, address, tweets)
+
+
+def delete_docs(topic, save_db):
+    """
+    delete existing data in DB
+    """
+    # use this for now
+    docs = []    
+    for row in save_db.view(topic + '/all', include_docs=True):
+        doc = row['doc']
+        doc['_deleted']=True
+        docs.append(doc)
+        save_db.update(docs) 
+    
+    # use this after DB is completely ready
+    # docs = []    
+    # for row in save_db.view(topic + '/all', include_docs=True):
+    #     doc = row['doc']
+    #     if int(doc['year'] >=2018):
+    #         doc['_deleted']=True
+    #         docs.append(doc)
+    #     save_db.update(docs) 
 
 
 def now_trending(db, N):
@@ -145,17 +163,11 @@ def top_n_birth_country(file_path, N):
     birth_country = birth_country.rename({'Srilanka' : 'Sri Lanka'}, axis = 1).T
     birth_country = birth_country.sort_values(by = ['country_total'], ascending = False)[:N]
 
-    # if return json
-    # results = {}
-    # for i in range(len(birth_country)):
-    #     results[birth_country.index[i]] = birth_country.country_total.values[i], birth_country.percentage.values[i]
-
     birth = {}
     for i in range(len(birth_country)):
         birth[birth_country.index[i]] = birth_country.country_total.values[i], birth_country.percentage.values[i]
     
     return birth
-    # return results
 
 
 def top_n_lang_spoken_at_home(file_path, langCode_path, N):
@@ -240,27 +252,20 @@ def topic_switch(topic):
     if topic == 'housing':
         count_view = 'text/housing-count'
         topic_view = 'text/housing'
+        topic_db_text = db_connect('housing_text')
+        # topic_db_sent = db_connect('housing_sent')
     if topic == 'transportation':
         count_view = 'text/transportation-count'
         topic_view = 'text/transportation'
+        topic_db_text = db_connect('trans_text')
+        # topic_db_sent = db_connect('trans_sent')
     if topic == 'cost':
         count_view = 'text/cost-count'
         topic_view = 'text/cost'
+        topic_db_text = db_connect('cost_text')
+        # topic_db_sent = db_connect('cost_sent')
 
-    """
-    for use with test db
-
-    # if topic == 'housing':
-    #     count_view = 'geo-test/text-housing-count'
-    #     topic_view = 'geo-test/text-housing'
-    # if topic == 'transportation':
-    #     count_view = 'geo-text/text-transportation-count'
-    #     topic_view = 'geo-text/text-transportation'
-    # if topic == 'cost':
-    #     count_view = 'geo-test/text-cost-count'
-    #     topic_view = 'geo-test/text-cost'
-    """
-    return count_view, topic_view
+    return count_view, topic_view, topic_db_text, topic_db_sent
 
 
 def topic_trend(db, topic):
@@ -275,7 +280,7 @@ def topic_trend(db, topic):
     render: Dual axes, line and column (combine with topic sentiment as the line)
     """
 
-    count_view, _ = topic_switch(topic)
+    count_view, _, _, _ = topic_switch(topic)
     
     year_topic = {}
     year_total = {}
@@ -284,7 +289,6 @@ def topic_trend(db, topic):
     for item in db.view(count_view, group = True, group_level = 1):
         year_topic[item.key] = item.value
 
-     # 'geo-test/by-year-count', db = testdb
     for item in db.view('time/by-year-count', group = True, group_level = 1):
         year_total[item.key] = item.value
 
@@ -294,7 +298,7 @@ def topic_trend(db, topic):
     return year_topic, year_total, percent
 
 
-def topic_wordcloud(db, topic):
+def topic_wordcloud(query_db, topic):
     """
     Extract topic related wordcloud
     params: raw_tweets database;
@@ -305,10 +309,12 @@ def topic_wordcloud(db, topic):
     render: wordcloud
     """
 
-    _, topic_view = topic_switch(topic)
+    _, topic_view, save_db, _ = topic_switch(topic)
+
+    delete_docs(topic, save_db)
 
     yearly_tweets = defaultdict(list)
-    for item in db.view(topic_view):
+    for item in query_db.view(topic_view):
         yearly_tweets[item.key].append(item.value)
     
     tokenizer = TweetTokenizer()
@@ -323,12 +329,12 @@ def topic_wordcloud(db, topic):
                 tweet_clean.append(word.lower())
                 
         yearly_tweets[key] = ' '.join(tweet_clean)
-    
-    return yearly_tweets
+
+    for k, v in yearly_tweets.items():
+        save_db.save({'year': k, 'text':v})
 
 
-
-def topic_sentiment(db, topic):
+def topic_sentiment(topic):
     """
     Extract topic related sentiment
     params: raw_tweets database;
@@ -338,7 +344,11 @@ def topic_sentiment(db, topic):
     render: Dual axes, line and column (combine with topic trend as the columns)
     """
 
-    yearly_tweets = topic_wordcloud(db, topic)
+    _, _, db, _ = topic_switch(topic)
+
+    yearly_tweets = {}
+    for item in db.view(topic + '/text'):
+        yearly_tweets[item.key] = item.value
     
     yearly_sentiment = {}
     for key, value in yearly_tweets.items():
