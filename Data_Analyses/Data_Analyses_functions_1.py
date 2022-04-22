@@ -21,6 +21,9 @@ nltk.download('stopwords')
 
 def db_connect(dbname):
     """
+    connect to CouchDB server to create databases
+    params: name of the database to be created
+    return: created database
     """
 
     couchserver = couchdb.Server('http://' + username + ':' + password + '@' + address)
@@ -35,7 +38,7 @@ def db_connect(dbname):
 def fetch_DB(dbname):
     """
     connect to CouchDB
-    params: credentials, db addressm dbname
+    params: name of the database to connect to
     return: the db to establish connection with
     return type: database
     """
@@ -52,7 +55,9 @@ tweet_db = fetch_DB(tweets)
 
 def delete_docs(topic, save_db):
     """
-    delete existing data in DB
+    delete existing data in DB (to replace previous data analyses results)
+    params: the topic to look at (one of housing, cost or transportation);
+            the database where the particular topic results were saved in
     """
     
     # use this after DB is completely ready
@@ -67,13 +72,13 @@ def delete_docs(topic, save_db):
 
 def now_trending(db, N):
     """
-    Extract top N mostly used hasgtags in tweets from past 14 days
+    extract top N mostly used hasgtags in tweets from past 14 days
     params: raw_tweets database;
             number of hashtags to extract
     return: top N hashtags extracted from tweets made within last 14 days; 
             all hashtags in lowercases
     return type: dict - {hashtag:count}
-    render: wordcloud
+    frontend: wordcloud
     """
     
     hashtags = {}
@@ -107,13 +112,13 @@ langCode_path = 'Data/langCode.json'
 
 def top_n_lang_count(db, langCode_path, N):
     """
-    Extract top N languages other than English in which tweets were made
+    extract top N languages other than English in which tweets were made
     params: raw_tweets database;
             path to langCode.json file;
             number of languages to extract
     return: top N most tweeted languages other than English
     return type: dict - {language code: count}
-    render: Bar chart?
+    frontend: bar chart/pie chart (colour matching for most tweeted languages/counrty of birth/language spoken at home)
     """
     languages = {}
     
@@ -135,12 +140,12 @@ def top_n_lang_count(db, langCode_path, N):
 
 def top_n_birth_country(file_path, N):
     """
-    Extract top N non-English-speaking countries where people living in the Greater Melbourne were originally from
+    extract top N non-English-speaking countries where people living in the Greater Melbourne were originally from
     params: path to census data download from AURIN - 'country_of_birth.csv';
             number of non-English-speaking countries to extract
     return: top N non-English-speaking countries' names, total population count, and percentage population
     return type: numpy arrays
-    render: Pareto chart? Bar chart?
+    frontend: bar chart/pie chart (colour matching for most tweeted languages/counrty of birth/language spoken at home)
     """
     data = pd.read_csv(file_path)
     
@@ -186,14 +191,14 @@ def top_n_birth_country(file_path, N):
 
 def top_n_lang_spoken_at_home(file_path, langCode_path, N):
     """
-    Extract top N languages other than English spoken at home
+    extract top N languages other than English spoken at home
     params: path to census data download from AURIN - 'lang_at_home.csv';
             path to langCode.json file;
             number of languages other than English to extract
     return: names of top N languages other than English spoken at home, total population count, percentage of population count to total SOL population, 
             percentage of population count to total population, and percentage of SOL population to total population
     return type: numpy arrays
-    render: Pareto chart? Bar chart?
+    frontend: bar chart/pie chart (colour matching for most tweeted languages/counrty of birth/language spoken at home)
     """
     
     data = pd.read_csv(file_path)
@@ -260,7 +265,8 @@ def top_n_lang_spoken_at_home(file_path, langCode_path, N):
 def topic_switch(topic):
     """
     params: topic of selection
-    return: paths to views relating to the selected topic 
+    return: paths to the views relating to the selected topic;
+            connect to db where top related results were saved
     """
 
     count_view = 'text/' + topic + '-count'
@@ -272,14 +278,14 @@ def topic_switch(topic):
 
 def topic_trend(db, topic):
     """
-    Extract the number and percentage of tweets on the selected topic made each year
+    extract the number and percentage of tweets on the selected topic made each year
     params: raw_tweets database;
             the topic of selection
     return:  
     return type: dict - {year : number of tweets on the selected topic made in that year}
                  dict - {year : total number of tweets made in that year}
                  dict - {year : percentage of tweets on selected topic over total number of tweets made in that year}
-    render: Dual axes, line and column (combine with topic sentiment as the line)
+    frontend: Dual axes, line and column (combine with topic sentiment as the line)
     """
 
     count_view, _, _ = topic_switch(topic)
@@ -302,13 +308,13 @@ def topic_trend(db, topic):
 
 def topic_wordcloud(query_db, topic):
     """
-    Extract topic related wordcloud
+    extract topic related wordcloud
     params: raw_tweets database;
             topic of selection
     return: corpus of combined tweets on the selected topic indexed by year; 
             all words in lowercases
     return type: dict - {year : corpus as a list}
-    render: wordcloud
+    frontend: wordcloud
     """
 
     _, topic_view, save_db = topic_switch(topic)
@@ -341,15 +347,15 @@ def topic_wordcloud(query_db, topic):
 
 def topic_sentiment(topic):
     """
-    Extract topic related sentiment
+    extract topic related sentiment
     params: raw_tweets database;
             topic of selection
     return: sentiment towards the selected topic indexed by year
     return type: dict - {year : sentiment score}
-    render: Dual axes, line and column (combine with topic trend as the columns)
+    frontend: Dual axes, line and column (combine with topic trend as the columns)
     """
 
-    _, _, db = topic_switch(topic)
+    db = fetch_DB(topic + '_text')
 
     yearly_tweets = {}
     for item in db.view(topic + '/text'):

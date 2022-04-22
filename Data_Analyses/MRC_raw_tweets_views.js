@@ -177,3 +177,20 @@ function(doc) {
     }
   }
 // reduce: _sum
+
+
+
+// For results DB
+
+// 'cost/all' & 'housing/all' & 'transportation/all'
+function (doc) {
+  emit(doc._id, doc);
+}
+
+// 'cost/text' & 'housing/text' & 'transportation/text'
+function (doc) {
+  emit(doc.year, doc.text);
+}
+
+
+
