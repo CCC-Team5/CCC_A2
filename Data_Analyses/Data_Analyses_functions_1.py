@@ -12,8 +12,27 @@ from textblob import TextBlob
 nltk.download('punkt')
 nltk.download('stopwords')
 
+# couchdb_settings
+# address = '172.26.130.201:5984' 
+# username = 'grp5admin'
+# password = 'password'
+# tweets = 'raw_tweets'
+# user = 'user_list'
 
-def fetch_DB(username, password, address, dbname):
+def db_connect(dbname):
+    """
+    """
+
+    couchserver = couchdb.Server('http://' + username + ':' + password + '@' + address)
+    try:
+      db = couchserver[dbname]
+    except:
+      db = couchserver.create(dbname)
+
+    return db
+
+
+def fetch_DB(dbname):
     """
     connect to CouchDB
     params: credentials, db addressm dbname
@@ -28,29 +47,22 @@ def fetch_DB(username, password, address, dbname):
 
 
 # connect to raw_tweets db
-tweet_db = fetch_DB(username, password, address, tweets)
+tweet_db = fetch_DB(tweets)
 
 
 def delete_docs(topic, save_db):
     """
     delete existing data in DB
     """
-    # use this for now
+    
+    # use this after DB is completely ready
     docs = []    
     for row in save_db.view(topic + '/all', include_docs=True):
         doc = row['doc']
-        doc['_deleted']=True
-        docs.append(doc)
+        if int(doc['year'] >=2018):
+            doc['_deleted']=True
+            docs.append(doc)
         save_db.update(docs) 
-    
-    # use this after DB is completely ready
-    # docs = []    
-    # for row in save_db.view(topic + '/all', include_docs=True):
-    #     doc = row['doc']
-    #     if int(doc['year'] >=2018):
-    #         doc['_deleted']=True
-    #         docs.append(doc)
-    #     save_db.update(docs) 
 
 
 def now_trending(db, N):
@@ -65,7 +77,7 @@ def now_trending(db, N):
     """
     
     hashtags = {}
-    # 'geo-test/hash-tags'; db = testdb
+    
     for item in db.view('hashtags/trending', group = True, group_level = 1):
         if item.key.lower() not in hashtags.keys():
             hashtags[item.key.lower()] = item.value
@@ -249,23 +261,11 @@ def topic_switch(topic):
     return: paths to views relating to the selected topic 
     """
 
-    if topic == 'housing':
-        count_view = 'text/housing-count'
-        topic_view = 'text/housing'
-        topic_db_text = db_connect('housing_text')
-        # topic_db_sent = db_connect('housing_sent')
-    if topic == 'transportation':
-        count_view = 'text/transportation-count'
-        topic_view = 'text/transportation'
-        topic_db_text = db_connect('trans_text')
-        # topic_db_sent = db_connect('trans_sent')
-    if topic == 'cost':
-        count_view = 'text/cost-count'
-        topic_view = 'text/cost'
-        topic_db_text = db_connect('cost_text')
-        # topic_db_sent = db_connect('cost_sent')
+    count_view = 'text/' + topic + '-count'
+    topic_view = 'text/' + topic
+    topic_db = db_connect(topic + '_text')
 
-    return count_view, topic_view, topic_db_text
+    return count_view, topic_view, topic_db
 
 
 def topic_trend(db, topic):
@@ -309,9 +309,12 @@ def topic_wordcloud(query_db, topic):
     render: wordcloud
     """
 
-    _, topic_view, save_db, _ = topic_switch(topic)
+    _, topic_view, save_db = topic_switch(topic)
 
-    delete_docs(topic, save_db)
+    try:
+        delete_docs(topic, save_db)
+    except Exception:
+        pass
 
     yearly_tweets = defaultdict(list)
     for item in query_db.view(topic_view):
