@@ -104,6 +104,7 @@ def read_langCode(langCode_path):
 
 langCode_path = 'Data/langCode.json'
 
+
 def top_n_lang_count(db, langCode_path, N):
     """
     Extract top N languages other than English in which tweets were made
@@ -232,10 +233,10 @@ def top_n_lang_spoken_at_home(file_path, langCode_path, N):
             columns.append(idx[1])
 
     lang_tot.index = columns
-    lang_data = pd.DataFrame(lang_tot, columns = ['count']).T
+    lang_data = pd.DataFrame(lang_tot, columns = ['number']).T
     lang_data = lang_data.rename({'Pe' : 'Persian'}, axis = 1).T
-    lang_data['percentage_SOL'] = lang_data['count']/SOL_tot * 100
-    lang_data['percentage_Total'] = lang_data['count']/tot * 100
+    lang_data['percentage_SOL'] = lang_data['number']/SOL_tot * 100
+    lang_data['percentage_Total'] = lang_data['number']/tot * 100
 
     langCode = read_langCode(langCode_path)
     langdict = {k:v for v in langCode.values() for k in lang_data.index if k in v}
@@ -246,7 +247,7 @@ def top_n_lang_spoken_at_home(file_path, langCode_path, N):
         idx.append(name)
 
     lang_data.index = idx
-    lang_data = lang_data.sort_values(by = ['count'], ascending = False)[:N]
+    lang_data = lang_data.sort_values(by = ['number'], ascending = False)[:N]
 
     spoken = {}
     for i in range(len(lang_data)):
