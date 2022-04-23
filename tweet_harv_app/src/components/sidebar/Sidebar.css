@@ -1,0 +1,53 @@
+.sidebar-container {
+  width: 200px;
+  height: 100vh;
+  border-radius: 10px;
+  position: relative;
+  /* float: left; */
+  /* left: 0%; */
+  background: #118ab2;
+  box-shadow: 2px 0px 31px -8px #1C1A1B;
+  /* background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+  url("../../../images/melb2.png"); */
+}
+
+.sidebar-list{
+  height: auto;
+  padding: 0;
+  width: 100%;
+}
+
+.sidebar-list .nav-item .nav-link{
+  width: 90%;
+  border-radius: 40px;
+  height: 40px;
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.nav-link #icon{
+  flex: 30%;
+  display: grid;
+  place-items: center;
+}
+
+.nav-link #title{
+  flex: 40%;
+}
+
+.sidebar-list .nav-item .nav-link:hover{
+  cursor: pointer;
+  background-color: #343a40;
+}
+
+.sidebar-list #active{
+  background-color: #343a40;
+}

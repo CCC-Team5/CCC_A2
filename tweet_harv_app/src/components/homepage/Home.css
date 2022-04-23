@@ -1,0 +1,26 @@
+.home-container{
+    float: right;
+    flex: 1 1 auto;
+    width: auto;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+    url("../../../images/melb1.jpg");
+    background-position: center;
+    /* background-color: aqua; */
+}
+
+h1{
+    font-size: 80px;
+}
+
+h2{
+    font-size: 40px;
+}
+
+.home-title{
+    padding-left: 20px;
+    display: block;
+    height: 88%;
+    align-items: center;
+    color: white;
+}

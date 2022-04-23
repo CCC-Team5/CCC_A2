@@ -1,0 +1,6 @@
+.map-container {
+    float: right;
+    flex: 1 1 auto;
+    width: 80vw;
+    height: 100vh;
+}

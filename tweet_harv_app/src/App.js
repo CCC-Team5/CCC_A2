@@ -1,33 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import BarTestComp from './components/BarTestComp';
+import MapView from './components/map/MapView';
+import Home from './components/homepage/Home';
+import Sidebar from './components/sidebar/Sidebar';
+import Dashboard from './components/Dashboard/Dashboard';
 
 function App() {
   return (
-    // <div className="App">
-    //   {/* <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.js</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header> */}
     <div  className="App">
       <Router>
-        <div className="container">
-            <Routes>
-              <Route exact path="/test" element = {<BarTestComp />} />
-            
-            </Routes>
-        </div>
+        <Sidebar />
+        <Routes>
+            <Route exact path="/" element = {<Home />} />
+            <Route exact path="/statistics" element = {<Dashboard />} />
+            <Route exact path="/map" element = {<MapView />} />
+        </Routes>
       </Router>
     </div>
   );
