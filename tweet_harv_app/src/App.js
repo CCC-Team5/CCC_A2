@@ -4,7 +4,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import MapView from './components/map/MapView';
 import Home from './components/homepage/Home';
 import Sidebar from './components/sidebar/Sidebar';
-import Dashboard from './components/Dashboard/Dashboard';
+import Chart from './components/charts/Chart';
 
 function App() {
   return (
@@ -13,7 +13,9 @@ function App() {
         <Sidebar />
         <Routes>
             <Route exact path="/" element = {<Home />} />
-            <Route exact path="/statistics" element = {<Dashboard />} />
+            <Route exact path="/popular" element = {<Chart />} />
+            <Route exact path="/opportunity/most_lang" element = {<Chart />} />
+            <Route exact path="/opportunity/most_lang" element = {<Chart />} />
             <Route exact path="/map" element = {<MapView />} />
         </Routes>
       </Router>

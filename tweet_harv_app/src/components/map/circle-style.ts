@@ -6,7 +6,7 @@ export const circleLayer: CircleLayer = {
     'id': 'earthquakes-point',
     'type': 'circle',
     'source': 'earthquakes',
-    'minzoom': 13,
+    'minzoom': 12,
     'paint': {
         // Size circle radius by earthquake magnitude and zoom level
         'circle-radius': [
