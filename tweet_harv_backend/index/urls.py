@@ -4,4 +4,6 @@ from . import views
 app_name = 'index'
 
 urlpatterns = [
+    path("hashtag/", views.hashtag),
 ]
+# /index/hashtag/
