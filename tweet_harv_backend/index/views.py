@@ -16,6 +16,13 @@ import json
 # database in couchdb
 tweets = 'raw_tweets'
 
+def hashtag_formatter(hashtags):
+    result_lst = []
+    for tag, count in hashtags.items():
+        obj = {"name": tag, "weight": count}
+        result_lst.append(obj)
+    return result_lst
+
 
 def hashtag(request):
     db = CouchDB()
@@ -24,7 +31,8 @@ def hashtag(request):
         # filter top-20 topics
         hashtags = now_trending(tweet_db, 20)
         if hashtags:
-            return HttpResponse(json.dumps(hashtags, ensure_ascii=False))
+            # return HttpResponse(json.dumps(hashtags, ensure_ascii=False))
+            return HttpResponse(json.dumps(hashtag_formatter(hashtags), ensure_ascii=False))
         else:
             # status code 400
             return HttpResponseBadRequest(hashtags)
