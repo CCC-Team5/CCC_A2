@@ -9,10 +9,10 @@ import CakeIcon from '@mui/icons-material/Cake';
 import ChatIcon from '@mui/icons-material/Chat';
 import HouseIcon from '@mui/icons-material/House';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
-import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ArrowRightTwoToneIcon from '@mui/icons-material/ArrowRightTwoTone';
 import ArrowDropDownTwoToneIcon from '@mui/icons-material/ArrowDropDownTwoTone';
+import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
 
 export const SidebarData = [
     {
@@ -38,12 +38,12 @@ export const SidebarData = [
                 link:"/opportunity/most_lang"
             },
             {
-                title: "Most language",
+                title: "Birth Country",
                 icon: <CakeIcon />,
                 link:"/opportunity/birth_country"
             },
             {
-                title: "Spoken languages",
+                title: "Home Spoken",
                 icon: <ChatIcon />,
                 link:"/opportunity/spoken_lang"
             },
@@ -65,6 +65,25 @@ export const SidebarData = [
                 title: "Content",
                 icon: <AbcIcon />,
                 link:"/housing/content"
+            },
+        ]
+    },
+    {
+        title: "Transportation",
+        icon: <ConnectingAirportsIcon />,
+        link:"/transport",
+        iconRight: <ArrowRightTwoToneIcon />,
+        iconDown: <ArrowDropDownTwoToneIcon />,
+        subNav:[
+            {
+                title: "Trend & Sentiment",
+                icon: <ShowChartIcon />,
+                link:"/transport/trend"
+            },
+            {
+                title: "Content",
+                icon: <AbcIcon />,
+                link:"/transport/content"
             },
         ]
     },

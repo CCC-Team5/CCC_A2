@@ -7,10 +7,11 @@ function Chart() {
 
     const options = {
         chart: {
-          type: 'column'
+          type: 'column',
       },
       title: {
-          text: 'Monthly Average Rainfall'
+          text: 'Monthly Average Rainfall',
+          
       },
       subtitle: {
           text: 'Source: WorldClimate.com'
@@ -54,8 +55,8 @@ function Chart() {
       },
       series: [{
           name: 'Tokyo',
-          data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-    
+          data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+          color: '#66ccff'
       }, {
           name: 'New York',
           data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
@@ -73,7 +74,7 @@ function Chart() {
 
   return (
     <div className='chart-container'>
-            <HighchartsReact highcharts={Highcharts} options={options} />
+            <HighchartsReact containerProps={{ style: { width: "100%" , height: "100%"} }} highcharts={Highcharts} options={options} />
         </div>
   )
 }

@@ -1,11 +1,16 @@
 import logo from './logo.svg';
 import './App.css';
+import React, { useEffect } from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import MapView from './components/map/MapView';
 import Home from './components/homepage/Home';
 import Sidebar from './components/sidebar/Sidebar';
-import Chart from './components/charts/Chart';
-import React, { useEffect } from 'react';
+import TrendingWordCloud from './components/charts/TrendingWordCloud';
+import TopNLangChart from './components/charts/TopNLangChart';
+import TopNBirthChart from './components/charts/TopNBirthChart';
+import TopNLangAtHome from './components/charts/TopNLangAtHome';
+import HousingTrendChart from './components/charts/HousingTrendChart';
+
 
 function App() {
   // const axios = require("axios").default; 
@@ -29,9 +34,11 @@ function App() {
         <Sidebar />
         <Routes>
             <Route exact path="/" element = {<Home />} />
-            <Route exact path="/popular" element = {<Chart />} />
-            <Route exact path="/opportunity/most_lang" element = {<Chart />} />
-            <Route exact path="/opportunity/most_lang" element = {<Chart />} />
+            <Route exact path="/popular" element = {<TrendingWordCloud />} />
+            <Route exact path="/opportunity/most_lang" element = {<TopNLangChart />} />
+            <Route exact path="/opportunity/birth_country" element = {<TopNBirthChart />} />
+            <Route exact path="/opportunity/spoken_lang" element = {<TopNLangAtHome />} />
+            <Route exact path="/housing/trend" element = {<HousingTrendChart />} />
             <Route exact path="/map" element = {<MapView />} />
         </Routes>
       </Router>
