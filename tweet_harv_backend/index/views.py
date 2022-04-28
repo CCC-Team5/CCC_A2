@@ -11,11 +11,14 @@ from .dataAnalysis import *
 from .database import CouchDB
 from django.http import HttpResponse, HttpResponseBadRequest
 import json
+
 # Create your views here.
 
 # database in couchdb
 tweets = 'raw_tweets'
 
+
+# change hashtag data format {xxx:xxx, yyy:yyy} -> {xxx:xxx}, {yyy:yyy}
 def hashtag_formatter(hashtags):
     result_lst = []
     for tag, count in hashtags.items():
@@ -31,7 +34,6 @@ def hashtag(request):
         # filter top-20 topics
         hashtags = now_trending(tweet_db, 20)
         if hashtags:
-            # return HttpResponse(json.dumps(hashtags, ensure_ascii=False))
             return HttpResponse(json.dumps(hashtag_formatter(hashtags), ensure_ascii=False))
         else:
             # status code 400
