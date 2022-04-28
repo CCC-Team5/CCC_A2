@@ -10,6 +10,7 @@ import TopNLangChart from './components/charts/TopNLangChart';
 import TopNBirthChart from './components/charts/TopNBirthChart';
 import TopNLangAtHome from './components/charts/TopNLangAtHome';
 import HousingTrendChart from './components/charts/HousingTrendChart';
+import HousingContent from './components/charts/HousingContent';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
             <Route exact path="/opportunity/birth_country" element = {<TopNBirthChart />} />
             <Route exact path="/opportunity/spoken_lang" element = {<TopNLangAtHome />} />
             <Route exact path="/housing/trend" element = {<HousingTrendChart />} />
+            <Route exact path="/housing/content" element = {<HousingContent />} />
             <Route exact path="/map" element = {<MapView />} />
         </Routes>
       </Router>

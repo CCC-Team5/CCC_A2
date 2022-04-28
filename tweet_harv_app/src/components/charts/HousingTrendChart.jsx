@@ -31,13 +31,22 @@ function HomeingTrendChart() {
             },
             title: {
                 text: 'Temperature',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
             }
         }, { // Secondary yAxis
             title: {
                 text: 'Rainfall',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
             },
             labels: {
                 format: '{value} mm',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
             },
             opposite: true
         }],
