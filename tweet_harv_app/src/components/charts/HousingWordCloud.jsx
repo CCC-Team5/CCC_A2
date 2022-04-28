@@ -4,7 +4,7 @@ import HighchartsReact from 'highcharts-react-official';
 import wordCloud from "highcharts/modules/wordcloud.js";
 import './Chart.css'
 
-function TrendingWordCloud() {
+function HousingWordCloud() {
     wordCloud(Highcharts);
     const[data, setData] = useState([]);
     const data1 = [{
@@ -21,12 +21,10 @@ function TrendingWordCloud() {
             name: 'Occurrences'
         }],
         title: {
-            text: 'Popular hashtags tweeted'
+            text: 'Popular Housing words'
         },
     }
 
-
-    
   return (
     <div className='chart-container'>
         <HighchartsReact containerProps={{ style: { width: "100%" , height: "100%"} }} highcharts={Highcharts} options={options} />
@@ -34,4 +32,4 @@ function TrendingWordCloud() {
   )
 }
 
-export default TrendingWordCloud
+export default HousingWordCloud

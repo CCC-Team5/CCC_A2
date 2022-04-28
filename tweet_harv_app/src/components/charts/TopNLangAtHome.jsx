@@ -14,7 +14,7 @@ function TopNLangAtHome() {
             type: 'pie'
         },
         title: {
-            text: 'Top birth countries other than English speaking countries'
+            text: 'Top spoken languages'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

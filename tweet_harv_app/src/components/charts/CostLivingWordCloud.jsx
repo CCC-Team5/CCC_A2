@@ -4,24 +4,18 @@ import HighchartsReact from 'highcharts-react-official';
 import wordCloud from "highcharts/modules/wordcloud.js";
 import './Chart.css'
 
-function TrendingWordCloud() {
+function CostLivingWordCloud() {
     wordCloud(Highcharts);
     const[data, setData] = useState([]);
-    const data1 = [{
-        name: "Lorem",
-        weight: 1
-      }, {
-        name: "ipsum",
-        weight: 1
-      }]; 
+
     const options = {
         series: [{
             type: 'wordcloud',
-            data: data1,
+            data,
             name: 'Occurrences'
         }],
         title: {
-            text: 'Popular hashtags tweeted'
+            text: 'Popular Cost of Living words'
         },
     }
 
@@ -34,4 +28,4 @@ function TrendingWordCloud() {
   )
 }
 
-export default TrendingWordCloud
+export default CostLivingWordCloud

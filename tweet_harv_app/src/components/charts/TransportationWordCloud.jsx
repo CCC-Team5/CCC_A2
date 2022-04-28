@@ -4,7 +4,7 @@ import HighchartsReact from 'highcharts-react-official';
 import wordCloud from "highcharts/modules/wordcloud.js";
 import './Chart.css'
 
-function TrendingWordCloud() {
+function TransportationWordCloud() {
     wordCloud(Highcharts);
     const[data, setData] = useState([]);
     const data1 = [{
@@ -34,4 +34,4 @@ function TrendingWordCloud() {
   )
 }
 
-export default TrendingWordCloud
+export default TransportationWordCloud

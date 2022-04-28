@@ -3,11 +3,9 @@ import Highcharts, { registerRendererType } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import './Chart.css'
 
-function HousingTrendChart() {
+function CostLivingChart() {
     const[data, setData] = useState([]);
     
-    const perc_tweets_data = {2014: 0.07792023801090883, 2015: 0.07767656286253266, 2016: 0.06480881399870382, 2017: 0.33951909213524956, 2018: 0.08345503859795535, 2019: 0.11810248671347025, 2020: 0.13969211857067024, 2021: 0.19428029558359255, 2022: 0.18703553675198287}; 
-    const sentiment_data = {2014: 0.19313898143741073, 2015: 0.07747157991060426, 2016: 0.22619047619047622, 2017: 0.07160565243311717, 2018: 0.10800000000000001, 2019: 0.13429682929682932, 2020: 0.10835478680611424, 2021: 0.10943601545630192, 2022: 0.10005737447910346}; 
     const options = {
         chart: {
             zoomType: 'xy'
@@ -20,33 +18,32 @@ function HousingTrendChart() {
             text: 'Source: WorldClimate.com'
         },
         xAxis: [{
-            // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-            //     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            categories: Object.keys(perc_tweets_data), 
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             crosshair: true,
         }],
         yAxis: [{ // Primary yAxis
             labels: {
-                format: '{value}',
+                format: '{value}°C',
                 style: {
                     color: Highcharts.getOptions().colors[1]
                 }
             },
             title: {
-                text: 'Percentage of Total Number of Tweets',
+                text: 'Temperature',
                 style: {
                     color: Highcharts.getOptions().colors[1]
                 }
             }
         }, { // Secondary yAxis
             title: {
-                text: 'Sentiment',
+                text: 'Rainfall',
                 style: {
                     color: Highcharts.getOptions().colors[0]
                 }
             },
             labels: {
-                format: '{value}',
+                format: '{value} mm',
                 style: {
                     color: Highcharts.getOptions().colors[0]
                 }
@@ -68,30 +65,28 @@ function HousingTrendChart() {
                 'rgba(255,255,255,0.25)'
         },
         series: [{
-            name: 'Percentage of Total Tweets',
+            name: 'Rainfall',
             type: 'column',
             yAxis: 1,
-            data: Object.values(sentiment_data),
+            data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
             tooltip: {
-                valueSuffix: ''
+                valueSuffix: ' mm'
             },
         }, {
-            name: 'Sentiment',
+            name: 'Temperature',
             type: 'spline',
-            data: Object.values(perc_tweets_data), // a list
+            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
             tooltip: {
-                valueSuffix: ''
+                valueSuffix: '°C'
             }
         }]
     }
 
   return (
-    
     <div className='chart-container'>
-        
         <HighchartsReact containerProps={{ style: { width: "100%" , height: "100%"} }} highcharts={Highcharts} options={options} />
     </div>
   )
 }
 
-export default HousingTrendChart
+export default CostLivingChart
