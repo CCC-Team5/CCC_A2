@@ -1,0 +1,97 @@
+.sidebar-container {
+  width: 220px;
+  height: 100vh;
+  position: relative;
+  /* float: left; */
+  /* left: 0%; */
+  background: #000000;
+  box-shadow: 2px 0px 31px -8px #1C1A1B;
+  /* background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+  url("../../../images/melb2.png"); */
+}
+
+.sidebar-list{
+  height: auto;
+  padding: 0;
+  width: 100%;
+}
+
+.sidebar-list .nav-item{
+  margin: 1px 0px;
+  padding: 10px;
+}
+
+.sidebar-list .nav-item .nav-link{
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+}
+
+.nav-link #icon{
+  flex: 20%;
+  display: grid;
+  place-items: center;
+}
+
+.nav-link #title{
+  flex: 70%;
+}
+
+.nav-link #arrow{
+  flex: 10%;
+  display: grid;
+  place-items: center;
+}
+
+.sidebar-list .nav-item:hover{
+  cursor: pointer;
+  background-color: #252831;
+  border-left: 4px solid #2ec4b6;
+}
+
+.sidebar-list #active{
+  background-color: #252831;
+  border-left: 4px solid #2ec4b6;
+}
+
+
+.sidebar-list .sub-item{
+  margin-top: 30px;
+}
+
+.sidebar-list .sub-item .sub-link{
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+}
+
+.sub-link #icon{
+  flex: 10%;
+  padding: 0px 15px;
+}
+
+.sub-link #title{
+  flex: 90%;
+  padding-bottom: 5px;
+}
+
+.sidebar-list .sub-item:hover{
+  cursor: pointer;
+  background-color: #252831;
+  border-left: 4px solid #ff9f1c;
+}
+
+.sidebar-list #subactive{
+  background-color: #252831;
+  border-left: 4px solid #ff9f1c;
+}
