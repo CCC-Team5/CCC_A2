@@ -9,8 +9,9 @@
 # get python3 environment
 FROM python:3
 # set domain name
-ENV http_proxy http://wwwproxy.unimelb.edu.au:8000
-ENV https_proxy http://wwwproxy.unimelb.edu.au:8000
+# http_prox haven not setted yet, thererfore, we do not include this commond.
+#ENV http_proxy http://wwwproxy.unimelb.edu.au:8000
+#ENV https_proxy http://wwwproxy.unimelb.edu.au:8000
 
 # set python environment variable
 ENV PYTHONDONTWRITEBYTECODE=1
