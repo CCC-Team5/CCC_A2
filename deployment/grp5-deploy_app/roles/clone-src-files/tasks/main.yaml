@@ -1,0 +1,22 @@
+- name: Delete project content & directory
+  file:
+    state: absent
+    path: ~/data/grp5_application
+
+- name: Creating project directory
+  file:
+    path: ~/data/grp5_application
+    state: directory
+
+- name: ensure pexpect is installed in the playbook python
+  pip:
+    name: pexpect
+    state: present
+
+# Clone source code repository
+- name: Clone source code repository into project directory
+  expect:
+    command: git clone https://github.com/CCC-Team5/CCC_A2.git ~/data/grp5_application
+    responses:
+      Username: "xhhh-mendes" # Username is a regex
+      Password: "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" # Password is a regex
