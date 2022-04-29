@@ -19,6 +19,7 @@ tweets = 'raw_tweets'
 
 
 # change hashtag data format {xxx:xxx, yyy:yyy} -> {xxx:xxx}, {yyy:yyy}
+
 def hashtag_formatter(hashtags):
     result_lst = []
     for tag, count in hashtags.items():
@@ -32,7 +33,7 @@ def hashtag(request):
     tweet_db = db.fetch_DB(tweets)
     if request.method == 'GET':
         # filter top-20 topics
-        hashtags = now_trending(tweet_db, 20)
+        hashtags = now_trending(tweet_db, 10)
         if hashtags:
             return HttpResponse(json.dumps(hashtag_formatter(hashtags), ensure_ascii=False))
         else:
