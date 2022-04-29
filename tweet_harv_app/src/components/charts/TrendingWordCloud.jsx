@@ -3,21 +3,32 @@ import Highcharts, { registerRendererType } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import wordCloud from "highcharts/modules/wordcloud.js";
 import './Chart.css'
+import ChartDataService from '../../services/ChartDataService';
 
 function TrendingWordCloud() {
     wordCloud(Highcharts);
-    const[data, setData] = useState([]);
-    const data1 = [{
-        name: "Lorem",
-        weight: 1
-      }, {
-        name: "ipsum",
-        weight: 1
-      }]; 
+    const[data, setData] = useState();
+
+    React.useEffect(()=>{
+      ChartDataService.getTrendingHashtags().then((res)=>{
+        setData(res.data)
+      })
+    },[])
+
+    console.log(data)
+    // const data1 = [{
+    //     name: "Lorem",
+    //     weight: 1
+    //   }, {
+    //     name: "ipsum",
+    //     weight: 1
+    //   }]; 
     const options = {
+        plotOptions: {
+        },
         series: [{
             type: 'wordcloud',
-            data: data1,
+            data: data,
             name: 'Occurrences'
         }],
         title: {
