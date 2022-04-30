@@ -17,6 +17,23 @@ from nltk.tokenize import TweetTokenizer
 from textblob import TextBlob
 
 
+def delete_docs(topic, save_db):
+    """
+    delete existing data in DB (to replace previous data analyses results)
+    params: the topic to look at (one of housing, cost or transportation);
+            the database where the particular topic results were saved in
+    """
+
+    # use this after DB is completely ready
+    docs = []
+    for row in save_db.view(topic + '/all', include_docs=True):
+        doc = row['doc']
+        if int(doc['year']) >=2018:
+            doc['_deleted']=True
+            docs.append(doc)
+        save_db.update(docs)
+
+
 def now_trending(db, N):
     """
     extract top N mostly used hasgtags in tweets from past 14 days
@@ -29,7 +46,7 @@ def now_trending(db, N):
     """
 
     hashtags = {}
-
+    # using hashtags/trending view map/reduce data to generate result
     for item in db.view('hashtags/trending', group=True, group_level=1):
         if item.key.lower() not in hashtags.keys():
             hashtags[item.key.lower()] = item.value
@@ -43,6 +60,7 @@ def now_trending(db, N):
 
 def read_langCode(langCode_path):
     """
+    read languages abbreviation from Data/langCode.json, not hard code
     param: language code file path
     return: {language_code: language_name} - language code dictionary
     """
@@ -51,6 +69,7 @@ def read_langCode(langCode_path):
     with open(langCode_path, 'r', encoding='utf-8') as f:
         for line in f:
             (val, key) = line.split()
+            # set abbreviation as key, language as value
             langCode[key] = val
     return langCode
 
