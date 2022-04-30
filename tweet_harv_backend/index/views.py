@@ -55,7 +55,7 @@ def lang_spoken_home(request):
 
 def hashtag_top_n_birth_country(request):
     if request.method == 'GET':
-        langs = top_n_lang_count(file_Path, 10)
+        langs = top_n_birth_country(file_Path, 10)
         if langs:
             return HttpResponse(json.dumps(langs))
         else:
