@@ -25,6 +25,7 @@ class CouchDB(object):
             db_info = DB_INFO
         self.url = "http://" + db_info["username"] + ':' + db_info["password"] + '@' + db_info["address"]
         try:
+            # connect to couchdb
             self.server = couchdb.Server(self.url)
             self.connected = True
             print('CouchDB has been successfully connected: {', self.url, '}')
@@ -33,6 +34,7 @@ class CouchDB(object):
             self.connected = False
             print('Connection with CouchDB is failed: {', self.url, '}')
 
+    # create db named raw_tweets, if existed, then access this db
     def create_DB(self, dbName):
         if self.connected is True:
             if dbName in self.server:

@@ -40,3 +40,44 @@ def now_trending(db, N):
 
     return hashtags
 
+
+def read_langCode(langCode_path):
+    """
+    param: language code file path
+    return: {language_code: language_name} - language code dictionary
+    """
+
+    langCode = {}
+    with open(langCode_path, 'r', encoding='utf-8') as f:
+        for line in f:
+            (val, key) = line.split()
+            langCode[key] = val
+    return langCode
+
+
+def top_n_lang_count(db, langCode_path, N):
+    """
+    extract top N languages other than English in which tweets were made
+    params: raw_tweets database;
+            path to langCode.json file;
+            number of languages to extract
+    return: top N most tweeted languages other than English
+    return type: dict - {language code: count}
+    frontend: bar chart/pie chart (colour matching for most tweeted languages/counrty of birth/language spoken at home)
+    """
+    languages = {}
+
+    for item in db.view('lang/lang-count', group=True, group_level=1):
+        if item.key != 'en':
+            if item.key == 'in':
+                languages['id'] = item.value
+            else:
+                languages[item.key] = item.value
+
+        languages = {k: v for k, v in sorted(languages.items(), key=lambda item: item[1])[::-1][:N]}
+
+    langCode = read_langCode(langCode_path)
+
+    languages = {v2: v1 for k1, v1 in languages.items() for k2, v2 in langCode.items() if k1 == k2}
+
+    return languages
