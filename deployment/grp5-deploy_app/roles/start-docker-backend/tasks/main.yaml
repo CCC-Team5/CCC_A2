@@ -3,7 +3,7 @@
   become: yes
   args:
     warn: false
-  command: 'docker build -t tweet_backend /data/grp5_application/CCC_A2/tweet_harv_backend/'
+  command: 'docker build -t tweet_backend ~/data/CCC_A2/tweet_harv_backend/'
 
 # Stop existing and remove docker containers (if any)
 - name: Stop backend docker container
