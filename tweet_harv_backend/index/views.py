@@ -23,7 +23,7 @@ db = CouchDB()
 tweet_db = db.fetch_DB(tweets)
 
 langCode_Path = os.path.join(settings.DATASET, "langCode.json")
-
+file_path = os.path.join(settings.DATASET, "country_of_birth.csv")
 
 # change hashtag data format {xxx:xxx, yyy:yyy} -> {xxx:xxx}, {yyy:yyy}
 def hashtag_formatter(hashtags):
@@ -48,6 +48,14 @@ def hashtag(request):
 def lang_spoken_home(request):
     if request.method == 'GET':
         langs = top_n_lang_count(tweet_db, langCode_Path, 10)
+        if langs:
+            return HttpResponse(json.dumps(langs))
+        else:
+            return HttpResponseBadRequest(langs)
+
+def hashtag_top_n_birth_country(request):
+    if request.method == 'GET':
+        langs = top_n_lang_count(file_Path, 10)
         if langs:
             return HttpResponse(json.dumps(langs))
         else:
