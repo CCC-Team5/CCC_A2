@@ -23,7 +23,7 @@ db = CouchDB()
 tweet_db = db.fetch_DB(tweets)
 
 langCode_Path = os.path.join(settings.DATASET, "langCode.json")
-file_path = os.path.join(settings.DATASET, "country_of_birth.csv")
+file_Path = os.path.join(settings.DATASET, "country_of_birth.csv")
 
 # change hashtag data format {xxx:xxx, yyy:yyy} -> {xxx:xxx}, {yyy:yyy}
 def hashtag_formatter(hashtags):
