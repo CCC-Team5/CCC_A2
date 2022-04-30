@@ -13,6 +13,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 import json
 import os
 from django.conf import settings
+
 # Create your views here.
 
 # database in couchdb
@@ -21,9 +22,12 @@ tweets = 'raw_tweets'
 # then call fetch_DB method to get raw_tweets database
 db = CouchDB()
 tweet_db = db.fetch_DB(tweets)
+topics = ['housing', 'cost', 'transportation']
 
 langCode_Path = os.path.join(settings.DATASET, "langCode.json")
-file_Path = os.path.join(settings.DATASET, "country_of_birth.csv")
+birth_Path = os.path.join(settings.AURIN_DATASET, "country_of_birth.csv")
+langHome_Path = os.path.join(settings.AURIN_DATASET, "lang_at_home.csv")
+
 
 # change hashtag data format {xxx:xxx, yyy:yyy} -> {xxx:xxx}, {yyy:yyy}
 def hashtag_formatter(hashtags):
@@ -45,18 +49,60 @@ def hashtag(request):
             return HttpResponseBadRequest(hashtags)
 
 
-def lang_spoken_home(request):
+def language_and_birth(request):
     if request.method == 'GET':
-        langs = top_n_lang_count(tweet_db, langCode_Path, 10)
-        if langs:
-            return HttpResponse(json.dumps(langs))
+        # TODO
+        '''
+        this section just simply combines three results from ouyang, and dealing them with 
+        simple dict structure, converting to json object
+        '''
+        language_count = top_n_lang_count(tweet_db, langCode_Path, 10)
+        birth_country = top_n_birth_country(birth_Path, 10)
+        language_at_home = top_n_lang_spoken_at_home(langHome_Path, langCode_Path, 10)
+        context = {"language count": language_count, "birth_country": birth_country,
+                   "lanuage spoken at home": language_at_home}
+        if context:
+            return HttpResponse(json.dumps(context))
         else:
-            return HttpResponseBadRequest(langs)
+            # status code 400
+            return HttpResponseBadRequest(context)
+    else:
+        return HttpResponseBadRequest("Request has some problems here")
 
-def hashtag_top_n_birth_country(request):
-    if request.method == 'GET':
-        langs = top_n_birth_country(file_Path, 10)
-        if langs:
-            return HttpResponse(json.dumps(langs))
-        else:
-            return HttpResponseBadRequest(langs)
+
+def trend(request):
+    request_data = json.loads(request.body.decode('utf-8'))
+    topics = request_data["topics"]
+    for topic in topics:
+        try:
+            year_topic, year_total, percent = topic_trend(tweet_db, topic)
+            context = {"year_topic": year_topic, "year_total": year_total, "percent": percent}
+        except Exception as e:
+            print(e, "topic: ", topic)
+    response_json = json.dumps(context).encode("utf-8")
+    return HttpResponse(response_json)
+
+
+def year_topic(request):
+    request_data = json.loads(request.body.decode('utf-8'))
+    topics = request_data["topics"]
+    for topic in topics:
+        try:
+            topic_db = db.create_DB(topic + '_text')
+            yearly_tweets = topic_wordcloud(topic_db, topic)
+        except Exception as e:
+            print(e, "topic: ", topic)
+    response_json = json.dumps(yearly_tweets).encode("utf-8")
+    return HttpResponse(response_json)
+
+
+def sentiment(request):
+    request_data = json.loads(request.body.decode('utf-8'))
+    topics = request_data["topics"]
+    for topic in topics:
+        try:
+            yearly_sentiment = topic_sentiment(topic)
+        except Exception as e:
+            print(e, "topic: ", topic)
+    response_json = json.dumps(yearly_sentiment).encode("utf-8")
+    return HttpResponse(response_json)
