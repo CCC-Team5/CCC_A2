@@ -6,6 +6,8 @@ import string
 import couchdb
 from couchdb_settings import *
 from collections import defaultdict
+import geojson
+from geojson import Point, Feature, FeatureCollection, dump
 from nltk.corpus import stopwords
 from nltk.tokenize import TweetTokenizer
 from textblob import TextBlob
@@ -370,3 +372,22 @@ def topic_sentiment(topic):
             yearly_sentiment[key] = sentiment
 
     return yearly_sentiment
+
+def geo_LatLong(db):
+    """
+    extract langitude and longitude information if tweets contain the information
+    params: raw_tweets database
+    return: coordinates of tweets that contain the information
+    return type: geojson
+    frontend: map
+    """
+    features = []
+    for item in db.view('geo/new-view'):
+        cor = item.key
+        features.append(Feature(geometry=Point((cor[0], cor[1]))))
+
+    feature_collection = FeatureCollection(features)
+#     with open('myfile1.geojson', 'w') as f:
+#         dump(feature_collection, f)
+    return feature_collection
+geo_LatLong(tweet_db)
