@@ -1,0 +1,19 @@
+# Build Docker image for tweet harvester
+- name: Build an image and push it to local repo
+  become: yes
+  args:
+    warn: false
+  command: 'docker build -t tweet_backend ~/data/CCC_A2/tweet_harv_backend/'
+
+# Stop existing and remove docker containers (if any)
+- name: Stop backend docker container
+  become: yes
+  docker_container:
+    name: tweet_backend
+    state: absent
+
+- name: Start docker image (tweet_backend)
+  become: yes
+  args:
+    warn: false
+  command: 'docker run --restart=on-failure:15 -d -p 8000:8000 tweet_backend'
