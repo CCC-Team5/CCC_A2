@@ -1,0 +1,40 @@
+{"language_count":
+[
+  {"language name": "Japanese", "count": 11960},
+  {"language name": "Spanish", "count": 11814},
+  {"language name": "Indonesian", "count": 8785},
+  {"language name": "Arabic", "count": 6030},
+  {"language name": "Tagalog", "count": 4549},
+  {"language name": "French", "count": 3316},
+  {"language name": "Chinese", "count": 3111},
+  {"language name": "Portuguese", "count": 2853},
+  {"language name": "Thai", "count": 2763},
+  {"language name": "Turkish", "count": 2133}
+],
+  "birth_country":
+[
+  {"country": "China", "count": [174418.0, 3.85545140819977]},
+  {"country": "India", "count": [160058.0, 3.5380284230620616]},
+  {"country": "Vietnam", "count": [78036.0, 1.7249596147775874]},
+  {"country": "Italy", "count": [61521.0, 1.3599010772045204]},
+  {"country": "Sri Lanka", "count": [52658.0, 1.1639874339402094]},
+  {"country": "Malaysia", "count": [45852.0, 1.0135430859703463]},
+  {"country": "Greece", "count": [43881.0, 0.9699747918403725]},
+  {"country": "Philippines", "count": [43642.0, 0.9646917769763117]},
+  {"country": "Pakistan", "count": [19127.0, 0.42279592177778097]},
+  {"country": "Germany", "count": [17511.0, 0.38707478361743725]}
+],
+  "language_at_home":
+[
+  {"country": "Chinese", "count": [189854.0, 16.326190148596588, 4.746370172073231]},
+  {"country": "Greek", "count": [113424.0, 9.753714914694552, 2.835612051351218]},
+  {"country": "Italian", "count": [112665.0, 9.68844592735278, 2.8166369707071257]},
+  {"country": "Vietnamese", "count": [85122.0, 7.319929829389103, 2.1280590442509384]},
+  {"country": "Arabic", "count": [65454.0, 5.628611722619703, 1.6363569545170566]},
+  {"country": "Hindi", "count": [31607.0, 2.717993258117777, 0.7901783582580226]},
+  {"country": "Turkish", "count": [31257.0, 2.6878955696202533, 0.7814283210703645]},
+  {"country": "Punjabi", "count": [29517.0, 2.5382670610897082, 0.7379281361945789]},
+  {"country": "Macedonian", "count": [29378.0, 2.526313979086406, 0.734453121425766]},
+  {"country": "Spanish", "count": [27632.0, 2.376169510181618, 0.6908029359124777]}
+]
+}

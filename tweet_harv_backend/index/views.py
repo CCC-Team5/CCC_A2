@@ -49,8 +49,48 @@ def hashtag(request):
             return HttpResponseBadRequest(hashtags)
 
 
+def language_formatter(language):
+    result_lst = {'lanuage': []}
+    for tag, count in language.items():
+        obj = {"name": tag, "count": count}
+        result_lst['lanuage'].append(obj)
+    return result_lst
+
+
 def language_and_birth(request):
-    pass
+    if request.method == 'GET':
+        result_lst = {'language_count': [], 'birth_country': [], 'language_at_home': []}
+        try:
+            # top 10 languages other than English in which tweets were made
+            language_count = top_n_lang_count(tweet_db, langCode_Path, 10)
+            for tag, count in language_count.items():
+                obj = {'language name': tag, 'count': count}
+                result_lst['language_count'].append(obj)
+
+            # top 10 non-English-speaking countries where people living in the Greater Melbourne were originally from
+            birth_country = top_n_birth_country(birth_Path, 10)
+            for tag, count in birth_country.items():
+                obj = {'country': tag, 'count': count}
+                result_lst['birth_country'].append(obj)
+
+            # top N languages other than English spoken at home
+            language_at_home = top_n_lang_spoken_at_home(langHome_Path, langCode_Path, 10)
+            for tag, count in language_at_home.items():
+                obj = {'country': tag, 'count': count}
+                result_lst['language_at_home'].append(obj)
+        except Exception as e:
+            print(e)
+            result_lst = None
+
+        if result_lst:
+            return HttpResponse(json.dumps(result_lst))
+        else:
+            # status code 400
+            return HttpResponseBadRequest(result_lst)
+
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
 
 def housing_trend_sentiment(request):
     """
@@ -61,10 +101,10 @@ def housing_trend_sentiment(request):
         year_topic, year_total, percent = topic_trend(tweet_db, topic)
         years = list(percent)
         percents = list(percent.values())
-        percents = [round(i,2) for i in percents]
+        percents = [round(i, 2) for i in percents]
         yearly_sentiment = topic_sentiment(topic)
         yearly_sentiment = list(yearly_sentiment.values())
-        yearly_sentiment = [round(i,2) for i in yearly_sentiment]
+        yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
         context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
     except Exception as e:
         print(e, "topic: ", topic)
