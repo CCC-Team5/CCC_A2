@@ -29,25 +29,25 @@ export const SidebarData = [
         title: "Opportunity",
         icon: <PublishedWithChangesTwoToneIcon />,
         link:"/opportunity",
-        iconRight: <ArrowRightTwoToneIcon />,
-        iconDown: <ArrowDropDownTwoToneIcon />,
-        subNav:[
-            {
-                title: "Tweet languages",
-                icon: <AbcIcon />,
-                link:"/opportunity/most_lang"
-            },
-            {
-                title: "Birth Country",
-                icon: <CakeIcon />,
-                link:"/opportunity/birth_country"
-            },
-            {
-                title: "Home Spoken",
-                icon: <ChatIcon />,
-                link:"/opportunity/spoken_lang"
-            },
-        ]
+        // iconRight: <ArrowRightTwoToneIcon />,
+        // iconDown: <ArrowDropDownTwoToneIcon />,
+        // subNav:[
+        //     {
+        //         title: "Tweet languages",
+        //         icon: <AbcIcon />,
+        //         link:"/opportunity/most_lang"
+        //     },
+        //     {
+        //         title: "Birth Country",
+        //         icon: <CakeIcon />,
+        //         link:"/opportunity/birth_country"
+        //     },
+        //     {
+        //         title: "Home Spoken",
+        //         icon: <ChatIcon />,
+        //         link:"/opportunity/spoken_lang"
+        //     },
+        // ]
     },
     {
         title: "Housing",
