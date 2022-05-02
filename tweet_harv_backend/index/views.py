@@ -122,8 +122,24 @@ def housing_content(request):
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
 def cost_trend_sentiment(request):
+    """
+    This function get the information from Database about the cost of living trand and sentiment
+    """
     if request.method == 'GET':
-        return
+        topic = topics[1]
+        try:
+            year_topic, year_total, percent = topic_trend(tweet_db, topic)
+            years = list(percent)
+            percents = list(percent.values())
+            percents = [round(i, 2) for i in percents]
+            yearly_sentiment = topic_sentiment(topic)
+            yearly_sentiment = list(yearly_sentiment.values())
+            yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
+            context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
+        except Exception as e:
+            print(e, "topic: ", topic)
+        response_json = json.dumps(context).encode("utf-8")
+        return HttpResponse(response_json)
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
@@ -134,8 +150,24 @@ def cost_content(request):
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
 def transportation_trend_sentiment(request):
+    """
+    This function get the information from Database about the cost of living trand and sentiment
+    """
     if request.method == 'GET':
-        return
+        topic = topics[2]
+        try:
+            year_topic, year_total, percent = topic_trend(tweet_db, topic)
+            years = list(percent)
+            percents = list(percent.values())
+            percents = [round(i, 2) for i in percents]
+            yearly_sentiment = topic_sentiment(topic)
+            yearly_sentiment = list(yearly_sentiment.values())
+            yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
+            context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
+        except Exception as e:
+            print(e, "topic: ", topic)
+        response_json = json.dumps(context).encode("utf-8")
+        return HttpResponse(response_json)
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
