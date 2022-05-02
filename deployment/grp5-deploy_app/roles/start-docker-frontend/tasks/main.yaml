@@ -5,9 +5,9 @@
   command: 'docker build -t tweet_frontend ~/data/CCC_A2/tweet_harv_app/'
 
 # Stop existing and remove docker containers (if any)
-- name: Stop frontend docker container
+- name: remove frontend docker image
   become: yes
-  docker_container:
+  docker_image:
     name: tweet_frontend
     state: absent
 

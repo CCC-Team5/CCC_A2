@@ -114,7 +114,6 @@ def housing_trend_sentiment(request):
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
-
 def housing_content(request):
     if request.method == 'GET':
         topic = topics[0]
