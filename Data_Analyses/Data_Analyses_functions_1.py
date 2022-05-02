@@ -20,6 +20,10 @@ nltk.download('stopwords')
 # password = 'password'
 # tweets = 'raw_tweets'
 # user = 'user_list'
+# birth_country = 'birthcountry'
+# lang_code = 'langcode'
+# home_lang = 'homelang'
+
 
 def db_connect(dbname):
     """
@@ -51,8 +55,11 @@ def fetch_DB(dbname):
     return db
 
 
-# connect to raw_tweets db
+# connect to dbs
 tweet_db = fetch_DB(tweets)
+langcode_db = fetch_DB(lang_code)
+birth_db = fetch_DB(birth_country)
+langhome_db = fetch_DB(lang_home)
 
 
 def delete_docs(topic, save_db):
@@ -96,27 +103,21 @@ def now_trending(db, N):
     return hashtags
 
 
-def read_langCode(langCode_path):
+def read_langCode(db):
     """
-    param: language code file path
+    param: langcode database
     return: {language_code: language_name} - language code dictionary
     """
 
-    langCode = {}
-    with open(langCode_path, 'r', encoding= 'utf-8') as f:
-        for line in f:
-            (val, key) = line.split()
-            langCode[key] = val
-    return langCode 
-
-langCode_path = 'Data/langCode.json'
+    for item in db.view('lang/Code'):
+        langCode = item.value
+    return langCode
 
 
-def top_n_lang_count(db, langCode_path, N):
+def top_n_lang_count(db, langCode_db, N):
     """
     extract top N languages other than English in which tweets were made
     params: raw_tweets database;
-            path to langCode.json file;
             number of languages to extract
     return: top N most tweeted languages other than English
     return type: dict - {language code: count}
@@ -133,21 +134,219 @@ def top_n_lang_count(db, langCode_path, N):
             
         languages = {k:v for k, v in sorted(languages.items(), key=lambda item: item[1])[::-1][:N]}
     
-    langCode = read_langCode(langCode_path)
+    langCode = read_langCode(langCode_db)
     
     languages = {v2: v1 for k1, v1 in languages.items() for k2, v2 in langCode.items() if k1 == k2}
             
     return languages
 
 
-def top_n_birth_country(file_path, N):
+def top_n_birth_country(db, N):
     """
     extract top N non-English-speaking countries where people living in the Greater Melbourne were originally from
-    params: path to census data download from AURIN - 'country_of_birth.csv';
+    params: birthcountry database;
             number of non-English-speaking countries to extract
     return: top N non-English-speaking countries' names, total population count, and percentage population
-    return type: numpy arrays
-    frontend: bar chart/pie chart (colour matching for most tweeted languages/counrty of birth/language spoken at home)
+    return type: dict - {country name: (country total, country percentage)}
+    frontend: pie chart (colour matching for most tweeted languages/counrty of birth/language spoken at home)
+    """
+
+    birth = {}
+    for item in db.view('birth/country'):
+        birth[item.key] = item.value
+        
+    birth = {k: v for k, v in sorted(birth.items(), key=lambda item: item[1])[-N:]}
+    
+    return birth
+
+
+def top_n_lang_spoken_at_home(db, N):
+    """
+    extract top N languages other than English spoken at home
+    params: langhome database;
+            number of languages other than English to extract
+    return: names of top N languages other than English spoken at home, total population count, percentage of population count to total SOL population, 
+            percentage of population count to total population, and percentage of SOL population to total population
+    return type: dict - {country name: (language total, language percentage per SOL, langauge percentage per total)}
+    frontend: bar pie chart (colour matching for most tweeted languages/counrty of birth/language spoken at home)
+    """
+
+    spoken = {}
+    for item in db.view('home/lang'):
+        spoken[item.key] = item.value
+        
+    spoken = {k: v for k, v in sorted(spoken.items(), key=lambda item: item[1])[-N:]}
+    
+    return spoken
+
+
+
+def topic_switch(topic):
+    """
+    params: topic of selection
+    return: paths to the views relating to the selected topic
+    """
+
+    count_view = 'text/' + topic + '-count'
+    topic_view = 'text/' + topic
+
+    return count_view, topic_view
+
+
+def topic_trend(db, topic):
+    """
+    extract the number and percentage of tweets on the selected topic made each year
+    params: raw_tweets database;
+            the topic of selection
+    return:  
+    return type: dict - {year : number of tweets on the selected topic made in that year}
+                 dict - {year : total number of tweets made in that year}
+                 dict - {year : percentage of tweets on selected topic over total number of tweets made in that year}
+    frontend: Dual axes, line and column (combine with topic sentiment as the line)
+    """
+
+    count_view, _ = topic_switch(topic)
+    
+    year_topic = {}
+    year_total = {}
+    percent = {}
+
+    for item in db.view(count_view, group = True, group_level = 1):
+        year_topic[item.key] = item.value
+
+    for item in db.view('time/by-year-count', group = True, group_level = 1):
+        year_total[item.key] = item.value
+
+    for key in year_topic.keys():
+        percent[key] = year_topic[key]/year_total[key] * 100
+            
+    return year_topic, year_total, percent
+
+
+def topic_wordcloud_save(query_db, topic, save_db):
+    """
+    extract topic related wordcloud
+    params: raw_tweets database;
+            topic of selection
+    return: corpus of combined tweets on the selected topic indexed by year; 
+            all words in lowercases
+    return type: dict - {year : corpus as a list}
+    frontend: wordcloud
+    """
+
+    _, topic_view = topic_switch(topic)
+
+    try:
+        delete_docs(topic, save_db)
+    except Exception:
+        pass
+
+    yearly_tweets = defaultdict(list)
+    for item in query_db.view(topic_view):
+        if int(item.key) >= 2018:
+            yearly_tweets[item.key].append(item.value)
+    
+    tokenizer = TweetTokenizer()
+    
+    for key, tweet in yearly_tweets.items():
+        tweet = [' '.join(re.sub("(@[A-Za-z0-9\_]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)"," ",t).split()) for t in tweet]
+        tweet = [' '.join(tweet)]
+        tweet_tokens = tokenizer.tokenize(tweet[0])
+        tweet_clean = []
+        for word in tweet_tokens:
+            if word.lower() not in stopwords.words('english') and word.lower() not in string.punctuation:
+                tweet_clean.append(word.lower())
+                
+        yearly_tweets[key] = ' '.join(tweet_clean)
+
+    for k, v in yearly_tweets.items():
+        save_db.save({'year': k, 'text':v})
+
+
+def topic_word_cloud(db, topic):
+    """
+    extract topic related wordcloud
+    params: topic of selection
+    return: corpus of combined tweets on the selected topic indexed by year; 
+            all words in lowercases
+    return type: dict - {year : corpus as a list}
+    frontend: wordcloud
+    """
+
+    yearly_tweets = {}
+    for item in db.view(topic + '/text'):
+        yearly_tweets[item.key] = item.value   
+
+    return yearly_tweets
+
+
+def topic_sentiment(db, topic):
+    """
+    extract topic related sentiment
+    params: topic of selection
+    return: sentiment towards the selected topic indexed by year
+    return type: dict - {year : sentiment score}
+    frontend: Dual axes, line and column (combine with topic trend as the columns)
+    """
+
+    yearly_tweets = {}
+    for item in db.view(topic + '/text'):
+        yearly_tweets[item.key] = item.value
+    
+    yearly_sentiment = {}
+    for key, value in yearly_tweets.items():
+        blob = TextBlob(value)
+        for sentence in blob.sentences:
+            sentiment = sentence.sentiment.polarity
+            yearly_sentiment[key] = sentiment
+
+    return yearly_sentiment
+
+def geo_LatLong(db):
+    """
+    extract langitude and longitude information if tweets contain the information
+    params: raw_tweets database
+    return: coordinates of tweets that contain the information
+    return type: geojson
+    frontend: map
+    """
+    features = []
+    for item in db.view('geo/new-view'):
+        cor = item.key
+        features.append(Feature(geometry=Point((cor[0], cor[1]))))
+
+    feature_collection = FeatureCollection(features)
+#     with open('myfile1.geojson', 'w') as f:
+#         dump(feature_collection, f)
+    return feature_collection
+geo_LatLong(tweet_db)
+
+
+
+
+
+
+
+
+##########################################################
+# For Data Processing ONLY, Do NOT use
+def save_langCode(langCode_path):
+    """
+    save language code file to the Couchdb database
+    param: language code file path
+    """
+
+    langCode_db = db_connect('langcode')
+    with open(langCode_path, 'r', encoding= 'utf-8') as f:
+        for line in f:
+            (val, key) = line.split()
+            langCode_db.save({'code': key, 'language':val})
+
+
+def birth_country(file_path):
+    """
+    save AURIN data regarding non-English-speaking countries where people living in the Greater Melbourne were originally from to the CouchDB
+    params: path to census data download from AURIN - 'country_of_birth.csv';
     """
     data = pd.read_csv(file_path)
     
@@ -182,16 +381,14 @@ def top_n_birth_country(file_path, N):
 
     birth_country.columns = country_names
     birth_country = birth_country.rename({'Srilanka' : 'Sri Lanka'}, axis = 1).T
-    birth_country = birth_country.sort_values(by = ['country_total'], ascending = False)[:N]
+    birth_country = birth_country.sort_values(by = ['country_total'], ascending = False)
 
-    birth = {}
+    birthcountry_db = db_connect(birth_country)
     for i in range(len(birth_country)):
-        birth[birth_country.index[i]] = birth_country.country_total.values[i], birth_country.percentage.values[i]
-    
-    return birth
+        birthcountry_db.save({'country': birth_country.index[i], 'values' : (birth_country.country_total.values[i], birth_country.percentage.values[i])})
 
 
-def top_n_lang_spoken_at_home(file_path, langCode_path, N):
+def lang_spoken_at_home(file_path):
     """
     extract top N languages other than English spoken at home
     params: path to census data download from AURIN - 'lang_at_home.csv';
@@ -245,7 +442,7 @@ def top_n_lang_spoken_at_home(file_path, langCode_path, N):
     lang_data['percentage_SOL'] = lang_data['number']/SOL_tot * 100
     lang_data['percentage_Total'] = lang_data['number']/tot * 100
 
-    langCode = read_langCode(langCode_path)
+    langCode = read_langCode()
     langdict = {k:v for v in langCode.values() for k in lang_data.index if k in v}
 
     idx = []
@@ -256,138 +453,10 @@ def top_n_lang_spoken_at_home(file_path, langCode_path, N):
     lang_data.index = idx
     lang_data = lang_data.sort_values(by = ['number'], ascending = False)[:N]
 
-    spoken = {}
+    homelang_db = db_connect(home_lang)
     for i in range(len(lang_data)):
         array = np.array([lang_data.number.values[i], lang_data.percentage_SOL.values[i], lang_data.percentage_Total.values[i]])
-        spoken[lang_data.index[i]] = array.tolist()
+        values = array.tolist()
+        homelang_db.save({'country': lang_data.index[i], 'values' : values})
 
-    return spoken
-
-
-def topic_switch(topic):
-    """
-    params: topic of selection
-    return: paths to the views relating to the selected topic;
-            connect to db where top related results were saved
-    """
-
-    count_view = 'text/' + topic + '-count'
-    topic_view = 'text/' + topic
-    topic_db = db_connect(topic + '_text')
-
-    return count_view, topic_view, topic_db
-
-
-def topic_trend(db, topic):
-    """
-    extract the number and percentage of tweets on the selected topic made each year
-    params: raw_tweets database;
-            the topic of selection
-    return:  
-    return type: dict - {year : number of tweets on the selected topic made in that year}
-                 dict - {year : total number of tweets made in that year}
-                 dict - {year : percentage of tweets on selected topic over total number of tweets made in that year}
-    frontend: Dual axes, line and column (combine with topic sentiment as the line)
-    """
-
-    count_view, _, _ = topic_switch(topic)
-    
-    year_topic = {}
-    year_total = {}
-    percent = {}
-
-    for item in db.view(count_view, group = True, group_level = 1):
-        year_topic[item.key] = item.value
-
-    for item in db.view('time/by-year-count', group = True, group_level = 1):
-        year_total[item.key] = item.value
-
-    for key in year_topic.keys():
-        percent[key] = year_topic[key]/year_total[key] * 100
-            
-    return year_topic, year_total, percent
-
-
-def topic_wordcloud(query_db, topic):
-    """
-    extract topic related wordcloud
-    params: raw_tweets database;
-            topic of selection
-    return: corpus of combined tweets on the selected topic indexed by year; 
-            all words in lowercases
-    return type: dict - {year : corpus as a list}
-    frontend: wordcloud
-    """
-
-    _, topic_view, save_db = topic_switch(topic)
-
-    try:
-        delete_docs(topic, save_db)
-    except Exception:
-        pass
-
-    yearly_tweets = defaultdict(list)
-    for item in query_db.view(topic_view):
-        if int(item.key) >= 2018:
-            yearly_tweets[item.key].append(item.value)
-    
-    tokenizer = TweetTokenizer()
-    
-    for key, tweet in yearly_tweets.items():
-        tweet = [' '.join(re.sub("(@[A-Za-z0-9\_]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)"," ",t).split()) for t in tweet]
-        tweet = [' '.join(tweet)]
-        tweet_tokens = tokenizer.tokenize(tweet[0])
-        tweet_clean = []
-        for word in tweet_tokens:
-            if word.lower() not in stopwords.words('english') and word.lower() not in string.punctuation:
-                tweet_clean.append(word.lower())
-                
-        yearly_tweets[key] = ' '.join(tweet_clean)
-
-    for k, v in yearly_tweets.items():
-        save_db.save({'year': k, 'text':v})
-
-
-def topic_sentiment(topic):
-    """
-    extract topic related sentiment
-    params: raw_tweets database;
-            topic of selection
-    return: sentiment towards the selected topic indexed by year
-    return type: dict - {year : sentiment score}
-    frontend: Dual axes, line and column (combine with topic trend as the columns)
-    """
-
-    db = fetch_DB(topic + '_text')
-
-    yearly_tweets = {}
-    for item in db.view(topic + '/text'):
-        yearly_tweets[item.key] = item.value
-    
-    yearly_sentiment = {}
-    for key, value in yearly_tweets.items():
-        blob = TextBlob(value)
-        for sentence in blob.sentences:
-            sentiment = sentence.sentiment.polarity
-            yearly_sentiment[key] = sentiment
-
-    return yearly_sentiment
-
-def geo_LatLong(db):
-    """
-    extract langitude and longitude information if tweets contain the information
-    params: raw_tweets database
-    return: coordinates of tweets that contain the information
-    return type: geojson
-    frontend: map
-    """
-    features = []
-    for item in db.view('geo/new-view'):
-        cor = item.key
-        features.append(Feature(geometry=Point((cor[0], cor[1]))))
-
-    feature_collection = FeatureCollection(features)
-#     with open('myfile1.geojson', 'w') as f:
-#         dump(feature_collection, f)
-    return feature_collection
-geo_LatLong(tweet_db)
+###########################################################
