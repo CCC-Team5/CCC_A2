@@ -53,6 +53,9 @@ def language_and_birth(request):
     pass
 
 def housing_trend_sentiment(request):
+    """
+    This function get the information from Database about the housing trand and sentiment
+    """
     topic = topics[0]
     try:
         year_topic, year_total, percent = topic_trend(tweet_db, topic)
