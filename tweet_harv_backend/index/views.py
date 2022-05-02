@@ -19,15 +19,19 @@ from django.conf import settings
 
 # database in couchdb
 tweets = 'raw_tweets'
+birth_country = 'birthcountry'
+lang_code = 'langcode'
+home_lang = 'homelang'
 # reference CouchDB class in databasem, create a instance named db
 # then call fetch_DB method to get raw_tweets database
 db = CouchDB()
+# connect to different dbs
 tweet_db = db.fetch_DB(tweets)
-topics = ['housing', 'cost', 'transportation']
+language_db = db.fetch_DB(lang_code)
+birth_db = db.fetch_DB(birth_country)
+langhome_db = db.fetch_DB(home_lang)
 
-langCode_Path = os.path.join(settings.DATASET, "langCode.json")
-birth_Path = os.path.join(settings.AURIN_DATASET, "country_of_birth.csv")
-langHome_Path = os.path.join(settings.AURIN_DATASET, "lang_at_home.csv")
+topics = ['housing', 'cost', 'transportation']
 
 
 # change hashtag data format {xxx:xxx, yyy:yyy} -> {xxx:xxx}, {yyy:yyy}
@@ -50,47 +54,43 @@ def hashtag(request):
             return HttpResponseBadRequest(hashtags)
 
 
-def language_formatter(language):
-    result_lst = {'lanuage': []}
-    for tag, count in language.items():
-        obj = {"name": tag, "count": count}
-        result_lst['lanuage'].append(obj)
-    return result_lst
-
-
 def language_and_birth(request):
     if request.method == 'GET':
-        result_lst = {'language_count': [], 'birth_country': [], 'language_at_home': []}
-        try:
-            # top 10 languages other than English in which tweets were made
-            language_count = top_n_lang_count(tweet_db, langCode_Path, 10)
-            for tag, count in language_count.items():
-                obj = {'language name': tag, 'count': count}
-                result_lst['language_count'].append(obj)
-
-            # top 10 non-English-speaking countries where people living in the Greater Melbourne were originally from
-            birth_country = top_n_birth_country(birth_Path, 10)
-            for tag, count in birth_country.items():
-                obj = {'country': tag, 'count': count}
-                result_lst['birth_country'].append(obj)
-
-            # top N languages other than English spoken at home
-            language_at_home = top_n_lang_spoken_at_home(langHome_Path, langCode_Path, 10)
-            for tag, count in language_at_home.items():
-                obj = {'country': tag, 'count': count}
-                result_lst['language_at_home'].append(obj)
-        except Exception as e:
-            print(e)
-            result_lst = None
-
-        if result_lst:
-            return HttpResponse(json.dumps(result_lst))
-        else:
-            # status code 400
-            return HttpResponseBadRequest(result_lst)
-
-    else:
-        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+        language_count = top_n_lang_count(tweet_db, language_db, 10)
+        return HttpResponse(json.dumps(language_count))
+# def language_and_birth(request):
+#     if request.method == 'GET':
+#         result_lst = {'language_count': [], 'birth_country': [], 'language_at_home': []}
+#         try:
+#             # top 10 languages other than English in which tweets were made
+#             language_count = top_n_lang_count(tweet_db, language_db, 10)
+#             for tag, count in language_count.items():
+#                 obj = {'language name': tag, 'count': count}
+#                 result_lst['language_count'].append(obj)
+#
+#             # top 10 non-English-speaking countries where people living in the Greater Melbourne were originally from
+#             birth_country = top_n_birth_country(birth_db, 10)
+#             for tag, count in birth_country.items():
+#                 obj = {'country': tag, 'count': count}
+#                 result_lst['birth_country'].append(obj)
+#
+#             # top N languages other than English spoken at home
+#             language_at_home = top_n_lang_spoken_at_home(langhome_db, 10)
+#             for tag, count in language_at_home.items():
+#                 obj = {'country': tag, 'count': count}
+#                 result_lst['language_at_home'].append(obj)
+#         except Exception as e:
+#             print(e)
+#             result_lst = None
+#
+#         if result_lst:
+#             return HttpResponse(json.dumps(result_lst))
+#         else:
+#             # status code 400
+#             return HttpResponseBadRequest(result_lst)
+#
+#     else:
+#         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
 
 def housing_trend_sentiment(request):
@@ -114,6 +114,7 @@ def housing_trend_sentiment(request):
         return HttpResponse(response_json)
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
 
 def housing_content(request):
     if request.method == 'GET':
