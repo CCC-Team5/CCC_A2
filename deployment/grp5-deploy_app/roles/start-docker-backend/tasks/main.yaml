@@ -6,9 +6,9 @@
   command: 'docker build -t tweet_backend ~/data/CCC_A2/tweet_harv_backend/'
 
 # Stop existing and remove docker containers (if any)
-- name: Stop backend docker container
+- name: remove backend docker image
   become: yes
-  docker_container:
+  docker_image:
     name: tweet_backend
     state: absent
 
