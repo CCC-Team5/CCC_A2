@@ -51,3 +51,19 @@ def hashtag(request):
 
 def language_and_birth(request):
     pass
+
+def housing_trend_sentiment(request):
+    topic = topics[0]
+    try:
+        year_topic, year_total, percent = topic_trend(tweet_db, topic)
+        years = list(percent)
+        percents = list(percent.values())
+        percents = [round(i,2) for i in percents]
+        yearly_sentiment = topic_sentiment(topic)
+        yearly_sentiment = list(yearly_sentiment.values())
+        yearly_sentiment = [round(i,2) for i in yearly_sentiment]
+        context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
+    except Exception as e:
+        print(e, "topic: ", topic)
+    response_json = json.dumps(context).encode("utf-8")
+    return HttpResponse(response_json)
