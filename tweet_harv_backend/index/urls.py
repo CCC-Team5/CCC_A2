@@ -5,9 +5,12 @@ app_name = 'index'
 
 urlpatterns = [
     path("hashtag/", views.hashtag),
-    path("language_and_home/", views.language_and_birth),
-    path("topic_trend/", views.trend),
-    path("year_topic/", views.year_topic),
-    path("year_sentiment/", views.sentiment),
-
+    path("opportunity/", views.language_and_birth),
+    path("housing/trend_sentiment/", views.housing_trend_sentiment),
+    path("housing/content/", views.housing_content),
+    path("cost/trend_sentiment/", views.cost_trend_sentiment),
+    path("cost/content/", views.cost_content),
+    path("transportation/trend_sentiment/", views.transportation_trend_sentiment),
+    path("transportation/content/", views.transportation_content),
+    path("map/", views.geojson_map),
 ]

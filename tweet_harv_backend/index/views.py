@@ -1,6 +1,7 @@
 """
 Author
 yutianqi 1221167
+Junjie Xia 1045673
 
 Description: packaging data analysis data in json and dealing with
              request and response
@@ -18,15 +19,22 @@ from django.conf import settings
 
 # database in couchdb
 tweets = 'raw_tweets'
+birth_country = 'birthcountry'
+lang_code = 'langcode'
+home_lang = 'homelang'
 # reference CouchDB class in databasem, create a instance named db
 # then call fetch_DB method to get raw_tweets database
 db = CouchDB()
+# connect to different dbs
 tweet_db = db.fetch_DB(tweets)
-topics = ['housing', 'cost', 'transportation']
+language_db = db.fetch_DB(lang_code)
+birth_db = db.fetch_DB(birth_country)
+langhome_db = db.fetch_DB(home_lang)
+housing_text_db = db.fetch_DB('housing_text')
+cost_text_db = db.fetch_DB('cost_text')
+transportation_text_db = db.fetch_DB('transportation_text')
 
-langCode_Path = os.path.join(settings.DATASET, "langCode.json")
-birth_Path = os.path.join(settings.AURIN_DATASET, "country_of_birth.csv")
-langHome_Path = os.path.join(settings.AURIN_DATASET, "lang_at_home.csv")
+topics = ['housing', 'cost', 'transportation']
 
 
 # change hashtag data format {xxx:xxx, yyy:yyy} -> {xxx:xxx}, {yyy:yyy}
@@ -51,58 +59,147 @@ def hashtag(request):
 
 def language_and_birth(request):
     if request.method == 'GET':
-        # TODO
-        '''
-        this section just simply combines three results from ouyang, and dealing them with 
-        simple dict structure, converting to json object
-        '''
-        language_count = top_n_lang_count(tweet_db, langCode_Path, 10)
-        birth_country = top_n_birth_country(birth_Path, 10)
-        language_at_home = top_n_lang_spoken_at_home(langHome_Path, langCode_Path, 10)
-        context = {"language count": language_count, "birth_country": birth_country,
-                   "lanuage spoken at home": language_at_home}
-        if context:
-            return HttpResponse(json.dumps(context))
+        result_lst = {'language_count': [], 'birth_country': [], 'language_at_home': []}
+        try:
+            # top 10 languages other than English in which tweets were made
+            language_count = top_n_lang_count(tweet_db, language_db, 10)
+            for tag, count in language_count.items():
+                obj = {'language name': tag, 'count': count}
+                result_lst['language_count'].append(obj)
+
+            # top 10 non-English-speaking countries where people living in the Greater Melbourne were originally from
+            birth_country = top_n_birth_country(birth_db, 10)
+            for tag, count in birth_country.items():
+                obj = {'country': tag, 'count': count}
+                result_lst['birth_country'].append(obj)
+
+            # top N languages other than English spoken at home
+            language_at_home = top_n_lang_spoken_at_home(langhome_db, 10)
+            for tag, count in language_at_home.items():
+                obj = {'country': tag, 'count': count}
+                result_lst['language_at_home'].append(obj)
+        except Exception as e:
+            print(e)
+            result_lst = None
+
+        if result_lst:
+            return HttpResponse(json.dumps(result_lst))
         else:
             # status code 400
-            return HttpResponseBadRequest(context)
+            return HttpResponseBadRequest(result_lst)
+
     else:
-        return HttpResponseBadRequest("Request has some problems here")
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
 
-def trend(request):
-    request_data = json.loads(request.body.decode('utf-8'))
-    topics = request_data["topics"]
-    for topic in topics:
+def housing_trend_sentiment(request):
+    """
+    This function get the information from Database about the housing trand and sentiment
+    """
+    if request.method == 'GET':
+        topic = topics[0]
         try:
             year_topic, year_total, percent = topic_trend(tweet_db, topic)
-            context = {"year_topic": year_topic, "year_total": year_total, "percent": percent}
+            years = list(percent)
+            percents = list(percent.values())
+            percents = [round(i, 2) for i in percents]
+            yearly_sentiment = topic_sentiment(housing_text_db, topic)
+            yearly_sentiment = list(yearly_sentiment.values())
+            yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
+            context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
         except Exception as e:
             print(e, "topic: ", topic)
-    response_json = json.dumps(context).encode("utf-8")
-    return HttpResponse(response_json)
+        response_json = json.dumps(context).encode("utf-8")
+        return HttpResponse(response_json)
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
-
-def year_topic(request):
-    request_data = json.loads(request.body.decode('utf-8'))
-    topics = request_data["topics"]
-    for topic in topics:
+def housing_content(request):
+    if request.method == 'GET':
+        topic = topics[0]
         try:
-            topic_db = db.create_DB(topic + '_text')
-            yearly_tweets = topic_wordcloud(topic_db, topic)
+            yearly_tweets = topic_word_cloud(housing_text_db, topic)
         except Exception as e:
             print(e, "topic: ", topic)
-    response_json = json.dumps(yearly_tweets).encode("utf-8")
-    return HttpResponse(response_json)
+        response_json = json.dumps(yearly_tweets).encode("utf-8")
+        return HttpResponse(response_json)
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
 
-def sentiment(request):
-    request_data = json.loads(request.body.decode('utf-8'))
-    topics = request_data["topics"]
-    for topic in topics:
+def cost_trend_sentiment(request):
+    """
+    This function get the information from Database about the cost of living trand and sentiment
+    """
+    if request.method == 'GET':
+        topic = topics[1]
         try:
-            yearly_sentiment = topic_sentiment(topic)
+            year_topic, year_total, percent = topic_trend(tweet_db, topic)
+            years = list(percent)
+            percents = list(percent.values())
+            percents = [round(i, 2) for i in percents]
+            yearly_sentiment = topic_sentiment(cost_text_db, topic)
+            yearly_sentiment = list(yearly_sentiment.values())
+            yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
+            context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
         except Exception as e:
             print(e, "topic: ", topic)
-    response_json = json.dumps(yearly_sentiment).encode("utf-8")
-    return HttpResponse(response_json)
+        response_json = json.dumps(context).encode("utf-8")
+        return HttpResponse(response_json)
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
+
+def cost_content(request):
+    if request.method == 'GET':
+        topic = topics[1]
+        try:
+            yearly_tweets = topic_word_cloud(cost_text_db, topic)
+        except Exception as e:
+            print(e, "topic: ", topic)
+        response_json = json.dumps(yearly_tweets).encode("utf-8")
+        return HttpResponse(response_json)
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
+
+def transportation_trend_sentiment(request):
+    """
+    This function get the information from Database about the transportation of living trand and sentiment
+    """
+    if request.method == 'GET':
+        topic = topics[2]
+        try:
+            year_topic, year_total, percent = topic_trend(tweet_db, topic)
+            years = list(percent)
+            percents = list(percent.values())
+            percents = [round(i, 2) for i in percents]
+            yearly_sentiment = topic_sentiment(transportation_text_db, topic)
+            yearly_sentiment = list(yearly_sentiment.values())
+            yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
+            context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
+        except Exception as e:
+            print(e, "topic: ", topic)
+        response_json = json.dumps(context).encode("utf-8")
+        return HttpResponse(response_json)
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
+
+def transportation_content(request):
+    if request.method == 'GET':
+        topic = topics[2]
+        try:
+            yearly_tweets = topic_word_cloud(transportation_text_db, topic)
+        except Exception as e:
+            print(e, "topic: ", topic)
+        response_json = json.dumps(yearly_tweets).encode("utf-8")
+        return HttpResponse(response_json)
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
+
+def geojson_map(request):
+    if request.method == 'GET':
+        map = geo_LatLong(tweet_db)
+        return HttpResponse(json.dumps(map))
