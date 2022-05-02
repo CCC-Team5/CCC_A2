@@ -1,6 +1,7 @@
 """
 Author
 yutianqi 1221167
+Junjie Xia 1045673
 
 Description: packaging data analysis data in json and dealing with
              request and response
