@@ -5,6 +5,7 @@ CouchDB==1.2
 Django==3.2
 django-cors-headers==3.11.0
 djangorestframework==3.13.1
+geojson==2.5.0
 joblib==1.1.0
 nltk==3.7
 numpy==1.22.3
