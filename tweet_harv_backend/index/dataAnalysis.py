@@ -2,6 +2,7 @@
 Author
 Weimin Ouyang 340438 completing all data analysis section before 2022/4/22
 yutianqi 1221167 packaging all functions
+Junjie Xia 1045673 Copied several function to here
 
 Description: data analysis in couchdb database
 """
