@@ -120,3 +120,27 @@ def housing_content(request):
         return
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
+def cost_trend_sentiment(request):
+    if request.method == 'GET':
+        return
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
+def cost_content(request):
+    if request.method == 'GET':
+        return
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
+def transportation_trend_sentiment(request):
+    if request.method == 'GET':
+        return
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
+def transportation_content(request):
+    if request.method == 'GET':
+        return
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
