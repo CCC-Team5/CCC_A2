@@ -200,9 +200,9 @@ function TopNChart() {
   return (
     <>
     <div className='chart-container'>
-        <HighchartsReact containerProps={{ style: { width: "100%" , height: "100%"} }} highcharts={Highcharts} options={optionsBirth} />
-        <HighchartsReact containerProps={{ style: { width: "100%" , height: "100%"} }} highcharts={Highcharts} options={optionLangAtHome} />
-        <HighchartsReact containerProps={{ style: { width: "100%" , height: "100%"} }} highcharts={Highcharts} options={optionLang} />
+        <HighchartsReact containerProps={{ style: { width: "100%" } }} highcharts={Highcharts} options={optionsBirth} />
+        <HighchartsReact containerProps={{ style: { width: "100%" } }} highcharts={Highcharts} options={optionLangAtHome} />
+        <HighchartsReact containerProps={{ style: { width: "100%" } }} highcharts={Highcharts} options={optionLang} />
     </div> </>
   )
 }
