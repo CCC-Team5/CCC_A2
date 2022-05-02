@@ -66,8 +66,10 @@ def read_langCode(db):
     return: {language_code: language_name} - language code dictionary
     """
 
+    langCode = {}
     for item in db.view('lang/Code'):
-        langCode = item.value
+        langCode[item.key] = item.value
+
     return langCode
 
 
@@ -277,9 +279,12 @@ def geo_LatLong(db):
     #         dump(feature_collection, f)
     return feature_collection
 
+
+
+
 ##########################################################
 # For Data Processing ONLY, Do NOT use
-# older data analysis version
+# older data analysis version mading by Weimin Ouyang 34043
 # def save_langCode(langCode_path):
 #     """
 #     save language code file to the Couchdb database
