@@ -12,4 +12,5 @@ urlpatterns = [
     path("cost/content/", views.cost_content),
     path("transportation/trend_sentiment/", views.transportation_trend_sentiment),
     path("transportation/content/", views.transportation_content),
+    path("map/", views.geojson_map),
 ]

@@ -30,6 +30,9 @@ tweet_db = db.fetch_DB(tweets)
 language_db = db.fetch_DB(lang_code)
 birth_db = db.fetch_DB(birth_country)
 langhome_db = db.fetch_DB(home_lang)
+housing_text_db = db.fetch_DB('housing_text')
+cost_text_db = db.fetch_DB('cost_text')
+transportation_text_db = db.fetch_DB('transportation_text')
 
 topics = ['housing', 'cost', 'transportation']
 
@@ -100,7 +103,7 @@ def housing_trend_sentiment(request):
             years = list(percent)
             percents = list(percent.values())
             percents = [round(i, 2) for i in percents]
-            yearly_sentiment = topic_sentiment(topic)
+            yearly_sentiment = topic_sentiment(housing_text_db, topic)
             yearly_sentiment = list(yearly_sentiment.values())
             yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
             context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
@@ -114,9 +117,16 @@ def housing_trend_sentiment(request):
 
 def housing_content(request):
     if request.method == 'GET':
-        return
+        topic = topics[0]
+        try:
+            yearly_tweets = topic_word_cloud(housing_text_db, topic)
+        except Exception as e:
+            print(e, "topic: ", topic)
+        response_json = json.dumps(yearly_tweets).encode("utf-8")
+        return HttpResponse(response_json)
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
 
 def cost_trend_sentiment(request):
     """
@@ -129,7 +139,7 @@ def cost_trend_sentiment(request):
             years = list(percent)
             percents = list(percent.values())
             percents = [round(i, 2) for i in percents]
-            yearly_sentiment = topic_sentiment(topic)
+            yearly_sentiment = topic_sentiment(cost_text_db, topic)
             yearly_sentiment = list(yearly_sentiment.values())
             yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
             context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
@@ -140,15 +150,23 @@ def cost_trend_sentiment(request):
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
+
 def cost_content(request):
     if request.method == 'GET':
-        return
+        topic = topics[1]
+        try:
+            yearly_tweets = topic_word_cloud(cost_text_db, topic)
+        except Exception as e:
+            print(e, "topic: ", topic)
+        response_json = json.dumps(yearly_tweets).encode("utf-8")
+        return HttpResponse(response_json)
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
+
 def transportation_trend_sentiment(request):
     """
-    This function get the information from Database about the cost of living trand and sentiment
+    This function get the information from Database about the transportation of living trand and sentiment
     """
     if request.method == 'GET':
         topic = topics[2]
@@ -157,7 +175,7 @@ def transportation_trend_sentiment(request):
             years = list(percent)
             percents = list(percent.values())
             percents = [round(i, 2) for i in percents]
-            yearly_sentiment = topic_sentiment(topic)
+            yearly_sentiment = topic_sentiment(transportation_text_db, topic)
             yearly_sentiment = list(yearly_sentiment.values())
             yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
             context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
@@ -168,8 +186,21 @@ def transportation_trend_sentiment(request):
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
+
 def transportation_content(request):
     if request.method == 'GET':
-        return
+        topic = topics[2]
+        try:
+            yearly_tweets = topic_word_cloud(transportation_text_db, topic)
+        except Exception as e:
+            print(e, "topic: ", topic)
+        response_json = json.dumps(yearly_tweets).encode("utf-8")
+        return HttpResponse(response_json)
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
+
+def geojson_map(request):
+    if request.method == 'GET':
+        map = geo_LatLong(tweet_db)
+        return HttpResponse(json.dumps(map))
