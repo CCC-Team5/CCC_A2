@@ -109,8 +109,10 @@ def read_langCode(db):
     return: {language_code: language_name} - language code dictionary
     """
 
+    langCode = {}
     for item in db.view('lang/Code'):
-        langCode = item.value
+        langCode[item.key] = item.value
+        
     return langCode
 
 
