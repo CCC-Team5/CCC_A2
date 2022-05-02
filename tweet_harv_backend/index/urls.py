@@ -7,4 +7,5 @@ urlpatterns = [
     path("hashtag/", views.hashtag),
     path("opportunity/", views.language_and_birth),
     path("housing/trend_sentiment/", views.housing_trend_sentiment),
+    path("housing/content/", views.housing_content)
 ]
