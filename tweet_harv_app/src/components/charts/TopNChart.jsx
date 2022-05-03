@@ -16,7 +16,6 @@ function TopNChart() {
         })
       },[])
 
-      console.log(data)
 
       if(data){
         data.birth_country.forEach(element => {
@@ -114,7 +113,7 @@ function TopNChart() {
             }
         },
         series: [{
-            name: 'Brands',
+            name: 'Count',
             colorByPoint: true,
             allowPointSelect: true,
             showInLegend: true,

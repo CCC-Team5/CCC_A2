@@ -8,7 +8,7 @@ import Sidebar from './components/sidebar/Sidebar';
 import TrendingWordCloud from './components/charts/TrendingWordCloud';
 import TopNChart from './components/charts/TopNChart';
 import HousingTrendChart from './components/charts/HousingTrendChart';
-import HousingWordCloud from './components/charts/HousingWordCloud';
+import HousingWordCloud from './components/views/HousingWordCloud';
 import CostLivingWordCloud from './components/charts/CostLivingWordCloud';
 import TransportationWordCloud from './components/charts/TransportationWordCloud';
 import TransportationChart from './components/charts/TransportationChart'; 

@@ -2,9 +2,16 @@ import React, { useState, useEffect } from 'react'
 import Highcharts, { registerRendererType } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import './Chart.css'
+import ChartDataService from '../../services/ChartDataService';
 
 function HousingTrendChart() {
     const[data, setData] = useState([]);
+    React.useEffect(()=>{
+        ChartDataService.getHousingTrendSenti().then((res)=>{
+          setData(res.data)
+        })
+      },[])
+
     
     const perc_tweets_data = {2014: 0.07792023801090883, 2015: 0.07767656286253266, 2016: 0.06480881399870382, 2017: 0.33951909213524956, 2018: 0.08345503859795535, 2019: 0.11810248671347025, 2020: 0.13969211857067024, 2021: 0.19428029558359255, 2022: 0.18703553675198287}; 
     const sentiment_data = {2014: 0.19313898143741073, 2015: 0.07747157991060426, 2016: 0.22619047619047622, 2017: 0.07160565243311717, 2018: 0.10800000000000001, 2019: 0.13429682929682932, 2020: 0.10835478680611424, 2021: 0.10943601545630192, 2022: 0.10005737447910346}; 
@@ -17,12 +24,10 @@ function HousingTrendChart() {
             text: 'Housing tweet trend'
         },
         subtitle: {
-            text: 'Source: WorldClimate.com'
+            text: ''
         },
         xAxis: [{
-            // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-            //     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            categories: Object.keys(perc_tweets_data), 
+            categories: data.year, 
             crosshair: true,
         }],
         yAxis: [{ // Primary yAxis
@@ -71,14 +76,14 @@ function HousingTrendChart() {
             name: 'Percentage of Total Tweets',
             type: 'column',
             yAxis: 1,
-            data: Object.values(sentiment_data),
+            data: data.percent,
             tooltip: {
                 valueSuffix: ''
             },
         }, {
             name: 'Sentiment',
             type: 'spline',
-            data: Object.values(perc_tweets_data), // a list
+            data: data.sentiment, // a list
             tooltip: {
                 valueSuffix: ''
             }
