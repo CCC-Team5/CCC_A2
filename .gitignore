@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+log.txt
+.DS_Store
+twitter-melb.json
+
+**/.DS_Store
