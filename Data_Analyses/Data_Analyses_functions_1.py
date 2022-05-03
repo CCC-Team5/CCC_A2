@@ -461,4 +461,24 @@ def lang_spoken_at_home(file_path):
         values = array.tolist()
         homelang_db.save({'country': lang_data.index[i], 'values' : values})
 
+def geo_LatLong(db):
+    """
+    extract langitude and longitude information if tweets contain the information
+    params: raw_tweets database
+    return: coordinates of tweets that contain the information
+    return type: geojson
+    frontend: map
+    """
+    features = []
+    for item in geo_db.view('geoLocation/new-view'): 
+        cor = item.key
+        features.append(Feature(geometry=Point((cor[0], cor[1]))))
+
+    feature_collection = FeatureCollection(features)
+    # with open('myfile1.geojson', 'w') as f:
+    #     dump(feature_collection, f)
+    return feature_collection
+geo_db = fetch_DB('top_lat_long_live_hist')
+# geo_LatLong(geo_db)
+
 ###########################################################
