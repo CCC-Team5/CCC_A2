@@ -64,7 +64,7 @@ def language_and_birth(request):
             # top 10 languages other than English in which tweets were made
             language_count = top_n_lang_count(tweet_db, language_db, 10)
             for tag, count in language_count.items():
-                obj = {'language name': tag, 'count': count}
+                obj = {'language_name': tag, 'count': count}
                 result_lst['language_count'].append(obj)
 
             # top 10 non-English-speaking countries where people living in the Greater Melbourne were originally from
