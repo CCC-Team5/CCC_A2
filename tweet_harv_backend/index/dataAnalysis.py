@@ -270,7 +270,7 @@ def geo_LatLong(db):
     frontend: map
     """
     features = []
-    for item in db.view('geo/new-view'):
+    for item in db.view('geoLocation/new-view'):
         cor = item.key
         features.append(Feature(geometry=Point((cor[0], cor[1]))))
 
