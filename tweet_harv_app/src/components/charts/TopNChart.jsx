@@ -2,9 +2,51 @@ import React, { useState, useEffect } from 'react'
 import Highcharts, { registerRendererType } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import './Chart.css'
+import ChartDataService from '../../services/ChartDataService';
+
 
 function TopNChart() {
-    const[data, setData] = useState([]);
+    const[data, setData] = useState();
+    const birthCountry = []
+    const languageHome = []
+    const languageCount = []
+    React.useEffect(()=>{
+        ChartDataService.getOpportunitydata().then((res)=>{
+          setData(res.data)
+        })
+      },[])
+
+      console.log(data)
+
+      if(data){
+        data.birth_country.forEach(element => {
+            let obj = {
+                name: element.country,
+                y: element.count[0]
+            };
+            birthCountry.push(obj)
+        });
+
+        data.language_at_home.forEach(element => {
+            let obj = {
+                name: element.country,
+                y: element.count[0]
+            };
+            languageHome.push(obj)
+        });
+
+        data.language_count.forEach(element => {
+            let obj = {
+                name: element.language_name,
+                y: element.count
+            };
+            languageCount.push(obj)
+        });
+      }
+
+
+      
+
 
     const optionsBirth = {
         chart: {
@@ -35,38 +77,11 @@ function TopNChart() {
             }
         },
         series: [{
-            name: 'Brands',
+            name: 'Count',
             colorByPoint: true,
             allowPointSelect: true,
             showInLegend: true,
-            data: [{
-                name: 'Chrome',
-                y: 61.41,
-            }, {
-                name: 'Internet Explorer',
-                y: 11.84
-            }, {
-                name: 'Firefox',
-                y: 10.85
-            }, {
-                name: 'Edge',
-                y: 4.67
-            }, {
-                name: 'Safari',
-                y: 4.18
-            }, {
-                name: 'Sogou Explorer',
-                y: 1.64
-            }, {
-                name: 'Opera',
-                y: 1.6
-            }, {
-                name: 'QQ',
-                y: 1.2
-            }, {
-                name: 'Other',
-                y: 2.61
-            }]
+            data: birthCountry
         }]
     }
 
@@ -78,7 +93,7 @@ function TopNChart() {
             type: 'pie'
         },
         title: {
-            text: 'Top spoken languages'
+            text: 'Top spoken languages at home'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -103,34 +118,7 @@ function TopNChart() {
             colorByPoint: true,
             allowPointSelect: true,
             showInLegend: true,
-            data: [{
-                name: 'Chrome',
-                y: 61.41,
-            }, {
-                name: 'Internet Explorer',
-                y: 11.84
-            }, {
-                name: 'Firefox',
-                y: 10.85
-            }, {
-                name: 'Edge',
-                y: 4.67
-            }, {
-                name: 'Safari',
-                y: 4.18
-            }, {
-                name: 'Sogou Explorer',
-                y: 1.64
-            }, {
-                name: 'Opera',
-                y: 1.6
-            }, {
-                name: 'QQ',
-                y: 1.2
-            }, {
-                name: 'Other',
-                y: 2.61
-            }]
+            data: languageHome
         }]
     }
 
@@ -163,38 +151,11 @@ function TopNChart() {
             }
         },
         series: [{
-            name: 'Brands',
+            name: 'Count',
             colorByPoint: true,
             allowPointSelect: true,
             showInLegend: true,
-            data: [{
-                name: 'Chrome',
-                y: 61.41,
-            }, {
-                name: 'Internet Explorer',
-                y: 11.84
-            }, {
-                name: 'Firefox',
-                y: 10.85
-            }, {
-                name: 'Edge',
-                y: 4.67
-            }, {
-                name: 'Safari',
-                y: 4.18
-            }, {
-                name: 'Sogou Explorer',
-                y: 1.64
-            }, {
-                name: 'Opera',
-                y: 1.6
-            }, {
-                name: 'QQ',
-                y: 1.2
-            }, {
-                name: 'Other',
-                y: 2.61
-            }]
+            data: languageCount
         }]
     }
   return (

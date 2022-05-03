@@ -16,13 +16,7 @@ function TrendingWordCloud() {
     },[])
 
     console.log(data)
-    // const data1 = [{
-    //     name: "Lorem",
-    //     weight: 1
-    //   }, {
-    //     name: "ipsum",
-    //     weight: 1
-    //   }]; 
+
     const options = {
         plotOptions: {
         },
