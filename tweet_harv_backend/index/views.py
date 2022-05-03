@@ -33,7 +33,7 @@ langhome_db = db.fetch_DB(home_lang)
 housing_text_db = db.fetch_DB('housing_text')
 cost_text_db = db.fetch_DB('cost_text')
 transportation_text_db = db.fetch_DB('transportation_text')
-
+geo_db = db.fetch_DB('top_lat_long_live_hist')
 topics = ['housing', 'cost', 'transportation']
 
 
@@ -113,6 +113,7 @@ def housing_trend_sentiment(request):
         return HttpResponse(response_json)
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
 
 def housing_content(request):
     if request.method == 'GET':
@@ -201,5 +202,9 @@ def transportation_content(request):
 
 def geojson_map(request):
     if request.method == 'GET':
-        map = geo_LatLong(tweet_db)
-        return HttpResponse(json.dumps(map))
+        geo_map = geo_LatLong(geo_db)
+        if geo_map:
+            return HttpResponse(json.dumps(geo_map))
+        else:
+            # status code 400
+            return HttpResponseBadRequest(geo_map)
