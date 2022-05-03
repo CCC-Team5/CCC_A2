@@ -193,4 +193,24 @@ function (doc) {
 }
 
 
+// For AURIN data DB
+
+// 'bith/country'
+function (doc) {
+  emit(doc.country, doc.values);
+}
+
+// 'home/lang'
+function (doc) {
+  emit(doc.country, doc.values);
+}
+
+// 'lang/code'
+function (doc) {
+  emit(doc.code, doc.language);
+}
+
+
+
+
 

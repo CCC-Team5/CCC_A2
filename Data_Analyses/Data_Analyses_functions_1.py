@@ -324,14 +324,8 @@ def geo_LatLong(db):
 geo_LatLong(tweet_db)
 
 
-
-
-
-
-
-
 ##########################################################
-# For Data Processing ONLY, Do NOT use
+# For Data Processing ONLY
 def save_langCode(langCode_path):
     """
     save language code file to the Couchdb database
