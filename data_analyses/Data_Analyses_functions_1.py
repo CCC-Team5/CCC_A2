@@ -313,7 +313,7 @@ def geo_LatLong(db):
     frontend: map
     """
     features = []
-    for item in db.view('geo/new-view'):
+    for item in db.view('geoLocation/new-view'):
         cor = item.key
         features.append(Feature(geometry=Point((cor[0], cor[1]))))
 
@@ -321,7 +321,8 @@ def geo_LatLong(db):
 #     with open('myfile1.geojson', 'w') as f:
 #         dump(feature_collection, f)
     return feature_collection
-geo_LatLong(tweet_db)
+geo_db = fetch_DB('top_lat_long_live_hist')
+# geo_LatLong(geo_db)
 
 
 ##########################################################
