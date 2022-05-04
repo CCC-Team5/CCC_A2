@@ -37,7 +37,7 @@ function TopNChart() {
         data.language_count.forEach(element => {
             let obj = {
                 name: element.language_name,
-                y: element.count
+                y: element.count,
             };
             languageCount.push(obj)
         });

@@ -34,26 +34,26 @@ function HousingTrendChart() {
             labels: {
                 format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[1]
+                    color: Highcharts.getOptions().colors[0]
                 }
             },
             title: {
                 text: 'Percentage of Total Number of Tweets',
                 style: {
-                    color: Highcharts.getOptions().colors[1]
+                    color: Highcharts.getOptions().colors[0]
                 }
             }
         }, { // Secondary yAxis
             title: {
                 text: 'Sentiment',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
+                    color: Highcharts.getOptions().colors[1]
                 }
             },
             labels: {
                 format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
+                    color: Highcharts.getOptions().colors[1]
                 }
             },
             opposite: true
@@ -75,7 +75,7 @@ function HousingTrendChart() {
         series: [{
             name: 'Percentage of Total Tweets',
             type: 'column',
-            yAxis: 1,
+            yAxis: 0,
             data: data.percent,
             tooltip: {
                 valueSuffix: ''
@@ -83,6 +83,7 @@ function HousingTrendChart() {
         }, {
             name: 'Sentiment',
             type: 'spline',
+            yAxis: 1,
             data: data.sentiment, // a list
             tooltip: {
                 valueSuffix: ''
