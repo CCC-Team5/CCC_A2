@@ -6,6 +6,7 @@ import * as env from "../../env"
 import { heatmapLayer } from './heatmap-style.ts';
 import { circleLayer } from './circle-style.ts';
 import { clusterLayer, clusterCountLayer, unclusteredPointLayer } from './layers.ts';
+import ChartDataService from '../../services/ChartDataService';
 // marker reference: https://visgl.github.io/react-map-gl/examples/controls
 import {
   Marker,
@@ -23,6 +24,24 @@ const MapView = () => {
   })
   
   const [popupInfo, setPopupInfo] = useState(null);
+  const[geojson1, setGeojson1] = useState({});
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState('false');
+
+  React.useEffect(()=>{
+    setLoading(true);
+    
+    ChartDataService.getMap().then((res)=>{
+    setLoading(false);
+    setGeojson1(res.data)
+    console.log(res.data); 
+    }).catch((e) => {
+    setLoading(false)
+    setError('Could not fetch housing trend!')
+    console.log('error getting housing trend: ', e)
+    })
+    },[])
+
   const marker_data = [
     {"city":"New York","population":"8,175,133","image":"http://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Above_Gotham.jpg/240px-Above_Gotham.jpg","state":"New York","latitude":-37.80847985083767,"longitude":145.02508030410158}, 
     {"city":"New York","population":"8,175,133","image":"http://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Above_Gotham.jpg/240px-Above_Gotham.jpg","state":"New York","latitude":-37.720264201404596,"longitude":144.80640411005695}, 
@@ -51,54 +70,54 @@ const MapView = () => {
     []
   );
 
-  const geojson1 = {
-    "features": [
-      { "geometry": { "coordinates": [145.02508030410158, -37.80847985083767], "type": "Point" } },
-      { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-      { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-      { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-      { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-      { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-      { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-      { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-      { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-      { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-      { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
-      { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-      { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-      { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-      { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-      { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-      { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-      { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-      { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-      { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-      { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-      { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-      { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-      { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-      { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
-      { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
-      { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
-      { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
-      { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083767]}},
-      { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
-      { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083767]}},
-      { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083767]}},
-      { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083767]}},
-      { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -36.80847985083767]}},
-      { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -36.80847985083767]}},
-      { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -36.80847985083767]}},
-      { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -36.80847985083767]}},
-      { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -36.80847985083767]}},
-      { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -36.8084798507]}},
-      { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083769]}},
-      { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083769]}},
-      { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083769]}},
-      { "geometry": {"type": 'Point', "coordinates": [145.02508030410157, -37.80847985083769]}},
-      { "geometry": {"type": 'Point', "coordinates": [145.02508030410130, -37.80847985083769]}},
-    ], "type": "FeatureCollection"
-  };
+  // const geojson1 = {
+  //   "features": [
+  //     { "geometry": { "coordinates": [145.02508030410158, -37.80847985083767], "type": "Point" } },
+  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
+  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
+  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
+  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
+  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
+  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
+  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
+  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
+  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
+  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083767]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083767]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083767]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083767]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -36.80847985083767]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -36.80847985083767]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -36.80847985083767]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -36.80847985083767]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -36.80847985083767]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -36.8084798507]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083769]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083769]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083769]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410157, -37.80847985083769]}},
+  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410130, -37.80847985083769]}},
+  //   ], "type": "FeatureCollection"
+  // };
 
   // const mapRef = useRef<MapRef>(null);
   const mapRef = React.useRef(); 
@@ -139,7 +158,7 @@ const MapView = () => {
          onClick={onClick}
         // ref={mapRef}
       >
-        <Source id="my-data" type="geojson" data={geojson1}
+        {!loading && <Source id="my-data" type="geojson" data={geojson1}
         cluster={true}
         clusterMaxZoom={14}
         clusterRadius={50}
@@ -149,7 +168,7 @@ const MapView = () => {
           <Layer {...clusterLayer} />
           <Layer {...clusterCountLayer} />
           <Layer {...unclusteredPointLayer} />
-        </Source>
+        </Source>}
         {pins}
         {popupInfo && (
           <Popup
