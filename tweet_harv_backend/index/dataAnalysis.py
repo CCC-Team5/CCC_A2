@@ -82,6 +82,7 @@ def top_n_lang_count(db, langCode_db, N):
     return type: dict - {language code: count}
     frontend: bar chart/pie chart (colour matching for most tweeted languages/counrty of birth/language spoken at home)
     """
+    '''
     languages = {}
 
     for item in db.view('lang/lang-count', group=True, group_level=1):
@@ -98,7 +99,57 @@ def top_n_lang_count(db, langCode_db, N):
     languages = {v2: v1 for k1, v1 in languages.items() for k2, v2 in langCode.items() if k1 == k2}
 
     return languages
+    '''
+    languages = {}
+    total = 0
+    for item in db.view('lang/lang-count', group = True, group_level = 1):
+        if item.key == 'in':
+            languages['id'] = item.value
+        else:
+            languages[item.key] = item.value
+        total += item.value
 
+    languages = {k:v for k, v in sorted(languages.items(), key=lambda item: item[1])[::-1][:N+1]}
+    
+    langCode = read_langCode(langCode_db)
+    
+    languages = {v2: v1 for k1, v1 in languages.items() for k2, v2 in langCode.items() if k1 == k2}
+    
+    percent = (total - languages['English'])/total * 100
+
+    languages['Others'] = total - sum(languages.values())
+
+    languages.pop('English')
+            
+    return languages
+
+def top_n_lang_count_2(db, langCode_db, N):
+    """
+    TODO:Testing
+    THis function Have not been tested yet
+    """
+    languages = {}
+    total = 0
+    for item in db.view('lang/lang-count', group = True, group_level = 1):
+        if item.key == 'in':
+            languages['id'] = item.value
+        else:
+            languages[item.key] = item.value
+        total += item.value
+
+    languages = {k:v for k, v in sorted(languages.items(), key=lambda item: item[1])[::-1][:N+1]}
+    
+    langCode = read_langCode(langCode_db)
+    
+    languages = {v2: v1 for k1, v1 in languages.items() for k2, v2 in langCode.items() if k1 == k2}
+    
+    percent = (total - languages['English'])/total * 100
+
+    languages['Others'] = total - sum(languages.values())
+
+    languages.pop('English')
+    
+    return percent, 100 - percent
 
 def top_n_birth_country(db, N):
     """
