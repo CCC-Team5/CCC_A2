@@ -138,6 +138,9 @@ def top_n_lang_spoken_at_home(db, N):
 
     return spoken
 
+def percent():
+    pass
+
 
 def topic_switch(topic):
     """

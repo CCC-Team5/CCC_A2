@@ -1,0 +1,8 @@
+{
+  "percent":
+  [
+    {"name": "language_count", "percent":  [10, 90]},
+    {"name": "birth_country", "percent":  [10, 90]},
+    {"name": "language_spoken_at_home", "percent":  [10, 90]}
+  ]
+}
