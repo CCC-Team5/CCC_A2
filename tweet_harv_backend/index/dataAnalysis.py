@@ -160,14 +160,47 @@ def top_n_birth_country(db, N):
     return type: dict - {country name: (country total, country percentage)}
     frontend: pie chart (colour matching for most tweeted languages/counrty of birth/language spoken at home)
     """
-
     birth = {}
+    count_total = 0
+    percent_total = 0
     for item in db.view('birth/country'):
         birth[item.key] = item.value
+        count_total += item.value[0]
+        percent_total += item.value[-1]
+
+    percent = percent_total
 
     birth = {k: v for k, v in sorted(birth.items(), key=lambda item: item[1])[-N:]}
 
+    for v in birth.values():
+        count_total -= list(v)[0]
+        percent_total -= list(v)[-1]
+    
+    birth['Others'] = [count_total, percent_total]
+
     return birth
+
+def top_n_birth_country_2(db, N):
+
+    birth = {}
+    count_total = 0
+    percent_total = 0
+    for item in db.view('birth/country'):
+        birth[item.key] = item.value
+        count_total += item.value[0]
+        percent_total += item.value[-1]
+
+    percent = percent_total
+
+    birth = {k: v for k, v in sorted(birth.items(), key=lambda item: item[1])[-N:]}
+
+    for v in birth.values():
+        count_total -= list(v)[0]
+        percent_total -= list(v)[-1]
+    
+    birth['Others'] = [count_total, percent_total]
+
+    return percent, 100 - percent
 
 
 def top_n_lang_spoken_at_home(db, N):
@@ -182,12 +215,51 @@ def top_n_lang_spoken_at_home(db, N):
     """
 
     spoken = {}
+    count_total = 0
+    SOL_per = 0
+    percent_total = 0
     for item in db.view('home/lang'):
         spoken[item.key] = item.value
-
+        count_total += item.value[0]
+        SOL_per += item.value[1]
+        percent_total += item.value[-1]
+    
+    percent = percent_total
+    
     spoken = {k: v for k, v in sorted(spoken.items(), key=lambda item: item[1])[-N:]}
 
+    for v in spoken.values():
+        count_total -= list(v)[0]
+        SOL_per -= list(v)[1]
+        percent_total -= list(v)[-1]
+    
+    spoken['Others'] = [count_total, SOL_per, percent_total]
+
     return spoken
+
+def top_n_lang_spoken_at_home_2(db, N):
+    spoken = {}
+    count_total = 0
+    SOL_per = 0
+    percent_total = 0
+    for item in db.view('home/lang'):
+        spoken[item.key] = item.value
+        count_total += item.value[0]
+        SOL_per += item.value[1]
+        percent_total += item.value[-1]
+    
+    percent = percent_total
+    
+    spoken = {k: v for k, v in sorted(spoken.items(), key=lambda item: item[1])[-N:]}
+
+    for v in spoken.values():
+        count_total -= list(v)[0]
+        SOL_per -= list(v)[1]
+        percent_total -= list(v)[-1]
+    
+    spoken['Others'] = [count_total, SOL_per, percent_total]
+
+    return percent, 100 - percent
 
 def integrate_percent():
     '''
