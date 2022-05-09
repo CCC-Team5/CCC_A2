@@ -138,10 +138,10 @@ def cost_trend_sentiment(request):
             year_topic, year_total, percent = topic_trend(tweet_db, topic)
             years = list(percent)
             percents = list(percent.values())
-            percents = [round(i, 2) for i in percents]
+            # percents = [round(i, 2) for i in percents]
             yearly_sentiment = topic_sentiment(cost_text_db, topic)
             yearly_sentiment = list(yearly_sentiment.values())
-            yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
+            # yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
             context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
         except Exception as e:
             print(e, "topic: ", topic)
