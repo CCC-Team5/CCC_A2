@@ -148,10 +148,12 @@ def top_n_lang_count(db, langCode_db, N):
 
     languages.pop('English')
             
-    return languages, percent
+    return languages, percent, 100 - percent
     # return 的 languages 里多了一项 Other，也像之前的其他一样处理
     # 比之前多发给前端：percent 和 100 - percent 用来做stacked column；          
-      
+
+
+
 
 def top_n_birth_country(db, N):
     """
@@ -182,7 +184,7 @@ def top_n_birth_country(db, N):
     
     birth['Others'] = [count_total, percent_total]
 
-    return birth, percent
+    return birth, percent, 100 - percent
     # return 的 birth 里多了一项 Others，也像之前的其他一样处理
     # 比之前多发给前端：percent 和 100 - percent 用来做stacked column；
 
@@ -219,10 +221,17 @@ def top_n_lang_spoken_at_home(db, N):
     
     spoken['Others'] = [count_total, SOL_per, percent_total]
 
-    return spoken, percent
+    return spoken, percent, 100 - percent
     # return 的 spoken 里多了一项 Others，也像之前的其他一样处理
     # 比之前多发给前端：percent 和 100 - percent 用来做stacked column；
 
+
+def integrate_percent():
+    '''
+    getting percent and 100 - percent of others in top_n_lang_count, top_n_birth_country, top_n_lang_spoken_at_home
+    param:俊杰自己写上
+    return type: dict - {"name": "xxx", percent:[xxx, yyy]}
+    '''
 
 def topic_switch(topic):
     """
