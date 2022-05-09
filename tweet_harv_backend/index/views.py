@@ -92,6 +92,29 @@ def language_and_birth(request):
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
 
+def percent(request):
+    if request.method == 'GET':
+        result_lst = {'percent_of_others': []}
+        try:
+            language_count = top_n_lang_count_2(tweet_db, language_db, 10)
+            for tag, count in language_count.items():
+                obj = {'name': tag, 'percent': count}
+                result_lst['percent_of_others'].append(obj)
+
+        except Exception as e:
+            print(e)
+            result_lst = None
+
+        if result_lst:
+            return HttpResponse(json.dumps(result_lst))
+        else:
+            # status code 400
+            return HttpResponseBadRequest(result_lst)
+
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
+
 def housing_trend_sentiment(request):
     """
     This function get the information from Database about the housing trand and sentiment

@@ -189,8 +189,13 @@ def top_n_lang_spoken_at_home(db, N):
 
     return spoken
 
-def percent():
-    pass
+def integrate_percent():
+    '''
+    getting percent and 100 - percent of others in top_n_lang_count, top_n_birth_country, top_n_lang_spoken_at_home
+    param:俊杰自己写上
+    return type: dict - {"name": "xxx", percent:[xxx, yyy]}
+    '''
+
 
 
 def topic_switch(topic):
