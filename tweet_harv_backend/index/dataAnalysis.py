@@ -149,7 +149,7 @@ def top_n_lang_count_2(db, langCode_db, N):
 
     languages.pop('English')
     
-    return percent, 100 - percent
+    return [percent, 100 - percent]
 
 def top_n_birth_country(db, N):
     """
@@ -200,7 +200,7 @@ def top_n_birth_country_2(db, N):
     
     birth['Others'] = [count_total, percent_total]
 
-    return percent, 100 - percent
+    return [percent, 100 - percent]
 
 
 def top_n_lang_spoken_at_home(db, N):
@@ -259,15 +259,15 @@ def top_n_lang_spoken_at_home_2(db, N):
     
     spoken['Others'] = [count_total, SOL_per, percent_total]
 
-    return percent, 100 - percent
+    return [percent, 100 - percent]
 
-def integrate_percent():
+def integrate_percent(db, langCode_db, N):
     '''
     getting percent and 100 - percent of others in top_n_lang_count, top_n_birth_country, top_n_lang_spoken_at_home
     param:俊杰自己写上
     return type: dict - {"name": "xxx", percent:[xxx, yyy]}
     '''
-
+    return [top_n_lang_count_2(db, langCode_db, N), top_n_birth_country_2(db, N), top_n_lang_spoken_at_home_2(db, N)]
 
 
 def topic_switch(topic):
