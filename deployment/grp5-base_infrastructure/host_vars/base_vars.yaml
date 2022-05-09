@@ -90,5 +90,3 @@ instances:
     volumes: ['vol-server2-data', 'vol-server2-docker']
   - name: server3
     volumes: ['vol-server3-data', 'vol-server3-docker']
-
-

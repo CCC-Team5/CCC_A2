@@ -18,7 +18,7 @@ cd ..
 cp -rf grp5-base_infrastructure/hosts grp5-dependencies
 cp -rf grp5-base_infrastructure/hosts grp5-deploy_app
 
-echo "##### EXEC ANSIBLE SDS DEPENDENCIES #####"
+echo "##### EXEC ANSIBLE DEPENDENCIES #####"
 cd grp5-dependencies
 sh run-dependencies.sh
 

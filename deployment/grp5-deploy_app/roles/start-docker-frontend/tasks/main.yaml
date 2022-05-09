@@ -1,18 +1,25 @@
-- name: Build main app docker image
+# Stop existing and remove docker containers (if any)
+- name: remove frontend docker container
+  become: yes
+  docker_container:
+    name: frontend_container
+    state: absent
+
+- name: remove frontend docker image
+  become: yes
+  args:
+    warn: false
+  command: 'docker image rm -f tweet_frontend'
+
+- name: Build frontend docker image
   become: yes
   args:
     warn: false
   command: 'docker build -t tweet_frontend ~/data/CCC_A2/tweet_harv_app/'
 
-# Stop existing and remove docker containers (if any)
-- name: remove frontend docker image
-  become: yes
-  docker_image:
-    name: tweet_frontend
-    state: absent
 
 - name: Start docker frontend image
   become: yes
   args:
     warn: false
-  command: 'docker run --restart=on-failure:15 -d -p 1313:1313 tweet_frontend'
+  command: 'docker run --name frontend_container --restart=on-failure:15 -d -p 80:80 tweet_frontend'

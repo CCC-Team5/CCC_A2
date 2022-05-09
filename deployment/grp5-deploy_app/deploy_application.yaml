@@ -1,15 +1,4 @@
-
-# - name: Input
-#   hosts: Webservers
-#   vars_prompt:
-#     - name: "githubuser"
-#       prompt: "Enter your github username"
-#       private: no
-#     - name: "githubpassword"
-#       prompt: "Enter your github password"
-#       private: yes
-
-- hosts: Webservers
+- hosts: Webserver
   vars_files:
     - host_vars/app_vars.yaml
   gather_facts: true
