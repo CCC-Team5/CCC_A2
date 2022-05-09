@@ -93,14 +93,15 @@ def language_and_birth(request):
 
 
 def percent(request):
+    result_lst = {'language_count': [], 'birth_country': [], 'language_at_home': []}
     if request.method == 'GET':
-        result_lst = {'percent_of_others': []}
         try:
             language_count = top_n_lang_count_2(tweet_db, language_db, 10)
-            for tag, count in language_count.items():
-                obj = {'name': tag, 'percent': count}
-                result_lst['percent_of_others'].append(obj)
-
+            result_lst['language_count'].append(language_count)
+            birth_country = top_n_birth_country_2(birth_db, 10)
+            result_lst['birth_country'].append(birth_country)
+            language_at_home = top_n_lang_spoken_at_home_2(langhome_db, 10)
+            result_lst['language_at_home'].append(language_at_home)
         except Exception as e:
             print(e)
             result_lst = None
@@ -113,6 +114,7 @@ def percent(request):
 
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
 
 
 def housing_trend_sentiment(request):

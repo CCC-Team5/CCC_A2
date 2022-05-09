@@ -102,26 +102,27 @@ def top_n_lang_count(db, langCode_db, N):
     '''
     languages = {}
     total = 0
-    for item in db.view('lang/lang-count', group = True, group_level = 1):
+    for item in db.view('lang/lang-count', group=True, group_level=1):
         if item.key == 'in':
             languages['id'] = item.value
         else:
             languages[item.key] = item.value
         total += item.value
 
-    languages = {k:v for k, v in sorted(languages.items(), key=lambda item: item[1])[::-1][:N+1]}
-    
+    languages = {k: v for k, v in sorted(languages.items(), key=lambda item: item[1])[::-1][:N + 1]}
+
     langCode = read_langCode(langCode_db)
-    
+
     languages = {v2: v1 for k1, v1 in languages.items() for k2, v2 in langCode.items() if k1 == k2}
-    
-    percent = (total - languages['English'])/total * 100
+
+    percent = (total - languages['English']) / total * 100
 
     languages['Others'] = total - sum(languages.values())
 
     languages.pop('English')
-            
+
     return languages
+
 
 def top_n_lang_count_2(db, langCode_db, N):
     """
@@ -130,26 +131,27 @@ def top_n_lang_count_2(db, langCode_db, N):
     """
     languages = {}
     total = 0
-    for item in db.view('lang/lang-count', group = True, group_level = 1):
+    for item in db.view('lang/lang-count', group=True, group_level=1):
         if item.key == 'in':
             languages['id'] = item.value
         else:
             languages[item.key] = item.value
         total += item.value
 
-    languages = {k:v for k, v in sorted(languages.items(), key=lambda item: item[1])[::-1][:N+1]}
-    
+    languages = {k: v for k, v in sorted(languages.items(), key=lambda item: item[1])[::-1][:N + 1]}
+
     langCode = read_langCode(langCode_db)
-    
+
     languages = {v2: v1 for k1, v1 in languages.items() for k2, v2 in langCode.items() if k1 == k2}
-    
-    percent = (total - languages['English'])/total * 100
+
+    percent = (total - languages['English']) / total * 100
 
     languages['Others'] = total - sum(languages.values())
 
     languages.pop('English')
-    
-    return [percent, 100 - percent]
+
+    return {'percent': percent, 'rest': 100 - percent}
+
 
 def top_n_birth_country(db, N):
     """
@@ -175,13 +177,13 @@ def top_n_birth_country(db, N):
     for v in birth.values():
         count_total -= list(v)[0]
         percent_total -= list(v)[-1]
-    
+
     birth['Others'] = [count_total, percent_total]
 
     return birth
 
-def top_n_birth_country_2(db, N):
 
+def top_n_birth_country_2(db, N):
     birth = {}
     count_total = 0
     percent_total = 0
@@ -197,10 +199,10 @@ def top_n_birth_country_2(db, N):
     for v in birth.values():
         count_total -= list(v)[0]
         percent_total -= list(v)[-1]
-    
+
     birth['Others'] = [count_total, percent_total]
 
-    return [percent, 100 - percent]
+    return {'percent': percent, 'rest': 100 - percent}
 
 
 def top_n_lang_spoken_at_home(db, N):
@@ -223,19 +225,20 @@ def top_n_lang_spoken_at_home(db, N):
         count_total += item.value[0]
         SOL_per += item.value[1]
         percent_total += item.value[-1]
-    
+
     percent = percent_total
-    
+
     spoken = {k: v for k, v in sorted(spoken.items(), key=lambda item: item[1])[-N:]}
 
     for v in spoken.values():
         count_total -= list(v)[0]
         SOL_per -= list(v)[1]
         percent_total -= list(v)[-1]
-    
+
     spoken['Others'] = [count_total, SOL_per, percent_total]
 
     return spoken
+
 
 def top_n_lang_spoken_at_home_2(db, N):
     spoken = {}
@@ -247,27 +250,19 @@ def top_n_lang_spoken_at_home_2(db, N):
         count_total += item.value[0]
         SOL_per += item.value[1]
         percent_total += item.value[-1]
-    
+
     percent = percent_total
-    
+
     spoken = {k: v for k, v in sorted(spoken.items(), key=lambda item: item[1])[-N:]}
 
     for v in spoken.values():
         count_total -= list(v)[0]
         SOL_per -= list(v)[1]
         percent_total -= list(v)[-1]
-    
+
     spoken['Others'] = [count_total, SOL_per, percent_total]
 
-    return [percent, 100 - percent]
-
-def integrate_percent(db, langCode_db, N):
-    '''
-    getting percent and 100 - percent of others in top_n_lang_count, top_n_birth_country, top_n_lang_spoken_at_home
-    param:俊杰自己写上
-    return type: dict - {"name": "xxx", percent:[xxx, yyy]}
-    '''
-    return [top_n_lang_count_2(db, langCode_db, N), top_n_birth_country_2(db, N), top_n_lang_spoken_at_home_2(db, N)]
+    return {'percent': percent, 'rest': 100 - percent}
 
 
 def topic_switch(topic):
@@ -409,9 +404,6 @@ def geo_LatLong(db):
     #     with open('myfile1.geojson', 'w') as f:
     #         dump(feature_collection, f)
     return feature_collection
-
-
-
 
 ##########################################################
 # For Data Processing ONLY, Do NOT use
