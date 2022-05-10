@@ -2,7 +2,7 @@
 - name: remove backend docker container
   become: yes
   docker_container:
-    name: backend_container
+    name: ccc_a2_backend_container_1
     state: absent
 
 - name: remove backend docker image
