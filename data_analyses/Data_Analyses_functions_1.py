@@ -122,25 +122,37 @@ def top_n_lang_count(db, langCode_db, N):
     params: raw_tweets database;
             number of languages to extract
     return: top N most tweeted languages other than English
+            percentage of non-English tweets to total number of tweets
     return type: dict - {language code: count}
+                 float
     frontend: bar chart/pie chart (colour matching for most tweeted languages/counrty of birth/language spoken at home)
     """
     languages = {}
-    
+    total = 0
     for item in db.view('lang/lang-count', group = True, group_level = 1):
-        if item.key != 'en':
-            if item.key == 'in':
-                languages['id'] = item.value
-            else:
-                languages[item.key] = item.value
-            
-        languages = {k:v for k, v in sorted(languages.items(), key=lambda item: item[1])[::-1][:N]}
+        if item.key == 'in':
+            languages['id'] = item.value
+        else:
+            languages[item.key] = item.value
+        total += item.value
+
+    languages = {k:v for k, v in sorted(languages.items(), key=lambda item: item[1])[::-1][:N+1]}
     
     langCode = read_langCode(langCode_db)
     
     languages = {v2: v1 for k1, v1 in languages.items() for k2, v2 in langCode.items() if k1 == k2}
+    
+    percent = (total - languages['English'])/total * 100
+
+    languages['Others'] = total - sum(languages.values())
+
+    languages.pop('English')
             
-    return languages
+    return languages, percent, 100 - percent
+    # return 的 languages 里多了一项 Other，也像之前的其他一样处理
+    # 比之前多发给前端：percent 和 100 - percent 用来做stacked column；          
+
+
 
 
 def top_n_birth_country(db, N):
@@ -149,17 +161,32 @@ def top_n_birth_country(db, N):
     params: birthcountry database;
             number of non-English-speaking countries to extract
     return: top N non-English-speaking countries' names, total population count, and percentage population
+            percentage of people from non-English speaking countries to total population
     return type: dict - {country name: (country total, country percentage)}
     frontend: pie chart (colour matching for most tweeted languages/counrty of birth/language spoken at home)
     """
 
     birth = {}
+    count_total = 0
+    percent_total = 0
     for item in db.view('birth/country'):
         birth[item.key] = item.value
-        
+        count_total += item.value[0]
+        percent_total += item.value[-1]
+
+    percent = percent_total
+
     birth = {k: v for k, v in sorted(birth.items(), key=lambda item: item[1])[-N:]}
+
+    for v in birth.values():
+        count_total -= list(v)[0]
+        percent_total -= list(v)[-1]
     
-    return birth
+    birth['Others'] = [count_total, percent_total]
+
+    return birth, percent, 100 - percent
+    # return 的 birth 里多了一项 Others，也像之前的其他一样处理
+    # 比之前多发给前端：percent 和 100 - percent 用来做stacked column；
 
 
 def top_n_lang_spoken_at_home(db, N):
@@ -174,14 +201,37 @@ def top_n_lang_spoken_at_home(db, N):
     """
 
     spoken = {}
+    count_total = 0
+    SOL_per = 0
+    percent_total = 0
     for item in db.view('home/lang'):
         spoken[item.key] = item.value
-        
-    spoken = {k: v for k, v in sorted(spoken.items(), key=lambda item: item[1])[-N:]}
+        count_total += item.value[0]
+        SOL_per += item.value[1]
+        percent_total += item.value[-1]
     
-    return spoken
+    percent = percent_total
+    
+    spoken = {k: v for k, v in sorted(spoken.items(), key=lambda item: item[1])[-N:]}
+
+    for v in spoken.values():
+        count_total -= list(v)[0]
+        SOL_per -= list(v)[1]
+        percent_total -= list(v)[-1]
+    
+    spoken['Others'] = [count_total, SOL_per, percent_total]
+
+    return spoken, percent, 100 - percent
+    # return 的 spoken 里多了一项 Others，也像之前的其他一样处理
+    # 比之前多发给前端：percent 和 100 - percent 用来做stacked column；
 
 
+def integrate_percent():
+    '''
+    getting percent and 100 - percent of others in top_n_lang_count, top_n_birth_country, top_n_lang_spoken_at_home
+    param:俊杰自己写上
+    return type: dict - {"name": "xxx", percent:[xxx, yyy]}
+    '''
 
 def topic_switch(topic):
     """
@@ -313,7 +363,7 @@ def geo_LatLong(db):
     frontend: map
     """
     features = []
-    for item in db.view('geo/new-view'):
+    for item in db.view('geoLocation/new-view'):
         cor = item.key
         features.append(Feature(geometry=Point((cor[0], cor[1]))))
 
@@ -321,7 +371,8 @@ def geo_LatLong(db):
 #     with open('myfile1.geojson', 'w') as f:
 #         dump(feature_collection, f)
     return feature_collection
-geo_LatLong(tweet_db)
+geo_db = fetch_DB('top_lat_long_live_hist')
+# geo_LatLong(geo_db)
 
 
 ##########################################################
