@@ -15,10 +15,10 @@
   become: yes
   args:
     warn: false
-  command: 'docker build -t tweet_harv ~/data/CCC_A2/twitter-harvester/'
+  command: 'docker build -t twitter_harv ~/data/CCC_A2/twitter-harvester/'
 
 - name: Start docker harvester image
   become: yes
   args:
     warn: false
-  command: 'docker run --name harvester_container --restart=on-failure:15 -d tweet_harv'
+  command: 'docker run --name harvester_container --restart=on-failure:15 -d twitter_harv'
