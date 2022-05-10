@@ -2,7 +2,7 @@
 - name: remove frontend docker container
   become: yes
   docker_container:
-    name: frontend_container
+    name: ccc_a2_frontend_container_1
     state: absent
 
 - name: remove frontend docker image
