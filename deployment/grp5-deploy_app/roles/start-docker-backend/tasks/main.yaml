@@ -22,4 +22,4 @@
   become: yes
   args:
     warn: false
-  command: 'docker run --name backend_container --restart=on-failure:15 -d -p 8000:8000 tweet_backend'
+  command: 'docker run --name backend_container --restart=on-failure:15 -d -p 0.0.0.0:8000:8000 tweet_backend'
