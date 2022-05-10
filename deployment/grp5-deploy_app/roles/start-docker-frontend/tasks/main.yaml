@@ -11,15 +11,26 @@
     warn: false
   command: 'docker image rm -f tweet_frontend'
 
-- name: Build frontend docker image
+- name: run docker compose
   become: yes
-  args:
-    warn: false
-  command: 'docker build -t tweet_frontend ~/data/CCC_A2/tweet_harv_app/'
+  docker_compose:
+    project_src: "~/data/CCC_A2/"
+    files:
+      - docker-compose.yml
+    pull: false
+    build: yes
+    state: present
+    recreate: always
+
+# - name: Build frontend docker image
+#   become: yes
+#   args:
+#     warn: false
+#   command: 'docker build -t tweet_frontend ~/data/CCC_A2/tweet_harv_app/'
 
 
-- name: Start docker frontend image
-  become: yes
-  args:
-    warn: false
-  command: 'docker run --name frontend_container --restart=on-failure:15 -d -p 0.0.0.0:1313:1313 tweet_frontend'
+# - name: Start docker frontend image
+#   become: yes
+#   args:
+#     warn: false
+#   command: 'docker run --name frontend_container --restart=on-failure:15 -d -p 0.0.0.0:1313:1313 tweet_frontend'

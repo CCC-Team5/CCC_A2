@@ -11,15 +11,15 @@
     warn: false
   command: 'docker image rm -f tweet_backend'
 
-# Build Docker image for tweet harvester
-- name: Build backend image and put it in project repo
-  become: yes
-  args:
-    warn: false
-  command: 'docker build -t tweet_backend ~/data/CCC_A2/tweet_harv_backend/'
+# # Build Docker image for tweet harvester
+# - name: Build backend image and put it in project repo
+#   become: yes
+#   args:
+#     warn: false
+#   command: 'docker build -t tweet_backend ~/data/CCC_A2/tweet_harv_backend/'
 
-- name: Start docker image (tweet_backend)
-  become: yes
-  args:
-    warn: false
-  command: 'docker run --name backend_container --restart=on-failure:15 -d -p 0.0.0.0:8000:8000 tweet_backend'
+# - name: Start docker image (tweet_backend)
+#   become: yes
+#   args:
+#     warn: false
+#   command: 'docker run --name backend_container --restart=on-failure:15 -d -p 0.0.0.0:8000:8000 tweet_backend'
