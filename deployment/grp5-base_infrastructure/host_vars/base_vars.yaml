@@ -63,6 +63,16 @@ security_group_rules:
     port_range_min: 1313
     port_range_max: 1313
     remote_ip_prefix: 0.0.0.0/0
+  - name: g5_http
+    protocol: tcp
+    port_range_min: 3000
+    port_range_max: 3000
+    remote_ip_prefix: 0.0.0.0/0
+  - name: g5_http
+    protocol: tcp
+    port_range_min: 8000
+    port_range_max: 8000
+    remote_ip_prefix: 0.0.0.0/0
   - name: g5-couchdb-group
     protocol: tcp
     port_range_min: 5984

@@ -1,9 +1,17 @@
-- hosts: Webserver
+- hosts: Webservers
   vars_files:
     - host_vars/app_vars.yaml
   gather_facts: true
 
   roles:
     - role: clone-src-files
+    - role: start-twitter-harv
+
+- hosts: Webserver
+  vars_files:
+    - host_vars/app_vars.yaml
+  gather_facts: true
+
+  roles:
     - role: start-docker-backend
     - role: start-docker-frontend
