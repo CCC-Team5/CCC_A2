@@ -1,0 +1,11 @@
+- name: Unmount device
+  tags: 'volumes'
+  become: yes
+  unmount:
+    path: "{{ item.mountpoint }}"
+    src: "{{ item.device }}"
+    fstype: ext4
+    state: mounted
+  when: item.device is defined
+  with_items:
+    - "{{ volumes }}"
