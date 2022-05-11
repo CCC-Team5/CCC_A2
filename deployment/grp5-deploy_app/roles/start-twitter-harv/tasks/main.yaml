@@ -21,4 +21,4 @@
   become: yes
   args:
     warn: false
-  command: 'docker run --name harvester_container --restart=on-failure:15 -d twitter_harv'
+  command: 'docker run --name harvester_container --restart=on-failure:50 -d twitter_harv'

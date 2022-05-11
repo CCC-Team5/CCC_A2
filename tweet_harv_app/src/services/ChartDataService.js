@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_API_URL = axios.create({baseURL: 'http://localhost:8000/index/'});
+const BASE_API_URL = axios.create({baseURL: 'http://172.26.131.161:8000/index/'});
 
 class ChartDataService{
     
