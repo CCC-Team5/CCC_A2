@@ -84,7 +84,7 @@
     path: "inventory/g5-couch-dynamic-vars.yaml"
     line: "  - '{{item.openstack.public_v4 }}'"
   loop: "{{os_instance.results}}"
-  when: stat_result.stat.exists == True
+  when: item.openstack is defined
 
 - name: storing instance IP
   lineinfile:
