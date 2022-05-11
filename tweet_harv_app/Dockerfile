@@ -13,6 +13,6 @@ RUN npm install
 # copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY . .
 
-EXPOSE 1313
+EXPOSE 3000
 
 CMD [ "npm", "start"]

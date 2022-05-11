@@ -92,6 +92,31 @@ def language_and_birth(request):
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
 
+def percent(request):
+    result_lst = {'language_count': [], 'birth_country': [], 'language_at_home': []}
+    if request.method == 'GET':
+        try:
+            language_count = top_n_lang_count_2(tweet_db, language_db, 10)
+            result_lst['language_count'].append(language_count)
+            birth_country = top_n_birth_country_2(birth_db, 10)
+            result_lst['birth_country'].append(birth_country)
+            language_at_home = top_n_lang_spoken_at_home_2(langhome_db, 10)
+            result_lst['language_at_home'].append(language_at_home)
+        except Exception as e:
+            print(e)
+            result_lst = None
+
+        if result_lst:
+            return HttpResponse(json.dumps(result_lst))
+        else:
+            # status code 400
+            return HttpResponseBadRequest(result_lst)
+
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
+
+
 def housing_trend_sentiment(request):
     """
     This function get the information from Database about the housing trand and sentiment
@@ -138,10 +163,10 @@ def cost_trend_sentiment(request):
             year_topic, year_total, percent = topic_trend(tweet_db, topic)
             years = list(percent)
             percents = list(percent.values())
-            percents = [round(i, 2) for i in percents]
+            # percents = [round(i, 2) for i in percents]
             yearly_sentiment = topic_sentiment(cost_text_db, topic)
             yearly_sentiment = list(yearly_sentiment.values())
-            yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
+            # yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
             context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
         except Exception as e:
             print(e, "topic: ", topic)

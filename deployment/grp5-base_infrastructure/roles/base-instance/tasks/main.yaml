@@ -92,3 +92,12 @@
     line: "{{item.openstack.public_v4}}"
   loop: "{{ os_instance.results}}"
   when: item.openstack is defined
+
+- name: add master node as webserver node - 1
+  lineinfile:
+    path: "hosts"
+    line: "\n[Webserver]\n{{ os_instance.results[0].openstack.public_v4 }}"
+
+# Use debug module to print out the the instance name and its IP
+- ansible.builtin.debug:
+    msg: "Instance {{ os_instance.results[0].openstack.name }} created. IP address:{{ os_instance.results[0].openstack.public_v4 }}"

@@ -3,11 +3,6 @@
     path: ~/data/CCC_A2
     state: absent
 
-# - name: Creating project directory
-#   file:
-#     path: ~/data/grp5_application
-#     state: directory
-
 - name: ensure pexpect is installed in the playbook python
   pip:
     name: pexpect

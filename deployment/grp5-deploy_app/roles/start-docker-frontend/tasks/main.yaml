@@ -1,18 +1,36 @@
-- name: Build main app docker image
-  become: yes
-  args:
-    warn: false
-  command: 'docker build -t tweet_frontend ~/data/CCC_A2/tweet_harv_app/'
-
 # Stop existing and remove docker containers (if any)
-- name: remove frontend docker image
+- name: remove frontend docker container
   become: yes
-  docker_image:
-    name: tweet_frontend
+  docker_container:
+    name: ccc_a2_frontend_container_1
     state: absent
 
-- name: Start docker frontend image
+- name: remove frontend docker image
   become: yes
   args:
     warn: false
-  command: 'docker run --restart=on-failure:15 -d -p 1313:1313 tweet_frontend'
+  command: 'docker image rm -f tweet_frontend'
+
+- name: run docker compose
+  become: yes
+  docker_compose:
+    project_src: "~/data/CCC_A2/"
+    files:
+      - docker-compose.yml
+    pull: false
+    build: yes
+    state: present
+    recreate: always
+
+# - name: Build frontend docker image
+#   become: yes
+#   args:
+#     warn: false
+#   command: 'docker build -t tweet_frontend ~/data/CCC_A2/tweet_harv_app/'
+
+
+# - name: Start docker frontend image
+#   become: yes
+#   args:
+#     warn: false
+#   command: 'docker run --name frontend_container --restart=on-failure:15 -d -p 0.0.0.0:1313:1313 tweet_frontend'

@@ -13,6 +13,7 @@ import CostLivingWordCloud from './components/charts/CostLivingWordCloud';
 import TransportationWordCloud from './components/charts/TransportationWordCloud';
 import TransportationChart from './components/charts/TransportationChart'; 
 import CostLivingChart from './components/charts/CostLivingChart';
+import OpporGroupingChart from './components/charts/OpporGroupingChart';
 
 function App() {
   // const axios = require("axios").default; 
@@ -37,7 +38,7 @@ function App() {
         <Routes>
             <Route exact path="/" element = {<Home />} />
             <Route exact path="/popular" element = {<TrendingWordCloud />} />
-            <Route exact path="/opportunity" element = {<TopNChart />} />
+            <Route exact path="/opportunity" element = {<OpporGroupingChart />} />
             <Route exact path="/housing/trend" element = {<HousingTrendChart />} />
             <Route exact path="/housing/content" element = {<HousingWordCloud />} />
             <Route exact path="/transport/trend" element = {<TransportationChart />} />

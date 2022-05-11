@@ -8,7 +8,6 @@
   when: item.device is defined
   with_items:
     - "{{ volumes }}"
-  run_once: true
 
 - name: Checking folders
   tags: 'volumes'
@@ -42,4 +41,4 @@
   when: item.device is defined
   with_items:
     - "{{ volumes }}"
-  run_once: true
+  
