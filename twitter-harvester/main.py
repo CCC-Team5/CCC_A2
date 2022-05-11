@@ -52,6 +52,7 @@ if __name__ == '__main__':
 
     servers = 4
     area = search_area(servers)
+    # print(area)
     
     while True:
         try:
