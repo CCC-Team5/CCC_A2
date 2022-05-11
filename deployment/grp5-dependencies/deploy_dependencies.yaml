@@ -5,7 +5,6 @@
 
   roles:
     - role: depend-common
-#    - role: depend-unmount-volume
     - role: depend-mount-volume
     - role: depend-install-docker
     - role: depend-install-couchdb
