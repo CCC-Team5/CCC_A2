@@ -28,7 +28,6 @@
   when: item.stat.exists == false
   with_items:
     - "{{ directory_stats.results }}"
-  run_once: true
 
 - name: Mount device
   tags: 'volumes'
