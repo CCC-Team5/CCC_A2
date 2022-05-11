@@ -9,7 +9,7 @@ Description: basic operations on couchdb, like connect, create
 import couchdb
 
 DB_INFO = {
-    "address": "172.26.134.35:5984",
+    "address": "172.26.131.161:5984",
     "username": "grp5admin",
     "password": "password",
     "database": "raw_tweets"}
