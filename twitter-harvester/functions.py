@@ -81,7 +81,9 @@ def search_area(servers):
     melbourne = [144.593741856, -38.433859306, 145.512528832, -37.5112737225]
 
     index = int(socket.gethostname()[-1])
-    lng = melbourne[0] + round((melbourne[2] - melbourne[0])/servers, 10) * (index + 1)
-    melbourne[2] = lng
+    lng_1 = melbourne[0] + round((melbourne[2] - melbourne[0])/servers, 10) * index
+    lng_2 = melbourne[0] + round((melbourne[2] - melbourne[0])/servers, 10) * (index + 1)
+    melbourne[0] = lng_1
+    melbourne[2] = lng_2
     
     return melbourne
