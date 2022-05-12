@@ -8,6 +8,13 @@ module.exports = function (app) {
         target: 'http://172.26.134.129:8000',
         secure: false,
         changeOrigin: true,
-        pathRewrite: { '^/api': '' } //remove to ensure the address is normal
+        pathRewrite: { '^/api': '' }, //remove to ensure the address is normal
+    }))
+
+    app.use(createProxyMiddleware('/api1', {
+        target: 'http://172.26.134.129:8000',
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: { '^/^/api1': '' }, //remove to ensure the address is normal
     }))
 }
