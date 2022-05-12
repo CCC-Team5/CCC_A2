@@ -12,6 +12,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+// import ControlPanel, {Mode} from './control-panel.tsx';
 // marker reference: https://visgl.github.io/react-map-gl/examples/controls
 import {
   Marker,
@@ -53,10 +54,17 @@ const MapView = () => {
   }, [])
 
   const marker_data = [
-    { "city": "New York", "population": "8,175,133", "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Above_Gotham.jpg/240px-Above_Gotham.jpg", "state": "New York", "latitude": -37.80847985083767, "longitude": 145.02508030410158 },
-    { "city": "New York", "population": "8,175,133", "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Above_Gotham.jpg/240px-Above_Gotham.jpg", "state": "New York", "latitude": -37.720264201404596, "longitude": 144.80640411005695 },
-    { "city": "New York", "population": "8,175,133", "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Above_Gotham.jpg/240px-Above_Gotham.jpg", "state": "New York", "latitude": -37.80847985083767, "longitude": 145.02508030410158 },
-    { "city": "Los Angeles", "population": "3,792,621", "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/5/57/LA_Skyline_Mountains2.jpg/240px-LA_Skyline_Mountains2.jpg", "state": "California", "latitude": -36.80847985083767, "longitude": 143.02508030410158 }];
+    { "city": "Melbourne Central", "image": "https://www.shoppingcentrenews.com.au/wp-content/uploads/2022/02/Melbourne-Central-5.jpg", "state": "Melbourne", "latitude": -37.81004, "longitude": 144.96277 },
+    { "city": "University of Melbourne", "image": "https://www.unimelb.edu.au/__data/assets/image/0016/4004026/17099_0019.jpg", "state": "Melbourne", "latitude": -37.79818, "longitude": 144.96094 },
+    { "city": "State Library Victoria", "image": "https://www.slv.vic.gov.au/sites/default/files/styles/feature_image/public/strategic-plan-hero.jpg?itok=CCmv7jIG", "state": "Melbourne", "latitude": -37.80964, "longitude": 144.96520 },
+    { "city": "Melbourne Airport", "image": "https://grimshaw.global/assets/lib/2021/05/21/210409_Grimshaw_Airport-0242.jpg", "state": "Melbourne", "latitude": -37.67065, "longitude": 144.84328 }, 
+    { "city": "Federation Square", "image": "https://images.squarespace-cdn.com/content/v1/5e57b89fbb687c386d2d6be8/1605283435752-D1BL0DKTGZ855OT42T77/Federation-Square-site-02.jpg", "state": "Melbourne", "latitude": -37.81791, "longitude": 144.96907 }, 
+    { "city": "St Paul's Cathedral", "image": "http://shipoffools.com/wp-content/uploads/2018/02/melbourne_paul-1.jpg", "state": "Melbourne", "latitude": -37.81688, "longitude": 144.96765 }, 
+    { "city": "Southern Cross", "image": "https://www.railway-technology.com/wp-content/uploads/sites/13/2017/10/1-image-11.jpg", "state": "Melbourne", "latitude": -37.81824, "longitude": 144.95254 }, 
+    { "city": "Marvel Stadium", "image": "https://www.delawarenorth.com/~/media/delawarenorth/images/venue%20images/australia/marvel-stadium-t1.jpg?h=350&la=en&w=804", "state": "Melbourne", "latitude": -37.81638, "longitude": 144.94752 }, 
+    { "city": "Queens Victoria Market", "image": "http://syn.org.au/app/uploads/Screen-Shot-2018-05-08-at-9.13.58-am-768x432.png", "state": "Melbourne", "latitude": -37.80733, "longitude": 144.95676 }, 
+    { "city": "Parliament House", "image": "https://i.pinimg.com/originals/d4/66/17/d46617a8f5b5783d09b4d2d39a2817b5.jpg", "state": "Melbourne", "latitude": -37.81067, "longitude": 144.97384 },
+    { "city": "South Melbourne Market", "image": "https://images.squarespace-cdn.com/content/v1/58d860ab29687f4e2b16bbb9/1580794640363-3FQKU7A9M2ENK575GO3J/IMG_4432-1.jpg", "state": "Melbourne", "latitude": -37.83119, "longitude": 144.95580 }];
 
   const pins = useMemo(
     () =>
@@ -169,17 +177,27 @@ const MapView = () => {
 
   return (
     <>
-      <div className='radio-container'>
+      <div
+        className={"radio-container"}
+        style={{
+          position: "fixed",
+          zIndex: 999,
+          right: 10,
+          top: 20,
+          width: 200,
+          padding: 20,
+          backgroundColor: "white",
+        }}
+      >
         <FormControl>
           <FormLabel id="demo-row-radio-buttons-group-label"></FormLabel>
-          <RadioGroup row onChange={onRadioChange} value={selectedMapType}>
-            <FormControlLabel value="heatmap" control={<Radio />} label="heatmap" />
-            <FormControlLabel value="circle" control={<Radio />} label="circle" />
-            <FormControlLabel value="cluster" control={<Radio />} label="cluster" />
-
+          <RadioGroup onChange={onRadioChange} value={selectedMapType}>
+            <FormControlLabel value="heatmap" control={<Radio />} label="Heatmap" />
+            <FormControlLabel value="circle" control={<Radio />} label="Circle" />
+            <FormControlLabel value="cluster" control={<Radio />} label="Cluster" />
           </RadioGroup>
         </FormControl>
-      </div> 
+      </div>
       <div className='map-container'>
 
         <Map
@@ -193,6 +211,7 @@ const MapView = () => {
           onClick={onClick}
         // ref={mapRef}
         >
+
           {!loading && <Source id="my-data" type="geojson" data={geojson1}
             cluster={true}
             clusterMaxZoom={14}
@@ -218,20 +237,21 @@ const MapView = () => {
               onClose={() => setPopupInfo(null)}
             >
               <div>
-                {popupInfo.city}, {popupInfo.state} |{' '}
-                <a
+                <b style={{ fontFamily: "sans-serif" }}> {popupInfo.city}, {popupInfo.state} </b>
+                {/* <b style={{ fontFamily: "sans-serif" }}> {popupInfo.city}, {popupInfo.state} |{' '} </b> */}
+                {/* <a
                   target="_new"
                   href={`http://en.wikipedia.org/w/index.php?title=Special:Search&search=${popupInfo.city}, ${popupInfo.state}`}
                 >
                   Wikipedia
-                </a>
+                </a> */}
               </div>
               <img width="100%" src={popupInfo.image} />
             </Popup>
           )}
         </Map>
       </div>
-      </>
+    </>
   );
 
 }
