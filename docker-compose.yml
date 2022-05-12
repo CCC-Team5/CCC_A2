@@ -5,9 +5,16 @@ services:
     build: ./tweet_harv_backend
     ports: 
       - "8000:8000"
+    networks:
+      - grp5-network
   
   frontend_container:
     image: tweet_frontend
     build: ./tweet_harv_app
     ports:
       - "3000:3000"
+    networks:
+      - grp5-network
+
+networks:
+  grp5-network:
