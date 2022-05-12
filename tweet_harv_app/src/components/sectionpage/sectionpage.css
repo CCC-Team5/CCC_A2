@@ -1,0 +1,75 @@
+.housing-container{
+    float: right;
+    flex: auto;
+    width: auto;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+    url("../../images/housing.jpeg");
+    background-position: center;
+    /* background-color: aqua; */
+}
+
+.trans-container{
+    float: right;
+    flex: auto;
+    width: auto;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+    url("../../images/trans.jpeg");
+    background-position: center;
+    /* background-color: aqua; */
+}
+
+.costlive-container{
+    float: right;
+    flex: auto;
+    width: auto;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+    url("../../images/super.jpeg");
+    background-position: center;
+    /* background-color: aqua; */
+}
+
+.housing-title{
+    position: fixed;
+    text-align: center;
+    justify-content: center; 
+    display: flex;
+    top: 5%;
+    left: 20%;
+    align-items: center;
+    color: white;
+}
+
+.trans-title{
+    position: fixed;
+    text-align: center;
+    justify-content: center; 
+    display: flex;
+    top: 25%;
+    left: 20%;
+    align-items: center;
+    color: white;
+}
+
+.costlive-title{
+    position: fixed;
+    text-align: center;
+    justify-content: center; 
+    display: flex;
+    top: 25%;
+    left: 25%;
+    align-items: center;
+    color: white;
+}
+
+h1{
+    font-family: Quicksand;
+    font-size: 180px;
+}
+
+h2{
+    font-family: Quicksand;
+    font-size: 160px;
+}

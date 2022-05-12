@@ -14,6 +14,9 @@ import TransportationWordCloud from './components/charts/TransportationWordCloud
 import TransportationChart from './components/charts/TransportationChart'; 
 import CostLivingChart from './components/charts/CostLivingChart';
 import OpporGroupingChart from './components/charts/OpporGroupingChart';
+import HousingPage from './components/sectionpage/HousingPage';
+import TransPage from './components/sectionpage/TransPage';
+import CostLivingPage from './components/sectionpage/CostLivingPage';
 
 function App() {
   // const axios = require("axios").default; 
@@ -39,10 +42,13 @@ function App() {
             <Route exact path="/" element = {<Home />} />
             <Route exact path="/popular" element = {<TrendingWordCloud />} />
             <Route exact path="/opportunity" element = {<OpporGroupingChart />} />
+            <Route exact path="/housing" element = {<HousingPage />} />
             <Route exact path="/housing/trend" element = {<HousingTrendChart />} />
             {/* <Route exact path="/housing/content" element = {<HousingWordCloud />} /> */}
+            <Route exact path="/transport" element = {<TransPage />} />
             <Route exact path="/transport/trend" element = {<TransportationChart />} />
             {/* <Route exact path="/transport/content" element = {<TransportationWordCloud />} /> */}
+            <Route exact path="/cost_living" element = {<CostLivingPage />} />
             <Route exact path="/cost_living/trend" element = {<CostLivingChart />} />
             {/* <Route exact path="/cost_living/content" element = {<CostLivingWordCloud />} /> */}
             <Route exact path="/map" element = {<MapView />} />
