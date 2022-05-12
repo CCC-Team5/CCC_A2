@@ -5,7 +5,7 @@ module.exports = function (app) {
     // target: url want to replace
     // changeOrigin: change header
     app.use(createProxyMiddleware('/api', {
-        target: 'http://localhost:8000',
+        target: 'http://127.0.0.1:8000',
         secure: false,
         changeOrigin: true,
         pathRewrite: { '^/api': '' } //remove to ensure the address is normal
