@@ -3,6 +3,7 @@ import {SidebarData} from './SidebarData'
 import {Link} from 'react-router-dom';
 import './Sidebar.css'
 import { flexbox } from '@mui/system';
+import logo from '../../images/unimelb_logo.png';
 
 function Sidebar() {
     const [active, setActive] = useState(); 
@@ -11,6 +12,7 @@ function Sidebar() {
 
   return (
     <div className='sidebar-container'>
+      <img src={logo} alt='logo' width="100%"/>
         <ul className='sidebar-list'>
             {SidebarData.map((item,key)=>{
             return(

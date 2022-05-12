@@ -1,26 +1,48 @@
 .home-container{
     float: right;
-    flex: 1 1 auto;
+    flex: auto;
     width: auto;
     height: 100vh;
-    background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
-    url("../../../images/melb1.jpg");
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+    url("../../images/melb_home.jpeg");
     background-position: center;
     /* background-color: aqua; */
 }
 
+.home-title{
+    position:relative;
+    text-align: center;
+    justify-content: center; 
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    top: 500px;
+    align-items: center;
+    color: white;
+}
+
+.title1{
+    font-family: Quicksand;
+    grid-column: 1 / span 4;
+}
+
+.title2{
+    font-family: Quicksand;
+    grid-column: 1 /span 4;
+}
+
+.title3{
+    font-family: Quicksand;
+    grid-column: 4;
+}
+
 h1{
-    font-size: 80px;
+    font-size: 180px;
 }
 
 h2{
-    font-size: 40px;
+    font-size: 60px;
 }
 
-.home-title{
-    padding-left: 20px;
-    display: block;
-    height: 88%;
-    align-items: center;
-    color: white;
+h3{
+    font-size: 30px;
 }

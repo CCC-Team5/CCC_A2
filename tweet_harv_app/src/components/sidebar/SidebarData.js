@@ -29,25 +29,25 @@ export const SidebarData = [
         title: "Opportunity",
         icon: <PublishedWithChangesTwoToneIcon />,
         link:"/opportunity",
-        // iconRight: <ArrowRightTwoToneIcon />,
-        // iconDown: <ArrowDropDownTwoToneIcon />,
-        // subNav:[
-        //     {
-        //         title: "Tweet languages",
-        //         icon: <AbcIcon />,
-        //         link:"/opportunity/most_lang"
-        //     },
-        //     {
-        //         title: "Birth Country",
-        //         icon: <CakeIcon />,
-        //         link:"/opportunity/birth_country"
-        //     },
-        //     {
-        //         title: "Home Spoken",
-        //         icon: <ChatIcon />,
-        //         link:"/opportunity/spoken_lang"
-        //     },
-        // ]
+        iconRight: <ArrowRightTwoToneIcon />,
+        iconDown: <ArrowDropDownTwoToneIcon />,
+        subNav:[
+            {
+                title: "Tweet languages",
+                icon: <AbcIcon />,
+                link:"/opportunity/most_lang"
+            },
+            {
+                title: "Birth Country",
+                icon: <CakeIcon />,
+                link:"/opportunity/birth_country"
+            },
+            {
+                title: "Home Spoken",
+                icon: <ChatIcon />,
+                link:"/opportunity/spoken_lang"
+            },
+        ]
     },
     {
         title: "Housing",
@@ -61,11 +61,11 @@ export const SidebarData = [
                 icon: <ShowChartIcon />,
                 link:"/housing/trend"
             },
-            {
-                title: "Content",
-                icon: <AbcIcon />,
-                link:"/housing/content"
-            },
+            // {
+            //     title: "Content",
+            //     icon: <AbcIcon />,
+            //     link:"/housing/content"
+            // },
         ]
     },
     {
@@ -80,11 +80,11 @@ export const SidebarData = [
                 icon: <ShowChartIcon />,
                 link:"/transport/trend"
             },
-            {
-                title: "Content",
-                icon: <AbcIcon />,
-                link:"/transport/content"
-            },
+            // {
+            //     title: "Content",
+            //     icon: <AbcIcon />,
+            //     link:"/transport/content"
+            // },
         ]
     },
     {
@@ -99,11 +99,11 @@ export const SidebarData = [
                 icon: <ShowChartIcon />,
                 link:"/cost_living/trend"
             },
-            {
-                title: "Content",
-                icon: <AbcIcon />,
-                link:"/cost_living/content"
-            },
+            // {
+            //     title: "Content",
+            //     icon: <AbcIcon />,
+            //     link:"/cost_living/content"
+            // },
         ]
     },
     {

@@ -40,11 +40,11 @@ function App() {
             <Route exact path="/popular" element = {<TrendingWordCloud />} />
             <Route exact path="/opportunity" element = {<OpporGroupingChart />} />
             <Route exact path="/housing/trend" element = {<HousingTrendChart />} />
-            <Route exact path="/housing/content" element = {<HousingWordCloud />} />
+            {/* <Route exact path="/housing/content" element = {<HousingWordCloud />} /> */}
             <Route exact path="/transport/trend" element = {<TransportationChart />} />
-            <Route exact path="/transport/content" element = {<TransportationWordCloud />} />
+            {/* <Route exact path="/transport/content" element = {<TransportationWordCloud />} /> */}
             <Route exact path="/cost_living/trend" element = {<CostLivingChart />} />
-            <Route exact path="/cost_living/content" element = {<CostLivingWordCloud />} />
+            {/* <Route exact path="/cost_living/content" element = {<CostLivingWordCloud />} /> */}
             <Route exact path="/map" element = {<MapView />} />
         </Routes>
       </Router>
