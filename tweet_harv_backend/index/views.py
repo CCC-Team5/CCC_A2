@@ -121,6 +121,7 @@ def housing_trend_sentiment(request):
     """
     This function get the information from Database about the housing trand and sentiment
     """
+    context = {}
     if request.method == 'GET':
         topic = topics[0]
         try:
@@ -157,6 +158,7 @@ def cost_trend_sentiment(request):
     """
     This function get the information from Database about the cost of living trand and sentiment
     """
+    context = {}
     if request.method == 'GET':
         topic = topics[1]
         try:
@@ -193,6 +195,7 @@ def transportation_trend_sentiment(request):
     """
     This function get the information from Database about the transportation of living trand and sentiment
     """
+    context = {}
     if request.method == 'GET':
         topic = topics[2]
         try:
