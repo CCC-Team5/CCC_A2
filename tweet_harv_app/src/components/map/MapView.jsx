@@ -12,7 +12,6 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-// import ControlPanel, {Mode} from './control-panel.tsx';
 // marker reference: https://visgl.github.io/react-map-gl/examples/controls
 import {
   Marker,
@@ -20,17 +19,25 @@ import {
 } from 'react-map-gl';
 import Pin from './pin.tsx';
 
+const ZOOM_LEVELES = {
+	'heatmap': 8,
+	'cluster': 12,
+	'circle': 12
+}
+
 const MapView = () => {
   const [selectedMapType, setSelectedMapType] = useState("cluster");
+  const [zoomLevel, setZoomLevel] = useState(ZOOM_LEVELES[selectedMapType])
 
   const onRadioChange = (e) => {
     setSelectedMapType(e.target.value)
+    setZoomLevel(ZOOM_LEVELES[e.target.value])
     console.log(e.target.value)
   }
   let [viewport, setViewport] = useState({
-    longitude: 144.946457,
-    latitude: -37.840935,
-    zoom: 12,
+    longitude: 144.975,
+    latitude: -37.82,
+    zoom: ZOOM_LEVELES[selectedMapType],
     pitch: 40
   })
 
@@ -203,9 +210,12 @@ const MapView = () => {
         <Map
           mapboxAccessToken={env.MAPBOX_PT}
           initialViewState={viewport}
+          zoom={zoomLevel}
           width="100vw" // It always override the view(viewport) width state.
           height="100vh" // It always override the view(viewport) height state.
-          onViewportChange={(newView) => setViewport(newView)}
+          // onViewportChange={(newView) => setViewport(newView)}
+          onViewportChange={(newView) => setViewport({...newView, zoom: zoomLevel})}
+          onZoom={value => setZoomLevel(value.viewState.zoom)}
           mapStyle="mapbox://styles/mapbox/dark-v9"
           interactiveLayerIds={[clusterLayer.id]}
           onClick={onClick}

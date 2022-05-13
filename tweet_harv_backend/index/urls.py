@@ -5,7 +5,10 @@ app_name = 'index'
 
 urlpatterns = [
     path("hashtag/", views.hashtag),
-    path("opportunity/", views.language_and_birth),
+    # path("opportunity/", views.language_and_birth),
+    path("opportunity/language_count/", views.language_count),
+    path("opportunity/birth_country/", views.birth_country),
+    path("opportunity/language_home/", views.language_at_home),
     path('opportunity/percent/', views.percent),
     path("housing/trend_sentiment/", views.housing_trend_sentiment),
     path("housing/content/", views.housing_content),

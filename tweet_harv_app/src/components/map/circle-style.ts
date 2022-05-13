@@ -6,7 +6,7 @@ export const circleLayer: CircleLayer = {
     'id': 'earthquakes-point',
     'type': 'circle',
     'source': 'earthquakes',
-    'minzoom': 12,
+    'minzoom': 8,
     'paint': {
         // Size circle radius by earthquake magnitude and zoom level
         'circle-radius': [
@@ -23,21 +23,21 @@ export const circleLayer: CircleLayer = {
             'interpolate',
             ['linear'],
             ['get', 'mag'],
-            1,
+            20,
             'rgba(255,0,0,0)',
-            2,
+            200,
             'rgb(255,51,51)',
-            3,
+            300,
             'rgb(255,102,102)',
-            4,
+            400,
             'rgb(253,219,199)',
-            5,
+            500,
             'rgb(255,204,255)',
-            6,
+            1000, 
             'rgb(255,204,255)'
         ],
         'circle-stroke-color': 'white',
-        'circle-stroke-width': 0.5,
+        'circle-stroke-width': 0.9,
         // Transition from heatmap to circle layer by zoom level
         'circle-opacity': [
             'interpolate',

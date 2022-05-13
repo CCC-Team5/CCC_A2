@@ -57,27 +57,16 @@ def hashtag(request):
             return HttpResponseBadRequest(hashtags)
 
 
-def language_and_birth(request):
+def language_count(request):
     if request.method == 'GET':
-        result_lst = {'language_count': [], 'birth_country': [], 'language_at_home': []}
+        result_lst = []
         try:
             # top 10 languages other than English in which tweets were made
             language_count = top_n_lang_count(tweet_db, language_db, 10)
             for tag, count in language_count.items():
                 obj = {'language_name': tag, 'count': count}
-                result_lst['language_count'].append(obj)
+                result_lst.append(obj)
 
-            # top 10 non-English-speaking countries where people living in the Greater Melbourne were originally from
-            birth_country = top_n_birth_country(birth_db, 10)
-            for tag, count in birth_country.items():
-                obj = {'country': tag, 'count': count}
-                result_lst['birth_country'].append(obj)
-
-            # top N languages other than English spoken at home
-            language_at_home = top_n_lang_spoken_at_home(langhome_db, 10)
-            for tag, count in language_at_home.items():
-                obj = {'country': tag, 'count': count}
-                result_lst['language_at_home'].append(obj)
         except Exception as e:
             print(e)
             result_lst = None
@@ -90,6 +79,87 @@ def language_and_birth(request):
 
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
+
+def birth_country(request):
+    if request.method == 'GET':
+        result_lst = []
+        try:
+            # top 10 non-English-speaking countries where people living in the Greater Melbourne were originally from
+            birth_country = top_n_birth_country(birth_db, 10)
+            for tag, count in birth_country.items():
+                obj = {'country': tag, 'count': count}
+                result_lst.append(obj)
+
+        except Exception as e:
+            print(e)
+            result_lst = None
+
+        if result_lst:
+            return HttpResponse(json.dumps(result_lst))
+        else:
+            # status code 400
+            return HttpResponseBadRequest(result_lst)
+
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
+
+def language_at_home(request):
+    if request.method == 'GET':
+        result_lst = []
+        try:
+            # top N languages other than English spoken at home
+            language_at_home = top_n_lang_spoken_at_home(langhome_db, 10)
+            for tag, count in language_at_home.items():
+                obj = {'country': tag, 'count': count}
+                result_lst.append(obj)
+
+        except Exception as e:
+            print(e)
+            result_lst = None
+
+        if result_lst:
+            return HttpResponse(json.dumps(result_lst))
+        else:
+            # status code 400
+            return HttpResponseBadRequest(result_lst)
+
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+# def language_and_birth(request):
+#     if request.method == 'GET':
+#         result_lst = {'language_count': [], 'birth_country': [], 'language_at_home': []}
+#         try:
+#             # top 10 languages other than English in which tweets were made
+#             language_count = top_n_lang_count(tweet_db, language_db, 10)
+#             for tag, count in language_count.items():
+#                 obj = {'language_name': tag, 'count': count}
+#                 result_lst['language_count'].append(obj)
+#
+#             # top 10 non-English-speaking countries where people living in the Greater Melbourne were originally from
+#             birth_country = top_n_birth_country(birth_db, 10)
+#             for tag, count in birth_country.items():
+#                 obj = {'country': tag, 'count': count}
+#                 result_lst['birth_country'].append(obj)
+#
+#             # top N languages other than English spoken at home
+#             language_at_home = top_n_lang_spoken_at_home(langhome_db, 10)
+#             for tag, count in language_at_home.items():
+#                 obj = {'country': tag, 'count': count}
+#                 result_lst['language_at_home'].append(obj)
+#         except Exception as e:
+#             print(e)
+#             result_lst = None
+#
+#         if result_lst:
+#             return HttpResponse(json.dumps(result_lst))
+#         else:
+#             # status code 400
+#             return HttpResponseBadRequest(result_lst)
+#
+#     else:
+#         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
 
 def percent(request):
@@ -116,14 +186,13 @@ def percent(request):
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 
 
-
 def housing_trend_sentiment(request):
     """
     This function get the information from Database about the housing trand and sentiment
     """
-    context = {}
     if request.method == 'GET':
         topic = topics[0]
+        context = {"year": [], "percent": [], "sentiment": []}
         try:
             year_topic, year_total, percent = topic_trend(tweet_db, topic)
             years = list(percent)
@@ -132,7 +201,10 @@ def housing_trend_sentiment(request):
             yearly_sentiment = topic_sentiment(housing_text_db, topic)
             yearly_sentiment = list(yearly_sentiment.values())
             yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
-            context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
+            # context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
+            context["year"] = years
+            context["percent"] = percents
+            context["sentiment"] = yearly_sentiment
         except Exception as e:
             print(e, "topic: ", topic)
         response_json = json.dumps(context).encode("utf-8")
@@ -158,9 +230,9 @@ def cost_trend_sentiment(request):
     """
     This function get the information from Database about the cost of living trand and sentiment
     """
-    context = {}
     if request.method == 'GET':
         topic = topics[1]
+        context = {"year": [], "percent": [], "sentiment": []}
         try:
             year_topic, year_total, percent = topic_trend(tweet_db, topic)
             years = list(percent)
@@ -169,7 +241,10 @@ def cost_trend_sentiment(request):
             yearly_sentiment = topic_sentiment(cost_text_db, topic)
             yearly_sentiment = list(yearly_sentiment.values())
             # yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
-            context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
+            # context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
+            context["year"] = years
+            context["percent"] = percents
+            context["sentiment"] = yearly_sentiment
         except Exception as e:
             print(e, "topic: ", topic)
         response_json = json.dumps(context).encode("utf-8")
@@ -195,9 +270,9 @@ def transportation_trend_sentiment(request):
     """
     This function get the information from Database about the transportation of living trand and sentiment
     """
-    context = {}
     if request.method == 'GET':
         topic = topics[2]
+        context = {"year": [], "percent": [], "sentiment": []}
         try:
             year_topic, year_total, percent = topic_trend(tweet_db, topic)
             years = list(percent)
@@ -206,7 +281,10 @@ def transportation_trend_sentiment(request):
             yearly_sentiment = topic_sentiment(transportation_text_db, topic)
             yearly_sentiment = list(yearly_sentiment.values())
             yearly_sentiment = [round(i, 2) for i in yearly_sentiment]
-            context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
+            # context = {"year": years, "percent": percents, "sentiment": yearly_sentiment}
+            context["year"] = years
+            context["percent"] = percents
+            context["sentiment"] = yearly_sentiment
         except Exception as e:
             print(e, "topic: ", topic)
         response_json = json.dumps(context).encode("utf-8")
