@@ -13,6 +13,7 @@ function OpporGroupingChart() {
           setData(res.data)
         })
       },[])
+      
 
     const options = {
         chart: {
