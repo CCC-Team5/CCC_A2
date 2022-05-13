@@ -17,6 +17,8 @@ from nltk.corpus import stopwords
 from nltk.tokenize import TweetTokenizer
 from textblob import TextBlob
 from geojson import Point, Feature, FeatureCollection, dump
+nltk.download('punkt')
+nltk.download('stopwords')
 
 
 def delete_docs(topic, save_db):
