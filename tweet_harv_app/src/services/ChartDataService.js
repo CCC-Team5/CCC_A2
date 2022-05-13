@@ -10,19 +10,18 @@ class ChartDataService{
 
     getOpportunityPercent(){
         return BASE_API_URL.get('opportunity/percent/')
-        // return LOCAL_URL.get('opportunity/percent/')
     }
 
     getLanguageCount(){
-        return LOCAL_URL.get('opportunity/language_count/')
+        return BASE_API_URL.get('opportunity/language_count/')
     }
 
     getBirthCountry(){
-        return LOCAL_URL.get('opportunity/birth_country/')
+        return BASE_API_URL.get('opportunity/birth_country/')
     }
 
     getLanguageHome(){
-        return LOCAL_URL.get('opportunity/language_home/')
+        return BASE_API_URL.get('opportunity/language_home/')
     }
 
     getHousingTrendSenti(){
