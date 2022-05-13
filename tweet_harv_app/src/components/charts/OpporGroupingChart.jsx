@@ -6,6 +6,13 @@ import ChartDataService from '../../services/ChartDataService';
 
 
 function OpporGroupingChart() {
+    const[data, setData] = useState();
+
+    React.useEffect(()=>{
+        ChartDataService.getOpportunityPercent().then((res)=>{
+          setData(res.data)
+        })
+      },[])
 
     const options = {
         chart: {
@@ -41,11 +48,6 @@ function OpporGroupingChart() {
                 skew3d: true
             }
         },
-    
-        // tooltip: {
-        //     headerFormat: '<b>{point.key}</b><br>',
-        //     pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
-        // },
     
         plotOptions: {
             column: {

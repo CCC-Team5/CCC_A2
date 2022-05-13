@@ -35,17 +35,17 @@ export const SidebarData = [
             {
                 title: "Tweet languages",
                 icon: <AbcIcon />,
-                link:"/opportunity/most_lang"
+                link:"/opportunity-most_lang"
             },
             {
                 title: "Birth Country",
                 icon: <CakeIcon />,
-                link:"/opportunity/birth_country"
+                link:"/opportunity-birth_country"
             },
             {
                 title: "Home Spoken",
                 icon: <ChatIcon />,
-                link:"/opportunity/spoken_lang"
+                link:"/opportunity-spoken_lang"
             },
         ]
     },
@@ -59,7 +59,7 @@ export const SidebarData = [
             {
                 title: "Trend & Sentiment",
                 icon: <ShowChartIcon />,
-                link:"/housing/trend"
+                link:"/housing-trend"
             },
             // {
             //     title: "Content",
@@ -78,7 +78,7 @@ export const SidebarData = [
             {
                 title: "Trend & Sentiment",
                 icon: <ShowChartIcon />,
-                link:"/transport/trend"
+                link:"/transport-trend"
             },
             // {
             //     title: "Content",
@@ -97,7 +97,7 @@ export const SidebarData = [
             {
                 title: "Trend & Sentiment",
                 icon: <ShowChartIcon />,
-                link:"/cost_living/trend"
+                link:"/cost_living-trend"
             },
             // {
             //     title: "Content",
