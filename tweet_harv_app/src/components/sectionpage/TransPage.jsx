@@ -5,7 +5,7 @@ function TransPage() {
   return (
     <div className='trans-container'>
       <div className='trans-title'>
-        <h2>TRANSPORTATION</h2>
+      <p class="p2">TRANSPORTATION</p>
       </div>
     </div>
   )

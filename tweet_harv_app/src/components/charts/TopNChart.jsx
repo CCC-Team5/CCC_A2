@@ -10,6 +10,7 @@ function TopNChart() {
     const birthCountry = []
     const languageHome = []
     const languageCount = []
+    
     React.useEffect(()=>{
         ChartDataService.getOpportunitydata().then((res)=>{
           setData(res.data)

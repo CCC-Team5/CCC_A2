@@ -6,17 +6,16 @@ import MapView from './components/map/MapView';
 import Home from './components/homepage/Home';
 import Sidebar from './components/sidebar/Sidebar';
 import TrendingWordCloud from './components/charts/TrendingWordCloud';
-import TopNChart from './components/charts/TopNChart';
 import HousingTrendChart from './components/charts/HousingTrendChart';
-import HousingWordCloud from './components/views/HousingWordCloud';
-import CostLivingWordCloud from './components/charts/CostLivingWordCloud';
-import TransportationWordCloud from './components/charts/TransportationWordCloud';
 import TransportationChart from './components/charts/TransportationChart'; 
 import CostLivingChart from './components/charts/CostLivingChart';
 import OpporGroupingChart from './components/charts/OpporGroupingChart';
 import HousingPage from './components/sectionpage/HousingPage';
 import TransPage from './components/sectionpage/TransPage';
 import CostLivingPage from './components/sectionpage/CostLivingPage';
+import TopBirthCountry from './components/charts/TopBirthCountry';
+import TopNLangAtHome from './components/charts/TopNLangAtHome';
+import TopNLangChart from './components/charts/TopNLangChart';
 
 function App() {
   // const axios = require("axios").default; 
@@ -41,16 +40,20 @@ function App() {
         <Routes>
             <Route exact path="/" element = {<Home />} />
             <Route exact path="/popular" element = {<TrendingWordCloud />} />
+
             <Route exact path="/opportunity" element = {<OpporGroupingChart />} />
+            <Route exact path="/opportunity-most_lang" element = {<TopNLangChart />} />
+            <Route exact path="/opportunity-birth_country" element = {<TopBirthCountry />} />
+            <Route exact path="/opportunity-spoken_lang" element = {<TopNLangAtHome />} />
+
             <Route exact path="/housing" element = {<HousingPage />} />
             <Route exact path="/housing-trend" element = {<HousingTrendChart />} />
-            {/* <Route exact path="/housing/content" element = {<HousingWordCloud />} /> */}
+
             <Route exact path="/transport" element = {<TransPage />} />
             <Route exact path="/transport-trend" element = {<TransportationChart />} />
-            {/* <Route exact path="/transport/content" element = {<TransportationWordCloud />} /> */}
+
             <Route exact path="/cost_living" element = {<CostLivingPage />} />
             <Route exact path="/cost_living-trend" element = {<CostLivingChart />} />
-            {/* <Route exact path="/cost_living/content" element = {<CostLivingWordCloud />} /> */}
             <Route exact path="/map" element = {<MapView />} />
         </Routes>
       </Router>

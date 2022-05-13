@@ -5,7 +5,7 @@ function HousingPage() {
   return (
     <div className='housing-container'>
       <div className='housing-title'>
-        <h1>HOUSING</h1>
+      <p class="p1">HOUSING</p>
       </div>
     </div>
   )

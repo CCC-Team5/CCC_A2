@@ -7,12 +7,31 @@ import ChartDataService from '../../services/ChartDataService';
 
 function OpporGroupingChart() {
     const[data, setData] = useState();
+    const restPct = []
+    const englishPct = []
 
     React.useEffect(()=>{
         ChartDataService.getOpportunityPercent().then((res)=>{
           setData(res.data)
         })
       },[])
+
+      if(data){
+        data.language_count.forEach(element => {
+            englishPct.push(element.percent)
+            restPct.push(element.rest)
+        });
+
+        data.birth_country.forEach(element => {
+            englishPct.push(element.percent)
+            restPct.push(element.rest)
+        });
+
+        data.language_at_home.forEach(element => {
+            englishPct.push(element.percent)
+            restPct.push(element.rest)
+        });
+      }
       
 
     const options = {
@@ -28,11 +47,11 @@ function OpporGroupingChart() {
         },
     
         title: {
-            text: 'Total fruit consumption, grouped by gender'
+            text: 'Percentage comparison between English and Others'
         },
     
         xAxis: {
-            categories: ['Apples', 'Oranges', 'Pears'],
+            categories: ['Tweet lang', 'birth country', 'lang speak at home'],
             labels: {
                 skew3d: true,
                 style: {
@@ -45,7 +64,7 @@ function OpporGroupingChart() {
             allowDecimals: false,
             min: 0,
             title: {
-                text: 'Number of fruits',
+                text: 'Percentage',
                 skew3d: true
             }
         },
@@ -58,11 +77,11 @@ function OpporGroupingChart() {
         },
     
         series: [{
-            name: 'Other_percent',
-            data: [5, 3, 4],
+            name: 'English',
+            data: englishPct,
         }, {
-            name: 'english',
-            data: [3, 4, 4],
+            name: 'Others',
+            data: restPct,
         }]
     }
   return (
