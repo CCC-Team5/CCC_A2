@@ -21,28 +21,27 @@ function TopNLangChart() {
         Thai:"#660000",
         Turkish:"#f44336",
         Others: "#36f4e4",
-        Italian: "#8fce00"
+        Italian: "#8fce00",
+        Vietnamese:"#FFFF00",
 
     }
 
-    // React.useEffect(()=>{
-    //     ChartDataService.getOpportunitydata().then((res)=>{
-    //       setData(res.data)
-    //     })
-    //   },[])
+    React.useEffect(()=>{
+        ChartDataService.getLanguageCount().then((res)=>{
+          setData(res.data)
+        })
+      },[])
 
-    //   console.log(data.language_count)
-
-    // if(data.language_count){
-    //     data.language_count.map((element) => {
-    //         let obj = {
-    //             name: element.language_name,
-    //             y: element.count,
-    //             color: colorMap[element.language_name]
-    //         };
-    //         languageCount.push(obj)
-    //     });
-    // }
+    if(data){
+        data.map((element) => {
+            let obj = {
+                name: element.language_name,
+                y: element.count,
+                color: colorMap[element.language_name]
+            };
+            languageCount.push(obj)
+        });
+    }
 
     const optionLang = {
         chart: {

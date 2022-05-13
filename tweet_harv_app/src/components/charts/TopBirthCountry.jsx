@@ -23,19 +23,20 @@ function TopBirthCountry() {
         Italy: "#8fce00",
         Pakistan:"#274e13",
         Germany: "#990000",
-        India: "#de7b42"
+        India: "#de7b42",
+        Vietnam:"#FFFF00"
     }
 
     React.useEffect(()=>{
-        ChartDataService.getOpportunitydata().then((res)=>{
+        ChartDataService.getBirthCountry().then((res)=>{
           setData(res.data)
         })
       },[])
 
+      console.log(data)
 
-      if(data.birth_country){
-        data.birth_country.map((element) => {
-            console.log(element.country)
+      if(data){
+        data.map((element) => {
             let obj = {
                 name: element.country,
                 y: element.count[0],

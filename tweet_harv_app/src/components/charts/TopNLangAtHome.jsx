@@ -20,27 +20,28 @@ function TopNLangAtHome() {
         Thai:"#660000",
         Turkish:"#f44336",
         Others: "#36f4e4",
-        Italian: "#8fce00"
-
+        Italian: "#8fce00",
+        Vietnamese:"#FFFF00",
     }
 
-    // React.useEffect(()=>{
-    //     ChartDataService.getOpportunitydata().then((res)=>{
-    //       setData(res.data)
-    //     })
-    //   },[])
+    React.useEffect(()=>{
+        ChartDataService.getLanguageHome().then((res)=>{
+          setData(res.data)
+        })
+      },[])
 
-    //   if(data.language_at_home){
-    //     data.language_at_home.map((element) => {
-    //         console.log(element.country)
-    //         let obj = {
-    //             name: element.country,
-    //             y: element.count[0],
-    //             color: colorMap[element.country]
-    //         };
-    //         languageHome.push(obj)
-    //     });
-    //   }
+      console.log(data)
+
+      if(data){
+        data.map((element) => {
+            let obj = {
+                name: element.country,
+                y: element.count[0],
+                color: colorMap[element.country]
+            };
+            languageHome.push(obj)
+        });
+      }
 
     const optionLangAtHome = {
         chart: {
