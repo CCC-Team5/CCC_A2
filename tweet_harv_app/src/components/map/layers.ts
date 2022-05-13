@@ -6,7 +6,7 @@ export const clusterLayer: LayerProps = {
   source: 'earthquakes',
   filter: ['has', 'point_count'],
   paint: {
-    'circle-color': ['step', ['get', 'point_count'], '#51bbd6', 100, '#f1f075', 750, '#f28cb1'],
+    'circle-color': ['step', ['get', 'point_count'], '#94bee3', 100, '#65a7e0', 750, '#2b7dc2'],
     'circle-radius': ['step', ['get', 'point_count'], 20, 100, 30, 750, 40]
   }
 };
