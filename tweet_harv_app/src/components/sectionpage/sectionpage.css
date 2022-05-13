@@ -59,17 +59,17 @@
     justify-content: center; 
     display: flex;
     top: 25%;
-    left: 25%;
+    left: 20%;
     align-items: center;
     color: white;
 }
 
-h1{
+p.p1{
     font-family: Quicksand;
     font-size: 180px;
 }
 
-h2{
+p.p2{
     font-family: Quicksand;
     font-size: 160px;
 }

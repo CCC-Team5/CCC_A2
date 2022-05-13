@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const BASE_API_URL = axios.create({baseURL: 'api/index/'});
+const LOCAL_URL = axios.create({baseURL: 'http://localhost:8000/index/'});
 class ChartDataService{
     
     getTrendingHashtags(){
@@ -8,11 +9,19 @@ class ChartDataService{
     }
 
     getOpportunityPercent(){
-        return BASE_API_URL.get('opportunity/percent')
+        return BASE_API_URL.get('opportunity/percent/')
     }
 
-    getOpportunitydata(){
-        return BASE_API_URL.get('opportunity/')
+    getLanguageCount(){
+        return BASE_API_URL.get('opportunity/language_count/')
+    }
+
+    getBirthCountry(){
+        return BASE_API_URL.get('opportunity/birth_country/')
+    }
+
+    getLanguageHome(){
+        return BASE_API_URL.get('opportunity/language_home/')
     }
 
     getHousingTrendSenti(){

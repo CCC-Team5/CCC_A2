@@ -8,9 +8,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 }
 
-@font-face {
+/* @font-face {
   font-family: "futur";
   src: local("futur"),
     url("./fonts/futur.ttf") format("ttf");
   font-weight: normal;
-}
+} */

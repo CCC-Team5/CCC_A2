@@ -5,7 +5,7 @@ function CostLivingPage() {
   return (
     <div className='costlive-container'>
       <div className='costlive-title'>
-        <h2>COST OF LIVING</h2>
+      <p class="p1">COST OF LIVING</p>
       </div>
     </div>
   )
