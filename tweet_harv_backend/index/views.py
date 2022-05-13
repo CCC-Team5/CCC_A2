@@ -136,10 +136,9 @@ def housing_trend_sentiment(request):
             context["year"] = years
             context["percent"] = percents
             context["sentiment"] = yearly_sentiment
-            response_json = json.dumps(context).encode("utf-8")
         except Exception as e:
             print(e, "topic: ", topic)
-        #response_json = json.dumps(context).encode("utf-8")
+        response_json = json.dumps(context).encode("utf-8")
         return HttpResponse(response_json)
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
@@ -177,10 +176,9 @@ def cost_trend_sentiment(request):
             context["year"] = years
             context["percent"] = percents
             context["sentiment"] = yearly_sentiment
-            response_json = json.dumps(context).encode("utf-8")
         except Exception as e:
             print(e, "topic: ", topic)
-        #response_json = json.dumps(context).encode("utf-8")
+        response_json = json.dumps(context).encode("utf-8")
         return HttpResponse(response_json)
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
@@ -218,10 +216,9 @@ def transportation_trend_sentiment(request):
             context["year"] = years
             context["percent"] = percents
             context["sentiment"] = yearly_sentiment
-            response_json = json.dumps(context).encode("utf-8")
         except Exception as e:
             print(e, "topic: ", topic)
-        #response_json = json.dumps(context).encode("utf-8")
+        response_json = json.dumps(context).encode("utf-8")
         return HttpResponse(response_json)
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
