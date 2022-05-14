@@ -3,7 +3,7 @@ import {SidebarData} from './SidebarData'
 import {Link} from 'react-router-dom';
 import './Sidebar.css'
 import { flexbox } from '@mui/system';
-import logo from '../../images/unimelb_logo.png';
+import logo from '../../images/logo4.png';
 
 function Sidebar() {
     const [active, setActive] = useState(); 

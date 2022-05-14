@@ -1,52 +1,49 @@
 import React, { useState, useEffect } from 'react'
 import Highcharts, { registerRendererType } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import './Chart.css'
-import ChartDataService from '../../services/ChartDataService';
+import '../chart.css'
+import ChartDataService from '../../../services/ChartDataService';
 
-function TopBirthCountry() {
+
+function TopNLangChart() {
     const[data, setData] = useState([]);
-    const birthCountry = []
+    const languageCount = []
 
     const colorMap = {
         Spanish:"#FFA500",
-        Japan:"#FFC0CB",
+        Japanese:"#FFC0CB",
         Indonesian:"#00FF00",
         Arabic:"#073763",
-        Philippines:"#470e8a",
-        China:"#FF0000",
+        Tagalog:"#470e8a",
+        Chinese:"#FF0000",
         French:"#6fa8dc",
         Portuguese:"#38761d",
         Thai:"#660000",
         Turkish:"#f44336",
         Others: "#36f4e4",
-        Italy: "#8fce00",
-        Pakistan:"#274e13",
-        Germany: "#990000",
-        India: "#de7b42",
-        Vietnam:"#FFFF00"
+        Italian: "#8fce00",
+        Vietnamese:"#FFFF00",
+
     }
 
     React.useEffect(()=>{
-        ChartDataService.getBirthCountry().then((res)=>{
+        ChartDataService.getLanguageCount().then((res)=>{
           setData(res.data)
         })
       },[])
 
-      console.log(data)
-
-      if(data){
+    if(data){
         data.map((element) => {
             let obj = {
-                name: element.country,
-                y: element.count[0],
-                color: colorMap[element.country]
+                name: element.language_name,
+                y: element.count,
+                color: colorMap[element.language_name]
             };
-            birthCountry.push(obj)
+            languageCount.push(obj)
         });
-      } 
+    }
 
-      const optionsBirth = {
+    const optionLang = {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -54,7 +51,7 @@ function TopBirthCountry() {
             type: 'pie'
         },
         title: {
-            text: 'Top birth countries other than English speaking countries'
+            text: 'Most tweeted languages other than English'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -79,15 +76,14 @@ function TopBirthCountry() {
             colorByPoint: true,
             allowPointSelect: true,
             showInLegend: true,
-            data: birthCountry
+            data: languageCount
         }]
     }
-
   return (
     <div className='chart-container'>
-        <HighchartsReact containerProps={{ style: { width: "100%" , height: "100%"} }} highcharts={Highcharts} options={optionsBirth} />
+        <HighchartsReact containerProps={{ style: { width: "100%" , height: "100%"} }} highcharts={Highcharts} options={optionLang} />
     </div>
   )
 }
 
-export default TopBirthCountry
+export default TopNLangChart

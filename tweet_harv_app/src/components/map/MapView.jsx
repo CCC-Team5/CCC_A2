@@ -18,7 +18,7 @@ import {
   Popup,
 } from 'react-map-gl';
 import Pin from './pin.tsx';
-import Pin2 from './pin2.tsx';
+// import Pin2 from './pin2.tsx';
 import { MdAccountBalance } from 'react-icons/md';
 import {MdDirectionsTransitFilled} from 'react-icons/md';
 import {MdFlight} from 'react-icons/md';

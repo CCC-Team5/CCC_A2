@@ -5,17 +5,18 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import MapView from './components/map/MapView';
 import Home from './components/homepage/Home';
 import Sidebar from './components/sidebar/Sidebar';
+import OpporGroupingChart from './components/charts/opportunity/OpporGroupingChart';
+import TopBirthCountry from './components/charts/opportunity/TopBirthCountry';
+import TopNLangAtHome from './components/charts/opportunity/TopNLangAtHome';
+import TopNLangChart from './components/charts/opportunity/TopNLangChart';
+
 import TrendingWordCloud from './components/charts/TrendingWordCloud';
 import HousingTrendChart from './components/charts/HousingTrendChart';
 import TransportationChart from './components/charts/TransportationChart'; 
 import CostLivingChart from './components/charts/CostLivingChart';
-import OpporGroupingChart from './components/charts/OpporGroupingChart';
 import HousingPage from './components/sectionpage/HousingPage';
 import TransPage from './components/sectionpage/TransPage';
 import CostLivingPage from './components/sectionpage/CostLivingPage';
-import TopBirthCountry from './components/charts/TopBirthCountry';
-import TopNLangAtHome from './components/charts/TopNLangAtHome';
-import TopNLangChart from './components/charts/TopNLangChart';
 
 function App() {
   // const axios = require("axios").default; 

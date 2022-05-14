@@ -33,7 +33,7 @@ export const SidebarData = [
         iconDown: <ArrowDropDownTwoToneIcon />,
         subNav:[
             {
-                title: "Tweet languages",
+                title: "Tweet Language",
                 icon: <AbcIcon />,
                 link:"/opportunity-most_lang"
             },
@@ -43,7 +43,7 @@ export const SidebarData = [
                 link:"/opportunity-birth_country"
             },
             {
-                title: "Home Spoken",
+                title: "Home Language",
                 icon: <ChatIcon />,
                 link:"/opportunity-spoken_lang"
             },

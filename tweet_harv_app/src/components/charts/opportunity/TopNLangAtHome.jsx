@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Highcharts, { registerRendererType } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import './Chart.css'
-import ChartDataService from '../../services/ChartDataService';
+import '../chart.css'
+import ChartDataService from '../../../services/ChartDataService';
 
-
-function TopNLangChart() {
+function TopNLangAtHome() {
     const[data, setData] = useState([]);
-    const languageCount = []
+    const languageHome = []
 
     const colorMap = {
         Spanish:"#FFA500",
@@ -23,27 +22,28 @@ function TopNLangChart() {
         Others: "#36f4e4",
         Italian: "#8fce00",
         Vietnamese:"#FFFF00",
-
     }
 
     React.useEffect(()=>{
-        ChartDataService.getLanguageCount().then((res)=>{
+        ChartDataService.getLanguageHome().then((res)=>{
           setData(res.data)
         })
       },[])
 
-    if(data){
+      console.log(data)
+
+      if(data){
         data.map((element) => {
             let obj = {
-                name: element.language_name,
-                y: element.count,
-                color: colorMap[element.language_name]
+                name: element.country,
+                y: element.count[0],
+                color: colorMap[element.country]
             };
-            languageCount.push(obj)
+            languageHome.push(obj)
         });
-    }
+      }
 
-    const optionLang = {
+    const optionLangAtHome = {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -51,7 +51,7 @@ function TopNLangChart() {
             type: 'pie'
         },
         title: {
-            text: 'Most tweeted languages other than English'
+            text: 'Top spoken languages at home'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -76,14 +76,15 @@ function TopNLangChart() {
             colorByPoint: true,
             allowPointSelect: true,
             showInLegend: true,
-            data: languageCount
+            data: languageHome
         }]
     }
+
   return (
     <div className='chart-container'>
-        <HighchartsReact containerProps={{ style: { width: "100%" , height: "100%"} }} highcharts={Highcharts} options={optionLang} />
+        <HighchartsReact containerProps={{ style: { width: "100%" , height: "100%"} }} highcharts={Highcharts} options={optionLangAtHome} />
     </div>
   )
 }
 
-export default TopNLangChart
+export default TopNLangAtHome

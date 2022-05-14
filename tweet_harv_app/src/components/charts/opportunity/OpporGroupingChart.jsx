@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import Highcharts, { registerRendererType } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import './Chart.css'
-import ChartDataService from '../../services/ChartDataService';
+import '../chart.css'
+import ChartDataService from '../../../services/ChartDataService';
+import highcharts3d from "highcharts/highcharts-3d";
+highcharts3d(Highcharts);
+
 
 
 function OpporGroupingChart() {
@@ -18,18 +21,18 @@ function OpporGroupingChart() {
 
       if(data){
         data.language_count.forEach(element => {
-            englishPct.push(element.percent)
-            restPct.push(element.rest)
+            restPct.push(element.percent)
+            englishPct.push(element.rest)
         });
 
         data.birth_country.forEach(element => {
-            englishPct.push(element.percent)
-            restPct.push(element.rest)
+            restPct.push(element.percent)
+            englishPct.push(element.rest)
         });
 
         data.language_at_home.forEach(element => {
-            englishPct.push(element.percent)
-            restPct.push(element.rest)
+            restPct.push(element.percent)
+            englishPct.push(element.rest)
         });
       }
       
@@ -37,8 +40,9 @@ function OpporGroupingChart() {
     const options = {
         chart: {
             type: 'column',
+            backgroundColor: 'transparent',
             options3d: {
-                enabled: true,
+                enabled: false,
                 alpha: 15,
                 beta: 15,
                 viewDistance: 25,
@@ -47,11 +51,12 @@ function OpporGroupingChart() {
         },
     
         title: {
-            text: 'Percentage comparison between English and Others'
+            text: ''
         },
     
         xAxis: {
-            categories: ['Tweet lang', 'birth country', 'lang speak at home'],
+            lineWidth : '0',
+            categories: ['', '', ''],
             labels: {
                 skew3d: true,
                 style: {
@@ -64,9 +69,9 @@ function OpporGroupingChart() {
             allowDecimals: false,
             min: 0,
             title: {
-                text: 'Percentage',
-                skew3d: true
-            }
+                text: 'Percentages',
+                skew3d: true,
+            },
         },
     
         plotOptions: {
@@ -76,18 +81,23 @@ function OpporGroupingChart() {
             }
         },
     
-        series: [{
-            name: 'English',
-            data: englishPct,
-        }, {
+        series: [
+            {
             name: 'Others',
             data: restPct,
+            color: "#F0A500"
+        }, {
+            name: 'English',
+            data: englishPct,
+            color: "#1B1A17"
         }]
     }
   return (
-    <div className='chart-container'>
-        <HighchartsReact containerProps={{ style: { width: "100%" } }} highcharts={Highcharts} options={options} />
-    </div>
+      <div className='content-container2'>
+        <div className='oppor-container'>
+            <HighchartsReact containerProps={{ style: { width: "100%" } }} highcharts={Highcharts} options={options} />
+        </div>
+      </div>
   )
 }
 
