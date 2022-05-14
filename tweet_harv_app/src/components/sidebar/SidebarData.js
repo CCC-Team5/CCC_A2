@@ -107,7 +107,7 @@ export const SidebarData = [
         ]
     },
     {
-        title: "Map",
+        title: "Neighborhood",
         icon: <MapIcon />,
         link:"/map"
     }
