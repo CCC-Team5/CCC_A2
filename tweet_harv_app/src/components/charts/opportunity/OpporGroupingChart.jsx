@@ -42,9 +42,9 @@ function OpporGroupingChart() {
             type: 'column',
             backgroundColor: 'transparent',
             options3d: {
-                enabled: false,
-                alpha: 15,
-                beta: 15,
+                enabled: true,
+                alpha: 25,
+                beta: 5,
                 viewDistance: 25,
                 depth: 40
             }
@@ -59,10 +59,8 @@ function OpporGroupingChart() {
             categories: ['', '', ''],
             labels: {
                 skew3d: true,
-                style: {
-                    fontSize: '16px'
-                }
-            }
+            },
+            gridLineColor:"transparent"
         },
     
         yAxis: {
@@ -71,7 +69,13 @@ function OpporGroupingChart() {
             title: {
                 text: 'Percentages',
                 skew3d: true,
+                style: {
+                    fontSize: '16px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#1B1A17"
+                },
             },
+            gridLineColor:"transparent"
         },
     
         plotOptions: {
@@ -95,7 +99,10 @@ function OpporGroupingChart() {
   return (
       <div className='content-container2'>
         <div className='oppor-container'>
-            <HighchartsReact containerProps={{ style: { width: "100%" } }} highcharts={Highcharts} options={options} />
+            <div className='oppor-title1'><p class='o1'>Most Tweeted Languages</p></div>
+            <div className='oppor-title2'><p class='o1'>Country of Birth</p></div>
+            <div className='oppor-title3'><p class='o1'>Languages Spoken at Home</p></div>
+            <div className='oppor-chart'><HighchartsReact containerProps={{ style: { width: "100%" } }} highcharts={Highcharts} options={options} /></div>
         </div>
       </div>
   )

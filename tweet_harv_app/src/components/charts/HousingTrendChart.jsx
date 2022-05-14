@@ -3,6 +3,8 @@ import Highcharts, { registerRendererType } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import './Chart.css'
 import ChartDataService from '../../services/ChartDataService';
+import highcharts3d from "highcharts/highcharts-3d";
+highcharts3d(Highcharts);
 
 function HousingTrendChart() {
     const [data, setData] = useState([]);
@@ -23,15 +25,21 @@ function HousingTrendChart() {
     }, [])
 
 
-    const perc_tweets_data = { 2014: 0.07792023801090883, 2015: 0.07767656286253266, 2016: 0.06480881399870382, 2017: 0.33951909213524956, 2018: 0.08345503859795535, 2019: 0.11810248671347025, 2020: 0.13969211857067024, 2021: 0.19428029558359255, 2022: 0.18703553675198287 };
-    const sentiment_data = { 2014: 0.19313898143741073, 2015: 0.07747157991060426, 2016: 0.22619047619047622, 2017: 0.07160565243311717, 2018: 0.10800000000000001, 2019: 0.13429682929682932, 2020: 0.10835478680611424, 2021: 0.10943601545630192, 2022: 0.10005737447910346 };
     const options = {
         chart: {
-            zoomType: 'xy'
+            zoomType: 'xy',
+            backgroundColor: 'transparent',
+            options3d: {
+                enabled: false,
+                alpha: 25,
+                beta: 5,
+                viewDistance: 25,
+                depth: 40
+            }
 
         },
         title: {
-            text: 'Housing Tweet Trend'
+            text: ''
         },
         subtitle: {
             text: ''
@@ -39,33 +47,51 @@ function HousingTrendChart() {
         xAxis: [{
             categories: data.year,
             crosshair: true,
+            labels:{
+                style: {
+                    fontSize: '14px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#1B1A17"
+                },
+            },
+            gridLineColor:"transparent"
         }],
         yAxis: [{ // Primary yAxis
             labels: {
                 format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
+                    fontSize: '12px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#F0A500"
+                },
             },
             title: {
                 text: 'Percentage of Total Number of Tweets',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
-            }
+                    fontSize: '16px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#F0A500"
+                },
+            },
+            gridLineColor:"transparent"
         }, { // Secondary yAxis
             title: {
                 text: 'Sentiment',
                 style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
+                    fontSize: '16px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#1B1A17"
+                },
             },
             labels: {
                 format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
+                    fontSize: '12px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#1B1A17"
+                },
             },
+            gridLineColor:"transparent",
             opposite: true
         }],
         tooltip: {
@@ -78,15 +104,13 @@ function HousingTrendChart() {
             verticalAlign: 'top',
             y: 100,
             floating: true,
-            backgroundColor:
-                Highcharts.defaultOptions.legend.backgroundColor || // theme
-                'rgba(255,255,255,0.25)'
         },
         series: [{
-            name: 'Percentage of Total Tweets',
+            name: 'Percentages of Total Tweets',
             type: 'column',
             yAxis: 0,
             data: data.percent,
+            color: "#F0A500",
             tooltip: {
                 valueSuffix: ''
             },
@@ -95,6 +119,7 @@ function HousingTrendChart() {
             type: 'spline',
             yAxis: 1,
             data: data.sentiment, // a list
+            color: "#1B1A17",
             tooltip: {
                 valueSuffix: ''
             }
@@ -102,11 +127,14 @@ function HousingTrendChart() {
     }
 
     return (
+        <div className='content-container2'>
         <div className='chart-container'>
             {loading && <p>Loading...</p>}
             {error.length > 0 && <p>{error}</p>}
-            {!loading && <HighchartsReact containerProps={{ style: { width: "100%", height: "100%" } }} highcharts={Highcharts} options={options} />}
+            {<HighchartsReact containerProps={{ style: { width: "100%", height: "100%" } }} highcharts={Highcharts} options={options} />}
         </div>
+        </div>
+        
     )
 }
 

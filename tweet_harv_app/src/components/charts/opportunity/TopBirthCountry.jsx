@@ -7,24 +7,25 @@ import ChartDataService from '../../../services/ChartDataService';
 function TopBirthCountry() {
     const[data, setData] = useState([]);
     const birthCountry = []
-
+    // '99'at the end means 60% transparency
+    // Refer: https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4
     const colorMap = {
-        Spanish:"#FFA500",
-        Japan:"#FFC0CB",
-        Indonesian:"#00FF00",
-        Arabic:"#073763",
-        Philippines:"#470e8a",
-        China:"#FF0000",
-        French:"#6fa8dc",
-        Portuguese:"#38761d",
-        Thai:"#660000",
-        Turkish:"#f44336",
-        Others: "#36f4e4",
-        Italy: "#8fce00",
-        Pakistan:"#274e13",
-        Germany: "#990000",
-        India: "#de7b42",
-        Vietnam:"#FFFF00"
+        Spanish:"#FFA50099",
+        Japan:"#FFC0CB99",
+        Indonesian:"#aaf0d199",
+        Arabic:"#d9b38c99",
+        Philippines:"#ffdd9999",
+        China:"#ff999999",
+        French:"#6fa8dc99",
+        Portuguese:"#38761d99",
+        Thai:"#66000099",
+        Turkish:"#f4433699",
+        Others: "#d6d4d499",
+        Italy: "#eef2c399",
+        Pakistan:"#dfbf9f99",
+        Germany: "#9fdfbf99",
+        India: "#ffb3e699",
+        Vietnam:"#c6e1f199"
     }
 
     React.useEffect(()=>{
@@ -33,7 +34,6 @@ function TopBirthCountry() {
         })
       },[])
 
-      console.log(data)
 
       if(data){
         data.map((element) => {
@@ -51,10 +51,11 @@ function TopBirthCountry() {
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
-            type: 'pie'
+            type: 'pie',
+            backgroundColor: 'transparent',
         },
         title: {
-            text: 'Top birth countries other than English speaking countries'
+            text: ''
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -70,7 +71,12 @@ function TopBirthCountry() {
                 cursor: 'pointer',
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>'
+                    format: '<b>{point.name}</b>',
+                    style: {
+                        fontSize: '16px',
+                        fontFamily: 'Nunito Sans',
+                        color: "#1B1A17"
+                    },
                 }
             }
         },
@@ -84,8 +90,11 @@ function TopBirthCountry() {
     }
 
   return (
-    <div className='chart-container'>
-        <HighchartsReact containerProps={{ style: { width: "100%" , height: "100%"} }} highcharts={Highcharts} options={optionsBirth} />
+    <div className='content-container2'>
+    <div className='pie-container'>
+        <div className='birth-title'><p class='pie-t1'>Top Non-English Speaking Birth Countries</p></div>
+        <HighchartsReact containerProps={{ style: { width: "90%" , height: "90%"} }} highcharts={Highcharts} options={optionsBirth} />
+    </div>
     </div>
   )
 }

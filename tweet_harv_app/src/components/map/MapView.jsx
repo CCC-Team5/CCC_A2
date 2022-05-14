@@ -62,7 +62,6 @@ const MapView = () => {
     ChartDataService.getMap().then((res) => {
       setLoading(false);
       setGeojson1(res.data)
-      console.log(res.data);
     }).catch((e) => {
       setLoading(false)
       setError('Could not fetch housing trend!')
@@ -197,10 +196,10 @@ const MapView = () => {
   // if (selectedMapType == "heatmap") {
   //   layerData = <><Layer {...heatmapLayer} /></>
   // }
-  if (selectedMapType == "circle") {
+  if (selectedMapType === "circle") {
     layerData = <><Layer {...circleLayer} /></>
   }
-  if (selectedMapType == "cluster") {
+  if (selectedMapType === "cluster") {
     layerData = <><Layer {...clusterLayer} />
       <Layer {...clusterCountLayer} />
       <Layer {...unclusteredPointLayer} /></>
@@ -252,11 +251,11 @@ const MapView = () => {
             clusterMaxZoom={14}
             clusterRadius={20}
           >
-            {selectedMapType == "cluster" &&
+            {selectedMapType === "cluster" &&
               [<Layer {...clusterLayer} />,
               <Layer {...clusterCountLayer} />,
               <Layer {...unclusteredPointLayer} />]}
-            {selectedMapType == "circle" &&
+            {selectedMapType === "circle" &&
               [<Layer {...circleLayer} />]
             }
             {/* {selectedMapType == "heatmap" &&

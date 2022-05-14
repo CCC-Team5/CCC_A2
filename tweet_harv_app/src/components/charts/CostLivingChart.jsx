@@ -13,15 +13,14 @@ function CostLivingChart() {
         })
       },[])
 
-      console.log(data)
-
     const options = {
         chart: {
-            zoomType: 'xy'
+            zoomType: 'xy',
+            backgroundColor: 'transparent',
             
         },
         title: {
-            text: 'Cost-of-living related tweet trend & sentiment'
+            text: ''
         },
         subtitle: {
             text: ''
@@ -29,34 +28,52 @@ function CostLivingChart() {
         xAxis: [{
             categories: data.year,
             crosshair: true,
+            labels:{
+                style: {
+                    fontSize: '14px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#1B1A17"
+                },
+            },
+            gridLineColor:"transparent"
         }],
         yAxis: [{ // Primary yAxis
             labels: {
                 format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
+                    fontSize: '12px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#F0A500"
+                },
             },
             title: {
                 text: 'Percentage of Total Number of Tweets',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
-            }
+                    fontSize: '16px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#F0A500"
+                },
+            },
+            gridLineColor:"transparent"
         }, 
         { // Secondary yAxis
             title: {
                 text: 'Sentiment',
                 style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
+                    fontSize: '16px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#1B1A17"
+                },
             },
             labels: {
                 format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
+                    fontSize: '12px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#1B1A17"
+                },
             },
+            gridLineColor:"transparent",
             opposite: true
         }],
         tooltip: {
@@ -69,15 +86,13 @@ function CostLivingChart() {
             verticalAlign: 'top',
             y: 100,
             floating: true,
-            backgroundColor: 
-                Highcharts.defaultOptions.legend.backgroundColor || // theme
-                'rgba(255,255,255,0.25)'
         },
         series: [{
             name: 'Percentage of Total Tweets',
             type: 'column',
             yAxis: 0,
             data: data.percent,
+            color: "#F0A500",
             tooltip: {
                 valueSuffix: ''
             },
@@ -86,6 +101,7 @@ function CostLivingChart() {
             type: 'spline',
             yAxis: 1,
             data: data.sentiment,
+            color: "#1B1A17",
             tooltip: {
                 valueSuffix: ''
             }
@@ -93,8 +109,10 @@ function CostLivingChart() {
     }
 
   return (
-    <div className='chart-container'>
+    <div className='content-container2'>
+        <div className='chart-container'>
         <HighchartsReact containerProps={{ style: { width: "100%" , height: "100%"} }} highcharts={Highcharts} options={options} />
+        </div>
     </div>
   )
 }

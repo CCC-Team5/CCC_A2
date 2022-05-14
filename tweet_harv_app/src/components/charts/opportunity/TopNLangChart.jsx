@@ -8,21 +8,24 @@ import ChartDataService from '../../../services/ChartDataService';
 function TopNLangChart() {
     const[data, setData] = useState([]);
     const languageCount = []
-
+    // '99'at the end means 60% transparency
+    // Refer: https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4
     const colorMap = {
-        Spanish:"#FFA500",
-        Japanese:"#FFC0CB",
-        Indonesian:"#00FF00",
-        Arabic:"#073763",
-        Tagalog:"#470e8a",
-        Chinese:"#FF0000",
-        French:"#6fa8dc",
-        Portuguese:"#38761d",
-        Thai:"#660000",
-        Turkish:"#f44336",
-        Others: "#36f4e4",
-        Italian: "#8fce00",
-        Vietnamese:"#FFFF00",
+        Spanish:"#FFA50099",
+        Japanese:"#FFC0CB99",
+        Indonesian:"#aaf0d199",
+        Arabic:"#d9b38c99",
+        Tagalog:"#470e8a99",
+        Chinese:"#ff999999",
+        French:"#6fa8dc99",
+        Portuguese:"#38761d99",
+        Thai:"#ebe5ae99",
+        Turkish:"#f4433699",
+        Others: "#d6d4d499",
+        Italian: "#eef2c399",
+        Vietnamese:"#c6e1f199",
+        Hindi:"#ffb3e699", 
+        Greek:"#8fa2ff99"
 
     }
 
@@ -48,10 +51,11 @@ function TopNLangChart() {
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
-            type: 'pie'
+            type: 'pie',
+            backgroundColor: 'transparent',
         },
         title: {
-            text: 'Most tweeted languages other than English'
+            text: ''
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -67,7 +71,12 @@ function TopNLangChart() {
                 cursor: 'pointer',
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>'
+                    format: '<b>{point.name}</b>',
+                    style: {
+                        fontSize: '16px',
+                        fontFamily: 'Nunito Sans',
+                        color: "#1B1A17"
+                    },
                 }
             }
         },
@@ -80,8 +89,11 @@ function TopNLangChart() {
         }]
     }
   return (
-    <div className='chart-container'>
-        <HighchartsReact containerProps={{ style: { width: "100%" , height: "100%"} }} highcharts={Highcharts} options={optionLang} />
+    <div className='content-container2'>
+        <div className='pie-container'>
+            <div className='tweet-title'><p class='pie-t1'>Most Tweeted Non-English Languages</p></div>
+            <HighchartsReact containerProps={{ style: { width: "90%" , height: "90%"} }} highcharts={Highcharts} options={optionLang} />
+        </div>
     </div>
   )
 }

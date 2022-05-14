@@ -10,7 +10,7 @@ class ChartDataService{
     }
 
     getOpportunityPercent(){
-        // return LOCAL_URL.get('opportunity/percent/')
+        return LOCAL_URL.get('opportunity/percent/')
         return BASE_API_URL.get('opportunity/percent/')
     }
 

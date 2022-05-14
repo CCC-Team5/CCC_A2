@@ -15,11 +15,12 @@ function TransportationChart() {
     
     const options = {
         chart: {
-            zoomType: 'xy'
+            zoomType: 'xy',
+            backgroundColor: 'transparent',
             
         },
         title: {
-            text: 'Trend and Sentiment of Transportation-related Tweets'
+            text: ''
         },
         subtitle: {
             text: ''
@@ -27,33 +28,51 @@ function TransportationChart() {
         xAxis: [{
             categories: data.year,
             crosshair: true,
+            labels:{
+                style: {
+                    fontSize: '14px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#1B1A17"
+                },
+            },
+            gridLineColor:"transparent"
         }],
         yAxis: [{ // Primary yAxis
             labels: {
                 format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
+                    fontSize: '12px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#F0A500"
+                },
             },
             title: {
-                text: 'Percentage of Total Number of Tweets',
+                text: 'Percentages of Total Number of Tweets',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
-            }
+                    fontSize: '16px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#F0A500"
+                },
+            },
+            gridLineColor:"transparent"
         }, { // Secondary yAxis
             title: {
                 text: 'Sentiment',
                 style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
+                    fontSize: '16px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#1B1A17"
+                },
             },
             labels: {
                 format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
+                    fontSize: '12px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#1B1A17"
+                },
             },
+            gridLineColor:"transparent",
             opposite: true
         }],
         tooltip: {
@@ -66,15 +85,13 @@ function TransportationChart() {
             verticalAlign: 'top',
             y: 100,
             floating: true,
-            backgroundColor: 
-                Highcharts.defaultOptions.legend.backgroundColor || // theme
-                'rgba(255,255,255,0.25)'
         },
         series: [{
             name: 'Percentage of Total Tweets',
             type: 'column',
             yAxis: 0,
             data: data.percent,
+            color: "#F0A500",
             tooltip: {
                 valueSuffix: ''
             },
@@ -89,11 +106,12 @@ function TransportationChart() {
         }]
     }
 
-    console.log(Highcharts.getOptions().colors)
 
   return (
-    <div className='chart-container'>
+    <div className='content-container2'>
+        <div className='chart-container'>
         <HighchartsReact containerProps={{ style: { width: "100%" , height: "100%"} }} highcharts={Highcharts} options={options} />
+        </div>
     </div>
   )
 }

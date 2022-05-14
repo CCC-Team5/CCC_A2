@@ -15,8 +15,6 @@ function TrendingWordCloud() {
       })
     },[])
 
-    console.log(data)
-
     const options = {
       chart:{
         backgroundColor: 'transparent',
@@ -37,7 +35,7 @@ function TrendingWordCloud() {
 
     
   return (
-    <div className='content-container1'>
+    <div className='content-container2'>
       <div className='trend-container'>
         <div className='trend-title'><p class='t1'>Most Popular Hashtags</p></div>
         <HighchartsReact containerProps={{ style: { width: "100%" , height: "100%"} }} highcharts={Highcharts} options={options} />
