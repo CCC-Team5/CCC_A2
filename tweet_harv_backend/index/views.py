@@ -30,6 +30,7 @@ tweet_db = db.fetch_DB(tweets)
 language_db = db.fetch_DB(lang_code)
 birth_db = db.fetch_DB(birth_country)
 langhome_db = db.fetch_DB(home_lang)
+housing_price_db = db.fetch_DB('housingprice')
 housing_text_db = db.fetch_DB('housing_text')
 cost_text_db = db.fetch_DB('cost_text')
 transportation_text_db = db.fetch_DB('transportation_text')
@@ -222,6 +223,27 @@ def housing_content(request):
             print(e, "topic: ", topic)
         response_json = json.dumps(yearly_tweets).encode("utf-8")
         return HttpResponse(response_json)
+    else:
+        return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
+
+
+def housing_price(request):
+    result_lst = []
+    if request.method == 'GET':
+        try:
+            price = get_housingprice(housing_price_db)
+            for tag, count in price.items():
+                if tag != '2013':
+                    obj = {'year': tag, 'price': count}
+                    result_lst.append(obj)
+
+        except Exception as e:
+            print(e)
+            result_lst = None
+        if result_lst:
+            return HttpResponse(json.dumps(result_lst))
+        else:
+            return HttpResponseBadRequest(result_lst)
     else:
         return HttpResponseBadRequest("Please sending a GET request, other methods cannot be accepted!")
 

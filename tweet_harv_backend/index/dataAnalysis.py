@@ -279,6 +279,24 @@ def topic_switch(topic):
     return count_view, topic_view
 
 
+def get_housingprice(db):
+    """
+    param: housing database
+    return: {year: percentage} - housing price dictionary
+    """
+
+    housing = {}
+    for item in db.view('house/price'):
+        housing[item.key] = item.value
+
+    return housing
+
+db = CouchDB()
+housing_price = 'housingprice'
+housing_price_db = db.fetch_DB(housing_price)
+print(get_housingprice(housing_price_db))
+
+
 def topic_trend(db, topic):
     """
     extract the number and percentage of tweets on the selected topic made each year
@@ -406,6 +424,8 @@ def geo_LatLong(db):
     #     with open('myfile1.geojson', 'w') as f:
     #         dump(feature_collection, f)
     return feature_collection
+
+
 
 ##########################################################
 # For Data Processing ONLY, Do NOT use

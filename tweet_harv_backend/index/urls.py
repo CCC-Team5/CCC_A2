@@ -12,6 +12,7 @@ urlpatterns = [
     path('opportunity/percent/', views.percent),
     path("housing/trend_sentiment/", views.housing_trend_sentiment),
     path("housing/content/", views.housing_content),
+    path("housing/price/", views.housing_price),
     path("cost/trend_sentiment/", views.cost_trend_sentiment),
     path("cost/content/", views.cost_content),
     path("transportation/trend_sentiment/", views.transportation_trend_sentiment),
