@@ -23,6 +23,7 @@ nltk.download('stopwords')
 # birth_country = 'birthcountry'
 # lang_code = 'langcode'
 # home_lang = 'homelang'
+# housing_price = 'housingprice'
 
 
 def db_connect(dbname):
@@ -226,13 +227,6 @@ def top_n_lang_spoken_at_home(db, N):
     # 比之前多发给前端：percent 和 100 - percent 用来做stacked column；
 
 
-def integrate_percent():
-    '''
-    getting percent and 100 - percent of others in top_n_lang_count, top_n_birth_country, top_n_lang_spoken_at_home
-    param:俊杰自己写上
-    return type: dict - {"name": "xxx", percent:[xxx, yyy]}
-    '''
-
 def topic_switch(topic):
     """
     params: topic of selection
@@ -353,6 +347,20 @@ def topic_sentiment(db, topic):
             yearly_sentiment[key] = sentiment
 
     return yearly_sentiment
+
+
+def get_housingprice(db):
+    """
+    param: housing database
+    return: {year: percentage} - housing price dictionary
+    """
+
+    housing = {}
+    for item in db.view('house/price'):
+        housing[item.key] = item.value
+    
+    return housing
+    
 
 def geo_LatLong(db):
     """
@@ -525,5 +533,21 @@ def geo_LatLong(db):
     return feature_collection
 geo_db = fetch_DB('top_lat_long_live_hist')
 # geo_LatLong(geo_db)
+
+
+def housingprice_save(filepath):
+    """
+    save AURIN data regarding housing price trends to the CouchDB
+    params: path to census data download from AURIN - 'Mel_housing.csv';    
+    """
+    housing_price_data = pd.read_csv(filepath)
+    year = [month[-4:] for month in housing_price_data["Unnamed: 0"]]
+    housing_price_data['year'] = year
+    data = housing_price_data.groupby(by = "year").mean().reset_index()
+
+    housingprice_db = db_connect(housing_price)
+    for _, row in data.iterrows():
+        housingprice_db.save({'year': row[0], 'price' : row[-1]})
+        dict[row[0]] = row[-1]
 
 ###########################################################
