@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Highcharts, { registerRendererType } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import './chart.css'
+import './Chart.css'
 import ChartDataService from '../../services/ChartDataService';
 
 function CostLivingChart() {

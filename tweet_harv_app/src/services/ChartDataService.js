@@ -5,11 +5,12 @@ const LOCAL_URL = axios.create({baseURL: 'http://localhost:8000/index/'});
 class ChartDataService{
     
     getTrendingHashtags(){
-        return LOCAL_URL.get('hashtag/')
+        // return LOCAL_URL.get('hashtag/')
         return BASE_API_URL.get('hashtag/')
     }
 
     getOpportunityPercent(){
+        // return LOCAL_URL.get('opportunity/percent/')
         return BASE_API_URL.get('opportunity/percent/')
     }
 
