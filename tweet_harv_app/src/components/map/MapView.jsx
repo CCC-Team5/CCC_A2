@@ -30,7 +30,7 @@ import {FaGolfBall} from 'react-icons/fa';
 import {FaUmbrellaBeach} from 'react-icons/fa'; 
 
 const ZOOM_LEVELES = {
-	'heatmap': 8,
+	// 'heatmap': 8,
 	'cluster': 12,
 	'circle': 12
 }
@@ -194,9 +194,9 @@ const MapView = () => {
   })
 
   let layerData = <></>
-  if (selectedMapType == "heatmap") {
-    layerData = <><Layer {...heatmapLayer} /></>
-  }
+  // if (selectedMapType == "heatmap") {
+  //   layerData = <><Layer {...heatmapLayer} /></>
+  // }
   if (selectedMapType == "circle") {
     layerData = <><Layer {...circleLayer} /></>
   }
@@ -224,7 +224,7 @@ const MapView = () => {
           {/* <FormLabel id="demo-row-radio-buttons-group-label"><h4 style={{color:"black", fontFamily:"sans-serif"}}>Choose Map Layer: </h4></FormLabel> */}
           <FormLabel id="demo-row-radio-buttons-group-label"></FormLabel>
           <RadioGroup onChange={onRadioChange} value={selectedMapType}>
-            <FormControlLabel value="heatmap" control={<Radio />} label="Heatmap" />
+            {/* <FormControlLabel value="heatmap" control={<Radio />} label="Heatmap" /> */}
             <FormControlLabel value="circle" control={<Radio />} label="Circle" />
             <FormControlLabel value="cluster" control={<Radio />} label="Cluster" />
           </RadioGroup>
@@ -259,9 +259,9 @@ const MapView = () => {
             {selectedMapType == "circle" &&
               [<Layer {...circleLayer} />]
             }
-            {selectedMapType == "heatmap" &&
+            {/* {selectedMapType == "heatmap" &&
               [<Layer {...heatmapLayer} />]
-            }
+            } */}
           </Source>}
           {pins}
           {popupInfo && (
