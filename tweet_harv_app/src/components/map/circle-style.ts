@@ -9,7 +9,7 @@ export const circleLayer: CircleLayer = {
     'minzoom': 8,
     'paint': {
         // Size circle radius by earthquake magnitude and zoom level
-        'circle-radius': 10,
+        'circle-radius': 5,
         // 'circle-radius': [
         //     'interpolate',
         //     ['linear'],
@@ -20,7 +20,7 @@ export const circleLayer: CircleLayer = {
         //     ['interpolate', ['linear'], ['get', 'mag'], 1, 5, 6, 50]
         // ],
         // Color circle by earthquake magnitude
-        'circle-color': '#007cbf', 
+        'circle-color': '#f0a500', 
         // 'circle-color': [
         //     'interpolate',
         //     ['linear'],

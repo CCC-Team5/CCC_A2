@@ -103,15 +103,15 @@ const MapView = () => {
             setPopupInfo(city);
           }}
         >
-          {city.icon === 'building' && <MdAccountBalance color= "white"/>} 
-          {city.icon === 'trainStation' && <MdDirectionsTransitFilled color= "white" />}  
-          {city.icon === 'airport' && <MdFlight color= "white"/>} 
-          {city.icon === 'university' && <MdOutlineSchool color= "white"/>}
-          {city.icon === 'shopping' && <MdShoppingCart color= "white"/>} 
-          {city.icon === 'library' && <ImBooks color= "white"/>} 
-          {city.icon === 'church' && <GiChurch color= "white"/>} 
-          {city.icon === 'golf' && <FaGolfBall color= "white"/>}
-          {city.icon === 'beach' && <FaUmbrellaBeach color= "white"/>}
+          {city.icon === 'building' && <MdAccountBalance size = "25" color= "#F0F0F0"/>} 
+          {city.icon === 'trainStation' && <MdDirectionsTransitFilled size = "25" color= "#F0F0F0" />}  
+          {city.icon === 'airport' && <MdFlight size = "25" color= "#F0F0F0"/>} 
+          {city.icon === 'university' && <MdOutlineSchool size = "25" color= "#F0F0F0"/>}
+          {city.icon === 'shopping' && <MdShoppingCart size = "25" color= "#F0F0F0"/>} 
+          {city.icon === 'library' && <ImBooks size = "25" color= "#F0F0F0"/>} 
+          {city.icon === 'church' && <GiChurch size = "25" color= "#F0F0F0"/>} 
+          {city.icon === 'golf' && <FaGolfBall size = "25" color= "#F0F0F0"/>}
+          {city.icon === 'beach' && <FaUmbrellaBeach size = "25" color= "#F0F0F0"/>}
 
           {/* <img src="https://materialdesignicons.com/api/download/icon/svg/379B9D93-434B-46E7-9ABC-CAFAB694B209" /> */}
         </Marker>
