@@ -108,17 +108,17 @@ const MapView = () => {
             setPopupInfo(city);
           }}
         >
-          {city.icon === 'building' && <MdAccountBalance size = "25" color= "#F0F0F0"/>} 
-          {city.icon === 'trainStation' && <MdDirectionsTransitFilled size = "25" color= "#F0F0F0" />}  
-          {city.icon === 'airport' && <MdFlight size = "25" color= "#F0F0F0"/>} 
-          {city.icon === 'university' && <MdOutlineSchool size = "25" color= "#F0F0F0"/>}
-          {city.icon === 'shopping' && <MdShoppingCart size = "25" color= "#F0F0F0"/>} 
-          {city.icon === 'library' && <ImBooks size = "25" color= "#F0F0F0"/>} 
-          {city.icon === 'church' && <GiChurch size = "25" color= "#F0F0F0"/>} 
-          {city.icon === 'golf' && <FaGolfBall size = "25" color= "#F0F0F0"/>}
-          {city.icon === 'beach' && <FaUmbrellaBeach size = "25" color= "#F0F0F0"/>}
-          {city.icon === 'gym' && <CgGym size = "25" color= "#F0F0F0"/>}
-          {city.icon === 'hospital' && <GrAid size = "25" color= "#F0F0F0"/>}
+          {city.icon === 'building' && <MdAccountBalance size = "25" color= "#F0F0F0" cursor="pointer" />} 
+          {city.icon === 'trainStation' && <MdDirectionsTransitFilled size = "25" color= "#F0F0F0" cursor="pointer"/>}  
+          {city.icon === 'airport' && <MdFlight size = "25" color= "#F0F0F0" cursor="pointer"/>} 
+          {city.icon === 'university' && <MdOutlineSchool size = "25" color= "#F0F0F0" cursor="pointer"/>}
+          {city.icon === 'shopping' && <MdShoppingCart size = "25" color= "#F0F0F0" cursor="pointer"/>} 
+          {city.icon === 'library' && <ImBooks size = "25" color= "#F0F0F0" cursor="pointer"/>} 
+          {city.icon === 'church' && <GiChurch size = "25" color= "#F0F0F0" cursor="pointer"/>} 
+          {city.icon === 'golf' && <FaGolfBall size = "25" color= "#F0F0F0" cursor="pointer"/>}
+          {city.icon === 'beach' && <FaUmbrellaBeach size = "25" color= "#F0F0F0" cursor="pointer"/>}
+          {city.icon === 'gym' && <CgGym size = "25" color= "#F0F0F0" cursor="pointer"/>}
+          {city.icon === 'hospital' && <GrAid size = "25" color= "#F0F0F0" cursor="pointer"/>}
 
           {/* <img src="https://materialdesignicons.com/api/download/icon/svg/379B9D93-434B-46E7-9ABC-CAFAB694B209" /> */}
         </Marker>
