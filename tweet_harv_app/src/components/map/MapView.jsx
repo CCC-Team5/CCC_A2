@@ -28,6 +28,8 @@ import {ImBooks} from 'react-icons/im';
 import {GiChurch} from 'react-icons/gi';
 import {FaGolfBall} from 'react-icons/fa'; 
 import {FaUmbrellaBeach} from 'react-icons/fa'; 
+import {CgGym} from "react-icons/cg"; 
+import {GrAid} from "react-icons/gr";
 
 const ZOOM_LEVELES = {
 	// 'heatmap': 8,
@@ -83,9 +85,13 @@ const MapView = () => {
     { "city": "South Melbourne Market","icon": "shopping",  "image": "https://images.squarespace-cdn.com/content/v1/58d860ab29687f4e2b16bbb9/1580794640363-3FQKU7A9M2ENK575GO3J/IMG_4432-1.jpg", "state": "Melbourne", "latitude": -37.83119, "longitude": 144.95580 }, 
     { "city": "Ss Peter & Paul Ukrainian Catholic Cathedral","icon": "church",  "image": "https://auv.org.au/wp-content/uploads/2021/04/katedra11.jpg", "state": "Melbourne", "latitude": -37.79600, "longitude": 144.94390 }, 
     { "city": "Sunshine Golf Club","icon": "golf",  "image": "https://golf-designers.com/wp-content/uploads/2012/09/MD-PCD-2.jpg", "state": "Melbourne", "latitude": -37.79469, "longitude": 144.77586 }, 
-    { "city": "Chelsea Beach","icon": "beach",  "image": "https://lh5.googleusercontent.com/p/AF1QipOR4EVjhOEqq_6uedpD0d1KiZKXYhX2Kyz1jioQ=w500-h500-k-no", "state": "Melbourne", "latitude": -38.05285, "longitude": 145.11363 }, 
+    { "city": "Chelsea Beach","icon": "beach",  "image": "https://www.travelvictoria.com.au/images/chelsea/banner2.jpg", "state": "Melbourne", "latitude": -38.05285, "longitude": 145.11363 }, 
     { "city": "St Kilda Beach","icon": "beach",  "image": "https://exp.cdn-hotels.com/hotels/44000000/43010000/43007200/43007149/eefca7bf_z.jpg?impolicy=fcrop&w=500&h=333&q=medium", "state": "Melbourne", "latitude": -37.86771, "longitude": 144.97397 }, 
-    { "city": "Chapel Street","icon": "shopping",  "image": "https://media.timeout.com/images/105739823/image.jpg", "state": "Melbourne", "latitude": -37.83748, "longitude": 144.99593 }];
+    { "city": "Chapel Street","icon": "shopping",  "image": "https://media.timeout.com/images/105739823/image.jpg", "state": "Melbourne", "latitude": -37.83748, "longitude": 144.99593 }, 
+    { "icon": "beach", "latitude": -37.98667, "longitude": 145.05351 }, 
+    { "icon": "gym", "latitude": -37.81761, "longitude": 145.21539 },
+    { "icon": "gym", "latitude": -37.98567, "longitude": 145.20658 }, 
+    { "icon": "gym", "latitude": -37.81979, "longitude": 144.98347 }];
 
   const pins = useMemo(
     () =>
@@ -111,6 +117,8 @@ const MapView = () => {
           {city.icon === 'church' && <GiChurch size = "25" color= "#F0F0F0"/>} 
           {city.icon === 'golf' && <FaGolfBall size = "25" color= "#F0F0F0"/>}
           {city.icon === 'beach' && <FaUmbrellaBeach size = "25" color= "#F0F0F0"/>}
+          {city.icon === 'gym' && <CgGym size = "25" color= "#F0F0F0"/>}
+          {city.icon === 'hospital' && <GrAid size = "25" color= "#F0F0F0"/>}
 
           {/* <img src="https://materialdesignicons.com/api/download/icon/svg/379B9D93-434B-46E7-9ABC-CAFAB694B209" /> */}
         </Marker>
@@ -271,7 +279,7 @@ const MapView = () => {
               onClose={() => setPopupInfo(null)}
             >
               <div>
-                <b style={{ fontFamily: "sans-serif" }}> {popupInfo.city}, {popupInfo.state} </b>
+                <b style={{ fontFamily: "sans-serif" }}> {popupInfo.city} </b>
                 {/* <b style={{ fontFamily: "sans-serif" }}> {popupInfo.city}, {popupInfo.state} |{' '} </b> */}
                 {/* <a
                   target="_new"
