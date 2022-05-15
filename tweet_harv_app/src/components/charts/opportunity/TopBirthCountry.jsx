@@ -7,25 +7,26 @@ import ChartDataService from '../../../services/ChartDataService';
 function TopBirthCountry() {
     const[data, setData] = useState([]);
     const birthCountry = []
-    // '99'at the end means 60% transparency
+    // '80'at the end means 50% transparency
     // Refer: https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4
     const colorMap = {
-        Spanish:"#FFA50099",
-        Japan:"#FFC0CB99",
-        Indonesian:"#aaf0d199",
-        Arabic:"#d9b38c99",
-        Philippines:"#ffdd9999",
-        China:"#ff999999",
-        French:"#6fa8dc99",
-        Portuguese:"#38761d99",
-        Thai:"#66000099",
-        Turkish:"#f4433699",
-        Others: "#d6d4d499",
-        Italy: "#eef2c399",
-        Pakistan:"#dfbf9f99",
-        Germany: "#9fdfbf99",
-        India: "#ffb3e699",
-        Vietnam:"#c6e1f199"
+        Spanish:"#FFA50080",
+        Japan:"#FFC0CB80",
+        Indonesian:"#00FF0080",
+        Arabic:"#07376380",
+        Philippines:"#470e8a80",
+        China:"#FF000080",
+        French:"#6fa8dc80",
+        Portuguese:"#38761d80",
+        Thai:"#66000080",
+        Turkish:"#f44336v",
+        Others: "#36f4e480",
+        Italy: "#8fce0080",
+        Pakistan:"#274e1380",
+        Germany: "#99000080",
+        India: "#de7b4280",
+        Vietnam:"#FFFF0080",
+        Greece:"#00408080"
     }
 
     React.useEffect(()=>{

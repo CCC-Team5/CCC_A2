@@ -8,24 +8,22 @@ import ChartDataService from '../../../services/ChartDataService';
 function TopNLangChart() {
     const[data, setData] = useState([]);
     const languageCount = []
-    // '99'at the end means 60% transparency
+    // '80'at the end means 50% transparency
     // Refer: https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4
     const colorMap = {
-        Spanish:"#FFA50099",
-        Japanese:"#FFC0CB99",
-        Indonesian:"#aaf0d199",
-        Arabic:"#d9b38c99",
-        Tagalog:"#470e8a99",
-        Chinese:"#ff999999",
-        French:"#6fa8dc99",
-        Portuguese:"#38761d99",
-        Thai:"#ebe5ae99",
-        Turkish:"#f4433699",
-        Others: "#d6d4d499",
-        Italian: "#eef2c399",
-        Vietnamese:"#c6e1f199",
-        Hindi:"#ffb3e699", 
-        Greek:"#8fa2ff99"
+        Spanish:"#FFA50080",
+        Japanese:"#FFC0CB80",
+        Indonesian:"#00FF0080",
+        Arabic:"#07376380",
+        Tagalog:"#470e8a80",
+        Chinese:"#FF000080",
+        French:"#6fa8dc80",
+        Portuguese:"#38761d80",
+        Thai:"#66000080",
+        Turkish:"#f4433680",
+        Others: "#36f4e480",
+        Italian: "#8fce0080",
+        Vietnamese:"#FFFF0080",
 
     }
 

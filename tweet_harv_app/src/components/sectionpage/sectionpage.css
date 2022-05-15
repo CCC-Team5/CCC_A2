@@ -37,11 +37,11 @@
     text-align: center;
     justify-content: center; 
     display: flex;
-    top: 25%;
-    left: 25%;
+    top: 22%;
+    left: 20%;
     align-items: center;
     color: white;
-    font-size: 10vw;
+    font-size: 8vw;
     font-family: 'Nunito Sans';
 
 }
@@ -51,8 +51,8 @@
     text-align: center;
     justify-content: center; 
     display: flex;
-    top: 20%;
-    left: 15%;
+    top: 22%;
+    left: 20%;
     align-items: center;
     color: white;
     font-size: 8vw;
@@ -64,11 +64,11 @@
     text-align: center;
     justify-content: center; 
     display: flex;
-    top: 15%;
-    left: 20%;
+    top: 22%;
+    left: 30%;
     align-items: center;
     color: white;
-    font-size: 9vw;
+    font-size: 8vw;
     font-family: 'Nunito Sans';
 }
 

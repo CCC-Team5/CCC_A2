@@ -30,6 +30,11 @@ class ChartDataService{
         return BASE_API_URL.get('housing/trend_sentiment/')
     }
 
+    getHousingPrice(){
+        return LOCAL_URL.get('housing/price/')
+        return BASE_API_URL.get('housing/price/')
+    }
+
     getHousingContent(){
         return BASE_API_URL.get('housing/content/')
     }

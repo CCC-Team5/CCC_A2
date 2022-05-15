@@ -19,18 +19,24 @@ function TransportationChart() {
             backgroundColor: 'transparent',
             
         },
+        plotOptions: {
+            column: {
+                borderWidth: 0,
+            }
+        },
         title: {
             text: ''
         },
         subtitle: {
             text: ''
         },
+
         xAxis: [{
             categories: data.year,
             crosshair: true,
             labels:{
                 style: {
-                    fontSize: '14px',
+                    fontSize: '16px',
                     fontFamily: 'Nunito Sans',
                     color: "#1B1A17"
                 },
@@ -41,7 +47,7 @@ function TransportationChart() {
             labels: {
                 format: '{value}',
                 style: {
-                    fontSize: '12px',
+                    fontSize: '16px',
                     fontFamily: 'Nunito Sans',
                     color: "#F0A500"
                 },
@@ -49,7 +55,7 @@ function TransportationChart() {
             title: {
                 text: 'Percentages of Total Number of Tweets',
                 style: {
-                    fontSize: '16px',
+                    fontSize: '18px',
                     fontFamily: 'Nunito Sans',
                     color: "#F0A500"
                 },
@@ -59,7 +65,7 @@ function TransportationChart() {
             title: {
                 text: 'Sentiment',
                 style: {
-                    fontSize: '16px',
+                    fontSize: '18px',
                     fontFamily: 'Nunito Sans',
                     color: "#1B1A17"
                 },
@@ -67,7 +73,7 @@ function TransportationChart() {
             labels: {
                 format: '{value}',
                 style: {
-                    fontSize: '12px',
+                    fontSize: '16px',
                     fontFamily: 'Nunito Sans',
                     color: "#1B1A17"
                 },
@@ -87,19 +93,20 @@ function TransportationChart() {
             floating: true,
         },
         series: [{
-            name: 'Percentage of Total Tweets',
+            name: 'Total Tweets',
             type: 'column',
             yAxis: 0,
             data: data.percent,
             color: "#F0A500",
             tooltip: {
-                valueSuffix: ''
+                valueSuffix: '%'
             },
         }, {
             name: 'Sentiment',
             type: 'spline',
             yAxis: 1,
             data: data.sentiment,
+            color: "#1B1A17",
             tooltip: {
                 valueSuffix: ''
             }

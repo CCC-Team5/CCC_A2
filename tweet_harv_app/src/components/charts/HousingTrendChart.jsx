@@ -10,10 +10,12 @@ function HousingTrendChart() {
     const [data, setData] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState('false');
+    const [priceData, setPriceData] = useState([]);
+
+    const prices = []
 
     React.useEffect(() => {
         setLoading(true);
-
         ChartDataService.getHousingTrendSenti().then((res) => {
             setData(res.data)
             setLoading(false)
@@ -22,7 +24,19 @@ function HousingTrendChart() {
             setError('Could not fetch housing trend!')
             console.log('error getting housing trend: ', e)
         })
+
+        ChartDataService.getHousingPrice().then((res) => {
+            setPriceData(res.data)
+        })
     }, [])
+
+    if(priceData){
+        priceData.map((element) =>{
+            prices.push(element.price)
+        })
+    }
+
+    console.log(prices)
 
 
     const options = {
@@ -38,6 +52,13 @@ function HousingTrendChart() {
             }
 
         },
+
+        plotOptions: {
+            column: {
+                borderWidth: 0,
+            }
+        },
+
         title: {
             text: ''
         },
@@ -49,7 +70,7 @@ function HousingTrendChart() {
             crosshair: true,
             labels:{
                 style: {
-                    fontSize: '14px',
+                    fontSize: '16px',
                     fontFamily: 'Nunito Sans',
                     color: "#1B1A17"
                 },
@@ -60,7 +81,7 @@ function HousingTrendChart() {
             labels: {
                 format: '{value}',
                 style: {
-                    fontSize: '12px',
+                    fontSize: '16px',
                     fontFamily: 'Nunito Sans',
                     color: "#F0A500"
                 },
@@ -68,7 +89,7 @@ function HousingTrendChart() {
             title: {
                 text: 'Percentage of Total Number of Tweets',
                 style: {
-                    fontSize: '16px',
+                    fontSize: '18px',
                     fontFamily: 'Nunito Sans',
                     color: "#F0A500"
                 },
@@ -78,7 +99,7 @@ function HousingTrendChart() {
             title: {
                 text: 'Sentiment',
                 style: {
-                    fontSize: '16px',
+                    fontSize: '18px',
                     fontFamily: 'Nunito Sans',
                     color: "#1B1A17"
                 },
@@ -86,9 +107,31 @@ function HousingTrendChart() {
             labels: {
                 format: '{value}',
                 style: {
-                    fontSize: '12px',
+                    fontSize: '16px',
                     fontFamily: 'Nunito Sans',
                     color: "#1B1A17"
+                },
+            },
+            gridLineColor:"transparent",
+            opposite: true
+        },
+        { // Tertiary yAxis
+            gridLineWidth: 0,
+            gridLineColor:"transparent",
+            title: {
+                text: 'Housing Price (Percentage Change)',
+                style: {
+                    fontSize: '18px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#E45826"
+                },
+            },
+            labels: {
+                format: '{value}',
+                style: {
+                    fontSize: '16px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#E45826"
                 },
             },
             gridLineColor:"transparent",
@@ -106,13 +149,13 @@ function HousingTrendChart() {
             floating: true,
         },
         series: [{
-            name: 'Percentages of Total Tweets',
+            name: 'Total Tweets',
             type: 'column',
             yAxis: 0,
             data: data.percent,
             color: "#F0A500",
             tooltip: {
-                valueSuffix: ''
+                valueSuffix: '%'
             },
         }, {
             name: 'Sentiment',
@@ -122,6 +165,16 @@ function HousingTrendChart() {
             color: "#1B1A17",
             tooltip: {
                 valueSuffix: ''
+            }
+        },{
+            name: 'Housing Price',
+            type: 'spline',
+            dashStyle: 'shortdot',
+            yAxis: 2,
+            data: prices, // a list
+            color: "#E45826",
+            tooltip: {
+                valueSuffix: '%'
             }
         }]
     }

@@ -19,6 +19,11 @@ function CostLivingChart() {
             backgroundColor: 'transparent',
             
         },
+        plotOptions: {
+            column: {
+                borderWidth: 0,
+            }
+        },
         title: {
             text: ''
         },
@@ -30,7 +35,7 @@ function CostLivingChart() {
             crosshair: true,
             labels:{
                 style: {
-                    fontSize: '14px',
+                    fontSize: '16px',
                     fontFamily: 'Nunito Sans',
                     color: "#1B1A17"
                 },
@@ -41,7 +46,7 @@ function CostLivingChart() {
             labels: {
                 format: '{value}',
                 style: {
-                    fontSize: '12px',
+                    fontSize: '16px',
                     fontFamily: 'Nunito Sans',
                     color: "#F0A500"
                 },
@@ -49,7 +54,7 @@ function CostLivingChart() {
             title: {
                 text: 'Percentage of Total Number of Tweets',
                 style: {
-                    fontSize: '16px',
+                    fontSize: '18px',
                     fontFamily: 'Nunito Sans',
                     color: "#F0A500"
                 },
@@ -60,7 +65,7 @@ function CostLivingChart() {
             title: {
                 text: 'Sentiment',
                 style: {
-                    fontSize: '16px',
+                    fontSize: '18px',
                     fontFamily: 'Nunito Sans',
                     color: "#1B1A17"
                 },
@@ -68,7 +73,7 @@ function CostLivingChart() {
             labels: {
                 format: '{value}',
                 style: {
-                    fontSize: '12px',
+                    fontSize: '16px',
                     fontFamily: 'Nunito Sans',
                     color: "#1B1A17"
                 },
@@ -88,13 +93,13 @@ function CostLivingChart() {
             floating: true,
         },
         series: [{
-            name: 'Percentage of Total Tweets',
+            name: 'Total Tweets',
             type: 'column',
             yAxis: 0,
             data: data.percent,
             color: "#F0A500",
             tooltip: {
-                valueSuffix: ''
+                valueSuffix: '%'
             },
         }, {
             name: 'Sentiment',

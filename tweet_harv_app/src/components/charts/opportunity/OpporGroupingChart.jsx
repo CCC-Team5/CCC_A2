@@ -42,7 +42,7 @@ function OpporGroupingChart() {
             type: 'column',
             backgroundColor: 'transparent',
             options3d: {
-                enabled: true,
+                enabled: false,
                 alpha: 25,
                 beta: 5,
                 viewDistance: 25,
@@ -70,6 +70,14 @@ function OpporGroupingChart() {
                 text: 'Percentages',
                 skew3d: true,
                 style: {
+                    fontSize: '18px',
+                    fontFamily: 'Nunito Sans',
+                    color: "#1B1A17"
+                },
+            },
+            labels: {
+                format: '{value}',
+                style: {
                     fontSize: '16px',
                     fontFamily: 'Nunito Sans',
                     color: "#1B1A17"
@@ -81,6 +89,7 @@ function OpporGroupingChart() {
         plotOptions: {
             column: {
                 stacking: 'normal',
+                borderWidth: 0,
                 depth: 40
             }
         },
