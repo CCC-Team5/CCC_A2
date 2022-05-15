@@ -31,7 +31,7 @@ class ChartDataService{
     }
 
     getHousingPrice(){
-        return LOCAL_URL.get('housing/price/')
+        // return LOCAL_URL.get('housing/price/')
         return BASE_API_URL.get('housing/price/')
     }
 

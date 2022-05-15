@@ -49,6 +49,10 @@ function OpporGroupingChart() {
                 depth: 40
             }
         },
+
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
     
         title: {
             text: ''
@@ -108,7 +112,7 @@ function OpporGroupingChart() {
   return (
       <div className='content-container2'>
         <div className='oppor-container'>
-            <div className='oppor-title1'><p class='o1'>Most Tweeted Languages</p></div>
+            <div className='oppor-title1'><p class='o1'>Tweeted Languages</p></div>
             <div className='oppor-title2'><p class='o1'>Country of Birth</p></div>
             <div className='oppor-title3'><p class='o1'>Languages Spoken at Home</p></div>
             <div className='oppor-chart'><HighchartsReact containerProps={{ style: { width: "100%" } }} highcharts={Highcharts} options={options} /></div>

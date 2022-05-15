@@ -55,12 +55,12 @@
 .sidebar-list .nav-item:hover{
   cursor: pointer;
   background-color: #252831;
-  border-left: 4px solid #2ec4b6;
+  border-left: 4px solid #E45826;
 }
 
 .sidebar-list #active{
   background-color: #252831;
-  border-left: 4px solid #2ec4b6;
+  border-left: 4px solid #E45826;
 }
 
 
@@ -93,10 +93,10 @@
 .sidebar-list .sub-item:hover{
   cursor: pointer;
   background-color: #252831;
-  border-left: 4px solid #ff9f1c;
+  border-left: 4px solid #f0a500;
 }
 
 .sidebar-list #subactive{
   background-color: #252831;
-  border-left: 4px solid #ff9f1c;
+  border-left: 4px solid #f0a500;
 }
