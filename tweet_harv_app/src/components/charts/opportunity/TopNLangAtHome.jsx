@@ -90,7 +90,7 @@ function TopNLangAtHome() {
   return (
     <div className='content-container2'>
         <div className='pie-container'>
-            <div className='spoken-title'><p class='pie-t1'>Most Non-English Languages Spoken at Home</p></div>
+            <div className='spoken-title'><p class='pie-t1'>Top Non-English Languages Spoken at Home</p></div>
             <HighchartsReact containerProps={{ style: { width: "90%" , height: "90%"} }} highcharts={Highcharts} options={optionLangAtHome} />
         </div>
     </div>

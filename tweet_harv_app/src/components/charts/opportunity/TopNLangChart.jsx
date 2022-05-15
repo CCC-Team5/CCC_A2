@@ -89,7 +89,7 @@ function TopNLangChart() {
   return (
     <div className='content-container2'>
         <div className='pie-container'>
-            <div className='tweet-title'><p class='pie-t1'>Most Tweeted Non-English Languages</p></div>
+            <div className='tweet-title'><p class='pie-t1'>Top Tweeted Non-English Languages</p></div>
             <HighchartsReact containerProps={{ style: { width: "90%" , height: "90%"} }} highcharts={Highcharts} options={optionLang} />
         </div>
     </div>
