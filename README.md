@@ -83,11 +83,7 @@ Once logged into the MRC dashboard successfully, the installation and deployment
 
 ### Videos Presentation
 
-| Theme                                           | YouTube link |
-| ----------------------------------------------- | ------------ |
-| Introduction of project and System Architecture |              |
-| Deployment                                      |              |
-| Frontend Demo                                   |              |
+https://www.youtube.com/watch?v=W2DZhzyfyM4&list=PLn5sVkX24CjNkD_V1EY6plpsZt1_LuvL7
 
 
 
