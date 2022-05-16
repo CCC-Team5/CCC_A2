@@ -15,7 +15,7 @@
     name: harvester_container
     state: absent
 
-- name: remove backend docker image
+- name: remove harvester docker image
   become: yes
   args:
     warn: false
