@@ -32,21 +32,21 @@ All components of entire project are containerized by **docker**, and automatica
 
 ```yaml
 /.idea
-	- project configuration 
+    - project configuration 
 /data_analyses
-	- data analyse section
+    - data analyse section
 /demo
-	- data analyse previous test and experiment
+    - data analyse previous test and experiment
 /deployment
-	- Ansible scripts
+    - Ansible scripts
 /report
-	- project report
+    - project report
 /tweet_harv_app
-	- frontend application
+    - frontend application
 /tweet_harv_backend
-	- backend server
+    - backend server
 /twitter-harvester
-	- source codes for twitter harvester scripts
+    - source codes for twitter harvester scripts
 
 ```
 
@@ -81,9 +81,9 @@ Once logged into the MRC dashboard successfully, the installation and deployment
 
 ### UI Design Presentation
 
-<img src="D:\Desktop_document\墨尔本大学\semester1\CCC\Ass2\picture\1.jpg" alt="theme" style="zoom:20%;" />
+<img src="https://github.com/CCC-Team5/CCC_A2/blob/main/1.jpg" alt="theme" style="zoom:20%;" />
 
-<img src="D:\Desktop_document\墨尔本大学\semester1\CCC\Ass2\picture\2.jpg" alt="chart" style="zoom:24%;" />
+<img src="https://github.com/CCC-Team5/CCC_A2/blob/main/2.jpg" alt="chart" style="zoom:24%;" />
 
 ### Videos Presentation
 
