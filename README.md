@@ -14,8 +14,6 @@ All components of entire project are containerized by **docker**, and automatica
 
 
 
-
-
 ### Contributors
 
 | Name          | Student ID | Email                                                        |
@@ -70,10 +68,10 @@ The whole system can be deployed using ansible and was designed to be operated o
 
 Once logged into the MRC dashboard successfully, the installation and deployment can be done In the following steps:
 
-- Download the **OpenStack RC file** from the dashboard and rename it to **grp5-openrc.sh**. A password is required to access the MRC using the **OpenStack API**. It is recommended to go to the account settings and reset the password, and then copy and save the new password somewhere as users will be asked to input the password several times during the execution of the script.
-- Create a new SSH key pair in the MRC dashboard. A **.pem** file would then be automatically downloaded. Rename the file to **grp5_key.pem** and put it together with the **grp5-openrc.sh** downloaded in Step1 in the CCC_A2/deployment/serverfiles.
-- Open the terminal in the CCC_A2/deployment folder. We’ve created a main script **exec-grp5-deploy.sh** for managing the whole process of deployment.
-- Execute the command **sh exec-grp5-deploy.sh** in the linux terminal. It will first ask for the sudo password, then ask for the password generated in Step1.
+- Download the **OpenStack RC file** from the dashboard and rename it to ```grp5-openrc.sh```. A password is required to access the MRC using the **OpenStack API**. It is recommended to go to the account settings and reset the password, and then copy and save the new password somewhere as users will be asked to input the password several times during the execution of the script.
+- Create a new SSH key pair in the MRC dashboard. A ```.pem``` file would then be automatically downloaded. Rename the file to ```grp5_key.pem``` and put it together with the ```grp5-openrc.sh``` downloaded in Step1 in the CCC_A2/deployment/serverfiles.
+- Open the terminal in the CCC_A2/deployment folder. We’ve created a main script ```exec-grp5-deploy.sh``` for managing the whole process of deployment.
+- Execute the command ```sh exec-grp5-deploy.sh``` in the linux terminal. It will first ask for the sudo password, then ask for the password generated in Step1.
 - Input openstack password when necessary. After the whole execution flow is completed, the whole system (the twitter harvester and the web application) should be up and running.
 - To interact with the system, find the IP address of the master instance in the **hosts file** under the Webserver category. Enter the IP address at the port 3000 in the web browser.
 
