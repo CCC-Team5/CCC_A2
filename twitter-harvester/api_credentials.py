@@ -1,3 +1,13 @@
+# Part of Assignment 2 - Cluster and Cloud Computing (COMP90024) Group 5
+
+# Author:
+
+# Xinhao Chen 1230696 Melbourne
+# Weimin Ouyang 340438 Melbourne
+# Tianqi Yu 1221167 China
+# Junjie Xia 1045673 China
+# Yuling Zheng 954408 Melbourne
+
 # api_credentials
 # possible modification: list of bearer tokens with 500k cap, auto switch when the limit is reached
 
