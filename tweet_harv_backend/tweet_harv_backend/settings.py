@@ -34,7 +34,7 @@ AURIN_DATASET = os.path.join(BASE_DIR, 'Data/AURIN/')
 SECRET_KEY = 'django-insecure-tuj^0gtcer2jzes@nn%@^q)w&wocq(c)u8&j)67ov3*lbj9q+a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Making this django project accessible to all websites
 ALLOWED_HOSTS = ["*"]

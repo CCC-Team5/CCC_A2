@@ -1,9 +1,14 @@
-//contain cluster layer
+/*
+ * react-map-gl
+ * Version: 7.0
+ * 
+ * Copyright 2022 react-map-gl Contributors
+ * https://github.com/visgl/react-map-gl/tree/7.0-release
+*/
 import React, { useEffect, useState, useMemo } from 'react'
 import { Map, Layer, Source } from 'react-map-gl';
 import './MapView.css'
 import * as env from "../../env"
-import { heatmapLayer } from './heatmap-style.ts';
 import { circleLayer } from './circle-style.ts';
 import { clusterLayer, clusterCountLayer, unclusteredPointLayer } from './layers.ts';
 import ChartDataService from '../../services/ChartDataService';
@@ -12,13 +17,10 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-// marker reference: https://visgl.github.io/react-map-gl/examples/controls
 import {
   Marker,
   Popup,
 } from 'react-map-gl';
-import Pin from './pin.tsx';
-// import Pin2 from './pin2.tsx';
 import { MdAccountBalance } from 'react-icons/md';
 import {MdDirectionsTransitFilled} from 'react-icons/md';
 import {MdFlight} from 'react-icons/md';
@@ -32,7 +34,6 @@ import {CgGym} from "react-icons/cg";
 import {GrAid} from "react-icons/gr";
 
 const ZOOM_LEVELES = {
-	// 'heatmap': 8,
 	'cluster': 12,
 	'circle': 12
 }
@@ -120,62 +121,11 @@ const MapView = () => {
           {city.icon === 'gym' && <CgGym size = "25" color= "#F0F0F0" cursor="pointer"/>}
           {city.icon === 'hospital' && <GrAid size = "25" color= "#F0F0F0" cursor="pointer"/>}
 
-          {/* <img src="https://materialdesignicons.com/api/download/icon/svg/379B9D93-434B-46E7-9ABC-CAFAB694B209" /> */}
         </Marker>
       )),
     []
   );
 
-  // const geojson1 = {
-  //   "features": [
-  //     { "geometry": { "coordinates": [145.02508030410158, -37.80847985083767], "type": "Point" } },
-  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-  //     { "geometry": { "type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767] } },
-  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [144.80640411005695, -37.720264201404596]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083767]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083767]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083767]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083767]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083767]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -36.80847985083767]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -36.80847985083767]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -36.80847985083767]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -36.80847985083767]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -36.80847985083767]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -36.8084798507]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083769]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [143.02508030410158, -37.80847985083769]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410158, -37.80847985083769]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410157, -37.80847985083769]}},
-  //     { "geometry": {"type": 'Point', "coordinates": [145.02508030410130, -37.80847985083769]}},
-  //   ], "type": "FeatureCollection"
-  // };
-
-  // const mapRef = useRef<MapRef>(null);
   const mapRef = React.useRef();
 
   const onClick = event => {
@@ -201,9 +151,6 @@ const MapView = () => {
   })
 
   let layerData = <></>
-  // if (selectedMapType == "heatmap") {
-  //   layerData = <><Layer {...heatmapLayer} /></>
-  // }
   if (selectedMapType === "circle") {
     layerData = <><Layer {...circleLayer} /></>
   }
@@ -227,11 +174,9 @@ const MapView = () => {
           backgroundColor: "white",
         }}
       >
-        <FormControl>
-          {/* <FormLabel id="demo-row-radio-buttons-group-label"><h4 style={{color:"black", fontFamily:"sans-serif"}}>Choose Map Layer: </h4></FormLabel> */}
+        <FormControl>          
           <FormLabel id="demo-row-radio-buttons-group-label"></FormLabel>
           <RadioGroup onChange={onRadioChange} value={selectedMapType}>
-            {/* <FormControlLabel value="heatmap" control={<Radio />} label="Heatmap" /> */}
             <FormControlLabel value="circle" control={<Radio />} label="Circle" />
             <FormControlLabel value="cluster" control={<Radio />} label="Cluster" />
           </RadioGroup>
@@ -243,15 +188,13 @@ const MapView = () => {
           mapboxAccessToken={env.MAPBOX_PT}
           initialViewState={viewport}
           zoom={zoomLevel}
-          width="100vw" // It always override the view(viewport) width state.
-          height="100vh" // It always override the view(viewport) height state.
-          // onViewportChange={(newView) => setViewport(newView)}
+          width="100vw" 
+          height="100vh" 
           onViewportChange={(newView) => setViewport({...newView, zoom: zoomLevel})}
           onZoom={value => setZoomLevel(value.viewState.zoom)}
           mapStyle="mapbox://styles/mapbox/dark-v9"
           interactiveLayerIds={[clusterLayer.id]}
           onClick={onClick}
-        // ref={mapRef}
         >
 
           {!loading && <Source id="my-data" type="geojson" data={geojson1}
@@ -266,9 +209,6 @@ const MapView = () => {
             {selectedMapType === "circle" &&
               [<Layer {...circleLayer} />]
             }
-            {/* {selectedMapType == "heatmap" &&
-              [<Layer {...heatmapLayer} />]
-            } */}
           </Source>}
           {pins}
           {popupInfo && (
@@ -280,13 +220,6 @@ const MapView = () => {
             >
               <div>
                 <b style={{ fontFamily: "sans-serif" }}> {popupInfo.city} </b>
-                {/* <b style={{ fontFamily: "sans-serif" }}> {popupInfo.city}, {popupInfo.state} |{' '} </b> */}
-                {/* <a
-                  target="_new"
-                  href={`http://en.wikipedia.org/w/index.php?title=Special:Search&search=${popupInfo.city}, ${popupInfo.state}`}
-                >
-                  Wikipedia
-                </a> */}
               </div>
               <img width="100%" src={popupInfo.image} />
             </Popup>

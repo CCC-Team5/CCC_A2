@@ -1,3 +1,11 @@
+/*
+ * react-map-gl
+ * Version: 7.0
+ * 
+ * Copyright 2022 react-map-gl Contributors
+ * https://github.com/visgl/react-map-gl/tree/7.0-release
+*/
+
 import type {LayerProps} from 'react-map-gl';
 
 export const clusterLayer: LayerProps = {

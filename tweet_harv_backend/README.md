@@ -1,52 +1,59 @@
-## 进度
+# Getting Started with Django Backend
 
-欧阳的Data Analysis大体上， 完成了与后端的结合；后端的views渲染，路由跳转等已经配置好
+## Installation and Configuration
+### Linux && Windows
+1. ```cd tweet_harv_backend```
+2. ```python -m venv venv```
+3. ```cd venv```
+4. ```cd Scripts```
+5. ```activate```
+6. ```pip install -r requirements.txt```
+7. ```python manage.py runserver```
 
-### 存在的问题
+### Generate requirements.txt
+1. ```pip freeze > requirements.txt```
 
-- 总体上的需求比较模糊，大致4/30的开发进度比较糊弄，只是大体上拼接完成，细节很粗糙
-- 前端、数据组、后端需要明确
-  - 需要几张网页
-  - 每张网页里面有几张图，每张图对应哪个数据分析的功能，每张图具体需要的数据格式
-  - 需要确定，前端是否有发送数据到后端的情况？例如复选框、单选框，输入框等等？如有，需要确定传输的数据
+## Project Structure
+```yaml
+/index django app
+    - dataAnalysis.py  
+      - functions to analyze data from CouchDB
+    - database.py  
+      - connect to CouchDB
+    - urls.py  
+      - provide url to views
+    - views.py  
+      - render and format data
+/tweet_harv_backend project
+    - urls.py  
+      - provide url
+    - settings.py  
+      - configurations
+```
+### API
+| Urls                                   | Request Method | Views                          |
+| -------------------------------------- | -------------- | ------------------------------ |
+| /index/hashtag/                        | GET            | hashtag                        |
+| /index/opportunity/language_count/     | GET            | language_count                 |
+| /index/opportunity/birth_country/      | GET            | birth_country                  |
+| /index/opportunity/language_home/      | GET            | language_at_home               |
+| /index/opportunity/percent/            | GET            | percent                        |
+| /index/housing/trend_sentiment/        | GET            | housing_trend_sentiment        |
+| /index/housing/content/                | GET            | housing_content                |
+| /index/housing/price/                  | GET            | housing_price                  |
+| /index/cost/trend_sentiment/           | GET            | cost_trend_sentiment           |
+| /index/cost/content/                   | GET            | cost_content                   |
+| /index/transportation/trend_sentiment/ | GET            | transportation_trend_sentiment |
+| /index/transportation/content/         | GET            | transportation_content         |
+| /index/map                             | GET            | geojson_map                    |
 
-## 2022/5/2 Summary
+## Reference
+[Django Documentation](https://docs.djangoproject.com/en/4.0/)
 
-### Opportunity
+[Compose and Django](https://docs.docker.com/samples/django/)
 
-Data Analysis: 
+[Python connect to CouchDB](https://couchdb-python.readthedocs.io/en/latest/)
 
-心昊
+[Cross Origin Resource Sharing](https://pypi.org/project/django-cors-headers/)
 
-languages, top_n_birth_country, top_n_spoken_at_home
-
-views1       views2                views3
-
-url1          url2                  url3
-
-欧阳
-
-languages, top_n_birth_country, top_n_spoken_at_home
-
-              views1
-              
-              url1
-              
-### 分工  tianqiyu && junjiexia
-| Theme                          | Data Analysis Function                                       |             Views              | URL                                   |
-| ------------------------------ | ------------------------------------------------------------ | :----------------------------: | ------------------------------------- |
-| Now trending                   | now_trending(db, N)                                          |            hashtag             | /index/hashtag/                       |
-| Opportunity                    | 1)top_n_lang_spoken_at_home(file_path, langCode_path, N)  2)top_n_birth_country(file_path, N)   3)top_n_lang_count(db, langCode_path, N) |       language_and_birth       | /index/opportunity/                   |
-| Housing-trend&sentiment        | 1)topic_trend(db, housing)  2)topic_sentiment(housing)       |    housing_trend_sentiment     | /index/housing/trend_sentiment        |
-| Housing-content                | def topic_wordcloud(query_db, housing)                       |        housing_content         | /index/housing/content                |
-| Cost-trend&sentiment           | 1)topic_trend(db, cost)  2)topic_sentiment(cost)             |      cost_trend_sentiment      | /index/cost/trend_sentiment           |
-| Cost-content                   | def topic_wordcloud(query_db, cost)                          |          cost_content          | /index/cost/content                   |
-| transportation-trend&sentiment | 1)topic_trend(db, transportation)  2)topic_sentiment(transportation) | transportation_trend_sentiment | /index/transportation/trend_sentiment |
-| transportation-content         | def topic_wordcloud(query_db, transportation)                |     transportation_content     | /index/transportation/content         |
-
-
-
-
-[格式参考](https://docs.google.com/document/d/1zar8MwrYJN-6Cq7Okl3ZzcMVNiSov4_bFzp3rC8UV3Y/edit)
-
-## 后端需求 新增2  2022/5/7
+[Django Rest Framework](https://pypi.org/project/django-cors-headers/)
