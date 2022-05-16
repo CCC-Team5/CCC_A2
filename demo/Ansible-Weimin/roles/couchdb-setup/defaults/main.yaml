@@ -1,2 +1,0 @@
----
-# master: "{{ groups['TwitterHarvester'][0] }}"
