@@ -83,7 +83,7 @@ Once logged into the MRC dashboard successfully, the installation and deployment
 
 ### Videos Presentation
 
-https://www.youtube.com/watch?v=W2DZhzyfyM4&list=PLn5sVkX24CjNkD_V1EY6plpsZt1_LuvL7
+https://www.youtube.com/playlist?list=PLn5sVkX24CjOecARhfi2yZM5Ke7-yQY7K
 
 
 
