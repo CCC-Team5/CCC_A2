@@ -48,6 +48,8 @@ All components of entire project are containerized by **docker**, and automatica
 
 ```
 
+### Design Detail and Structure
+[Report](https://github.com/CCC-Team5/CCC_A2/blob/main/report/An%20Investigation%20into%20the%20Liveability%20of%20Melbourne%20through%20the%20voices%20of%20the%20people.pdf)
 
 
 ### Installation and Deployment Guide
@@ -90,6 +92,8 @@ https://www.youtube.com/playlist?list=PLn5sVkX24CjOecARhfi2yZM5Ke7-yQY7K
 ### Web App
 
 [Group 5 Meow](http://172.26.134.129:3000/)
+
+
 
 
 
