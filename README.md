@@ -83,7 +83,7 @@ Once logged into the MRC dashboard successfully, the installation and deployment
 
 <!-- <img src="https://github.com/CCC-Team5/CCC_A2/blob/main/1.jpg" alt="theme" style="zoom:20%;" />
 <img src="https://github.com/CCC-Team5/CCC_A2/blob/main/2.jpg" alt="chart" style="zoom:24%;" /> -->
-<img src="https://github.com/CCC-Team5/CCC_A2/blob/main/1.jpg" alt="theme" style="zoom:10%;" /><img src="https://github.com/CCC-Team5/CCC_A2/blob/main/2.jpg" alt="chart" style="zoom:10%;" />
+<img src="https://github.com/CCC-Team5/CCC_A2/blob/main/1.jpg" alt="theme" width="200" /><img src="https://github.com/CCC-Team5/CCC_A2/blob/main/2.jpg" alt="chart" width="400" />
 
 ### Videos Presentation
 
