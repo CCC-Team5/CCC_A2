@@ -1,0 +1,77 @@
+# Common vars
+availability_zone: melbourne-qh2-uom
+instance_image: 356ff1ed-5960-4ac2-96a1-0c0198e6a999
+instance_key_name: CCC_A2
+instance_flavor: uom.mse.2c9g
+
+# Volume
+volumes:
+  - vol_name: server-01-vol-data
+    vol_size: 60
+  - vol_name: server-01-vol-docker
+    vol_size: 10
+  - vol_name: server-02-vol-data
+    vol_size: 60
+  - vol_name: server-02-vol-docker
+    vol_size: 10
+  - vol_name: server-03-vol-data
+    vol_size: 60
+  - vol_name: server-03-vol-docker
+    vol_size: 10
+
+# Security group
+security_groups:
+  - name: admin
+    description: 'security group for server admin and remote access'
+  - name: DB_communication
+    description: 'security group for communication between CouchDB nodes in cluster'
+
+# Security group rules
+security_group_rules_admin:
+  - name: admin
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+  - name: admin
+    protocol: tcp
+    port_range_min: 5984
+    port_range_max: 5984
+    remote_ip_prefix: 0.0.0.0/0
+  - name: admin
+    protocol: tcp
+    port_range_min: 80
+    port_range_max: 80
+    remote_ip_prefix: 0.0.0.0/0
+  - name: admin
+    protocol: tcp
+    port_range_min: 8000
+    port_range_max: 8000
+    remote_ip_prefix: 0.0.0.0/0
+
+security_group_rules_couchdb:
+  - name: DB_communication
+    protocol: tcp
+    port_range_min: 9100
+    port_range_max: 9200
+    remote_group: DB_communication
+  - name: DB_communication
+    protocol: tcp
+    port_range_min: 5984
+    port_range_max: 5984
+    remote_group: DB_communication
+  - name: DB_communication
+    protocol: tcp
+    port_range_min: 4369
+    port_range_max: 4369
+    remote_group: DB_communication
+
+
+# Instance
+instances:
+  - name: server-01
+    volumes: ['server-01-vol-data', 'server-01-vol-docker']
+  - name: server-02
+    volumes: ['server-02-vol-data', 'server-02-vol-docker']
+  - name: server-03
+    volumes: ['server-03-vol-data', 'server-03-vol-docker']
