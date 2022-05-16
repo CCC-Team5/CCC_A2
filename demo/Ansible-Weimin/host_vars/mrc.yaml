@@ -1,3 +1,14 @@
+
+# Part of Assignment 2 - Cluster and Cloud Computing (COMP90024) Group 5
+
+# Author:
+
+# Xinhao Chen 1230696 Melbourne
+# Weimin Ouyang 340438 Melbourne
+# Tianqi Yu 1221167 China
+# Junjie Xia 1045673 China
+# Yuling Zheng 954408 Melbourne
+
 # Common vars
 availability_zone: melbourne-qh2-uom
 instance_image: 356ff1ed-5960-4ac2-96a1-0c0198e6a999
