@@ -60,11 +60,9 @@ The whole system can be deployed using ansible and was designed to be operated o
 
 - Having a Linux terminal
 
-- Having Ansible installed by input command in the Linux terminal: 
+- Having Ansible installed by input command in the Linux terminal: ```python -m pip install --user ansible```
 
-  ```python
-  python -m pip install --user ansible
-  ```
+
 
 - Connecting to Unimelb using the **Cisco VPN** (if you are using an unimelb account)
 
