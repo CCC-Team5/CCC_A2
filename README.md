@@ -18,3 +18,5 @@ This file is used for analysing data and it should be used in final product.
 MRC_raw_tweets_views.js: This is used for view generater.
 
 function_testing.ipynb: This file is used for testing the functions used in Data_Analyses_functions_1.py.
+
+# User Guide
